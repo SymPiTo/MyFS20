@@ -1,0 +1,118 @@
+{
+	"elements":
+	[
+			{
+				"name": "FS20RSU_ID",
+				"type": "SelectObject",
+				"caption": "FS20_RSU Objekt selektieren."
+			},
+			{
+				"name": "SunSet_ID",
+				"type": "SelectObject",
+				"caption": "SunSet Objekt selektieren."
+			},
+			{
+				"name": "SunRise_ID",
+				"type": "SelectObject",
+				"caption": "SunRise Objekt selektieren."
+			},
+			{
+				"type" : "Label",
+				"label" : "Zeit Unten bis oben"
+			},
+			{
+				"name" : "Time_UO",
+				"type": "NumberSpinner",
+				"caption" : "Zeit in Sekunden",
+                                "digits"  : 1
+			},
+			{
+				"type" : "Label",
+				"label" : "Zeit Oben bis Unten"
+			},
+			{
+				"name" : "Time_OU",
+				"type" : "NumberSpinner",
+				"caption" : "Zeit in Sekunden",
+                                "digits"  : 1  
+			},
+			{
+				"type" : "Label",
+				"label" : "Zeit Unten bis Mitte"
+			},
+			{
+				"name" : "Time_UM",
+				"type": "NumberSpinner",
+				"caption" : "Zeit in Sekunden",
+                                "digits"  : 1
+			},
+			{
+				"type" : "Label",
+				"label" : "Zeit Oben bis Mitte"
+			},
+			{
+				"name" : "Time_OM",
+				"type" : "NumberSpinner",
+				"caption" : "Zeit in Sekunden",
+                                "digits"  : 1  
+			},
+			{
+				"type" : "Label",
+				"label" : "Sonnen Auf/Untergangs Zeiten verwenden"
+			},
+			{ 
+				"name" : "SunRiseActive",
+				"type" : "CheckBox",
+				"caption" : "SunRise / SunDown"
+    
+			}
+                
+	],
+	"actions":
+	[
+                        { 
+                                "type": "Button", 
+                                "caption": "Step Up", 
+                                "onClick": "FSSC_StepRolloUp($id);" 
+                        },
+                        { 
+                                "type": "Button", 
+                                "caption": "Step Down", 
+                                "onClick": "FSSC_StepRolloDown($id);" 
+                        },
+                        {
+				"type" : "Label",
+				"label" : "Test Umgebung:"
+			},
+                        { 
+                                "type": "Button", 
+                                "caption": "Hoch", 
+                                "onClick": "FSSC_SetRolloUp($id);" 
+                        },
+                        { 
+                                "type": "Button", 
+                                "caption": "Stop", 
+                                "onClick": "FSSC_SetRolloStop($id);" 
+                        },
+                        { 
+                                "type": "Button", 
+                                "caption": "Runter", 
+                                "onClick": "FSSC_SetRolloDown($id);" 
+                        },
+                        { 
+                                "type": "HorizontalSlider", 
+                                "name": "Slider", 
+                                "caption": "Position", 
+                                "minimum": 0, 
+                                "maximum": 100, 
+                                "onChange": "FSSC_SetRollo($id, 50);" 
+                        }
+        ],
+        
+	"status" : 
+        [
+
+	]
+        
+        
+}
