@@ -1,6 +1,6 @@
 <?php
 
-require_once(__DIR__ . "/../libs/NetworkTraits1.php");
+//require_once(__DIR__ . "/../libs/NetworkTraits1.php");
 
 /**
  * Title: FS20 RSU Shutter Control
@@ -15,7 +15,7 @@ require_once(__DIR__ . "/../libs/NetworkTraits1.php");
 class MyFS20_SC extends IPSModule
 {
     //externe Klasse einbinden - ueberlagern mit TRAIT.
-    use MyDebugHelper1;
+    //use MyDebugHelper1;
     /* 
     _______________________________________________________________________ 
      Section: Internal Modul Funtions
@@ -326,7 +326,7 @@ class MyFS20_SC extends IPSModule
         none
     //////////////////////////////////////////////////////////////////////////////*/
     public function SetRolloUp() {
-       $this->SendDebug( "SetRolloUp", "Fahre Rolladen hoch", 0); 
+       //$this->SendDebug( "SetRolloUp", "Fahre Rolladen hoch", 0); 
        $Tup = $this->ReadPropertyFloat('Time_UO'); 
        FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), true, $Tup); 
        Setvalue($this->GetIDForIdent("UpDown"),false);
@@ -346,7 +346,7 @@ class MyFS20_SC extends IPSModule
         none
     //////////////////////////////////////////////////////////////////////////////*/
      public function SetRolloDown() {
-       $this->SendDebug( "SetRolloDown", "Fahre Rolladen runter", 0); 
+       //$this->SendDebug( "SetRolloDown", "Fahre Rolladen runter", 0); 
        $Tdown = $this->ReadPropertyFloat('Time_OU'); 
        FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), false, $Tdown); 
        Setvalue($this->GetIDForIdent("UpDown"),true); 
@@ -366,12 +366,12 @@ class MyFS20_SC extends IPSModule
          none
     //////////////////////////////////////////////////////////////////////////////*/
      public function SetRolloStop() {
-        $this->SendDebug( "SetRolloStop", "Rolladen anhalten", 0);
+        //$this->SendDebug( "SetRolloStop", "Rolladen anhalten", 0);
         $this->SetTimerInterval("LaufzeitTimer", 0);  
         $jetzt = time();
         $StartTime = getvalue($this->GetIDForIdent("FSSC_Timer")); 
         $Laufzeit =  $jetzt - $StartTime;  
-        $this->SendDebug( "SetRolloStop", "Laufzeit: ".$Laufzeit, 0); 
+        //$this->SendDebug( "SetRolloStop", "Laufzeit: ".$Laufzeit, 0); 
         $aktPos = getvalue($this->GetIDForIdent("FSSC_Position"));
         //if ($aktPos > 99){$aktPos = 0;}
         $direct = getvalue($this->GetIDForIdent("UpDown"));  
@@ -398,7 +398,7 @@ class MyFS20_SC extends IPSModule
     //////////////////////////////////////////////////////////////////////////////*/
     public function SetRollo($pos) {
         $lastPos = getvalue($this->GetIDForIdent("FSSC_Position"));
-        $this->SendDebug( "SetRollo", "Letzte Position: ".$lastPos , 0);
+        //$this->SendDebug( "SetRollo", "Letzte Position: ".$lastPos , 0);
         if($pos>$lastPos){
             //runterfahren
             //Abstand ermitteln
@@ -410,13 +410,13 @@ class MyFS20_SC extends IPSModule
 
             if($dpos<51){
                 $time = $dpos * ($Tmid/50);
-                $this->SendDebug( "SetRollo", "Errechnete Zeit für ".$pos."ist: ".$time, 0);
+                //$this->SendDebug( "SetRollo", "Errechnete Zeit für ".$pos."ist: ".$time, 0);
                 FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), false, $time); 
                 Setvalue($this->GetIDForIdent("UpDown"),true); 
             }
             else{
                 $time = $dpos * ($Tdown/50);
-                $this->SendDebug( "SetRollo", "Errechnete Zeit für ".$pos."ist: ".$time, 0);
+                //$this->SendDebug( "SetRollo", "Errechnete Zeit für ".$pos."ist: ".$time, 0);
                 FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), false, $time); 
                 Setvalue($this->GetIDForIdent("UpDown"),true); 
             }
@@ -431,13 +431,13 @@ class MyFS20_SC extends IPSModule
             $Tmid = $this->ReadPropertyFloat('Time_UM');
             if($dpos<51){
                 $time = $dpos * ($Tmid/50);
-                $this->SendDebug( "SetRollo", "Errechnete Zeit für ".$pos."ist: ".$time, 0);
+                //$this->SendDebug( "SetRollo", "Errechnete Zeit für ".$pos."ist: ".$time, 0);
                 FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), true, $time); 
                 Setvalue($this->GetIDForIdent("UpDown"),false); 
             }
             else{
                 $time = $dpos * ($Tup/50);
-                $this->SendDebug( "SetRollo", "Errechnete Zeit für ".$pos."ist: ".$time, 0);
+                //$this->SendDebug( "SetRollo", "Errechnete Zeit für ".$pos."ist: ".$time, 0);
                 FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), true, $time); 
                 Setvalue($this->GetIDForIdent("UpDown"),false);
             } 
