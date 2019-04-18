@@ -73,12 +73,12 @@
                         { 
                                 "type": "Button", 
                                 "caption": "Step Up", 
-                                "onClick": "FSSC_StepRolloUp($id);" 
+                                "onClick": "FSS_StepRolloUp($id);" 
                         },
                         { 
                                 "type": "Button", 
                                 "caption": "Step Down", 
-                                "onClick": "FSSC_StepRolloDown($id);" 
+                                "onClick": "FSS_StepRolloDown($id);" 
                         },
                         {
 				"type" : "Label",
@@ -87,17 +87,17 @@
                         { 
                                 "type": "Button", 
                                 "caption": "Hoch", 
-                                "onClick": "FSSC_SetRolloUp($id);" 
+                                "onClick": "FSS_SetRolloUp($id);" 
                         },
                         { 
                                 "type": "Button", 
                                 "caption": "Stop", 
-                                "onClick": "FSSC_SetRolloStop($id);" 
+                                "onClick": "FSS_SetRolloStop($id);" 
                         },
                         { 
                                 "type": "Button", 
                                 "caption": "Runter", 
-                                "onClick": "FSSC_SetRolloDown($id);" 
+                                "onClick": "FSS_SetRolloDown($id);" 
                         },
                         { 
                                 "type": "HorizontalSlider", 
@@ -105,7 +105,7 @@
                                 "caption": "Position", 
                                 "minimum": 0, 
                                 "maximum": 100, 
-                                "onChange": "FSSC_SetRollo($id, 50);" 
+                                "onChange": "FSS_SetRollo($id, 50);" 
                         }
         ],
         

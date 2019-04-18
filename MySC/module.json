@@ -1,0 +1,11 @@
+{
+	"id": "{2D1E1063-792D-8DF4-543E-BF6E4ACD4979}",
+	"name": "MyRolloShuter",
+	"type": 3,
+	"vendor": "PiTo",
+	"aliases": ["MySC"],
+	"parentRequirements": [],
+	"childRequirements": [],
+	"implemented": [],
+	"prefix": "FSS"
+}
