@@ -115,7 +115,7 @@ class MyRolloShutter extends IPSModule
         $this->RegisterVariableString("SZ_SaSo", "SchaltZeiten Sa-So");
         
         // Profile den Variablen zuordnen   
-
+   
         
         // Aktiviert die Standardaktion der Statusvariable zur Bedienbarkeit im Webfront
         $this->EnableAction("FSSC_Position");
