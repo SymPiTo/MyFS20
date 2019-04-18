@@ -12,7 +12,7 @@
  * Version:1.0.2018.08.21
  */
 //Class: MyFS20_SC
-class MyFS20_SC extends IPSModule
+class MyRolloShutter extends IPSModule
 {
     //externe Klasse einbinden - ueberlagern mit TRAIT.
     //use MyDebugHelper1;
