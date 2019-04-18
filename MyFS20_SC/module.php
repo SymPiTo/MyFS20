@@ -250,7 +250,7 @@ class MyFS20_SC extends IPSModule
     public function SetSunSet(bool $value){
 
     
-    
+    }
    /* _______________________________________________________________________
     * Section: Private Funtions
     * Die folgenden Funktionen sind nur zur internen Verwendung verfügbar
