@@ -195,40 +195,7 @@ class MyRolloShutter extends IPSModule
         IPS_SetEventScript($SunSetEventID, "FSSC_SetRolloDown(\$_IPS['TARGET']);");
 
             
-        if($this->ReadPropertyBoolean("SunRiseActive")){
-            IPS_SetEventActive($SunRiseEventID, true);             //Ereignis  aktivieren
-            IPS_SetEventActive($SunSetEventID, true);             //Ereignis  aktivieren
-            IPS_SetEventActive($eid, false);             //Ereignis  deaktivieren
-            IPS_SetHidden($eid, true); //Objekt verstecken
-            IPS_SetDisabled($eid, true);// Das Objekt wird inaktiv gesetzt.
-            IPS_SetHidden($SunRiseEventID, false); //Objekt verstecken
-            IPS_SetDisabled($SunRiseEventID, true);// Das Objekt wird inaktiv gesetzt.
-            IPS_SetHidden($SunSetEventID, false); //Objekt verstecken
-            IPS_SetDisabled($SunSetEventID, true);// Das Objekt wird inaktiv gesetzt.
-            $sunriseA = date(' H:i', $sunrise);
-            $sunsetA = date(' H:i', $sunset);
-            setvalue($this->GetIDForIdent("SZ_MoFr"), $sunriseA." - ".$sunsetA);
-            setvalue($this->GetIDForIdent("SZ_SaSo"), $sunriseA." - ".$sunsetA);
-        }
-        else {
-            IPS_SetEventActive($SunRiseEventID, false);             //Ereignis  deaktivieren
-            IPS_SetEventActive($SunSetEventID, false);             //Ereignis  deaktivieren
-            IPS_SetEventActive($eid, true);             //Ereignis  aktivieren
-            IPS_SetHidden($eid, false); //Objekt nicht verstecken
-            IPS_SetDisabled($eid, false);// Das Objekt wird aktiv gesetzt.
-            IPS_SetHidden($SunRiseEventID, true); //Objekt verstecken
-            IPS_SetDisabled($SunRiseEventID, true);// Das Objekt wird inaktiv gesetzt.
-            IPS_SetHidden($SunSetEventID, true); //Objekt verstecken
-            IPS_SetDisabled($SunSetEventID, true);// Das Objekt wird inaktiv gesetzt.
-            
-            $this->GetWochenplanAction(); 
-        } 
 
-        $SSstate = $this->ReadPropertyBoolean('SunRiseActive');
-        if ($SSstate){setvalue($this->GetIDForIdent("SS"), true);}
-        else {
-            setvalue($this->GetIDForIdent("SS"), false);
-        }
 
     }
    /* ------------------------------------------------------------ 
@@ -515,7 +482,36 @@ class MyRolloShutter extends IPSModule
             $SunRiseEventID = $this->GetIDForIdent("SunRiseEvent".$this->InstanceID);
             $SunRiseEventID = $this->GetIDForIdent("SunRiseEvent".$this->InstanceID);
             $eid = $this->GetIDForIdent("SwitchTimeEvent".$this->InstanceID);       
-
+        if($value){
+            IPS_SetEventActive($SunRiseEventID, true);             //Ereignis  aktivieren
+            IPS_SetEventActive($SunSetEventID, true);             //Ereignis  aktivieren
+            IPS_SetEventActive($eid, false);             //Ereignis  deaktivieren
+            IPS_SetHidden($eid, true); //Objekt verstecken
+            IPS_SetDisabled($eid, true);// Das Objekt wird inaktiv gesetzt.
+            IPS_SetHidden($SunRiseEventID, false); //Objekt verstecken
+            IPS_SetDisabled($SunRiseEventID, true);// Das Objekt wird inaktiv gesetzt.
+            IPS_SetHidden($SunSetEventID, false); //Objekt verstecken
+            IPS_SetDisabled($SunSetEventID, true);// Das Objekt wird inaktiv gesetzt.
+            $sunriseA = date(' H:i', $sunrise);
+            $sunsetA = date(' H:i', $sunset);
+            setvalue($this->GetIDForIdent("SZ_MoFr"), $sunriseA." - ".$sunsetA);
+            setvalue($this->GetIDForIdent("SZ_SaSo"), $sunriseA." - ".$sunsetA);     
+            
+        }  
+        else {
+            IPS_SetEventActive($SunRiseEventID, false);             //Ereignis  deaktivieren
+            IPS_SetEventActive($SunSetEventID, false);             //Ereignis  deaktivieren
+            IPS_SetEventActive($eid, true);             //Ereignis  aktivieren
+            IPS_SetHidden($eid, false); //Objekt nicht verstecken
+            IPS_SetDisabled($eid, false);// Das Objekt wird aktiv gesetzt.
+            IPS_SetHidden($SunRiseEventID, true); //Objekt verstecken
+            IPS_SetDisabled($SunRiseEventID, true);// Das Objekt wird inaktiv gesetzt.
+            IPS_SetHidden($SunSetEventID, true); //Objekt verstecken
+            IPS_SetDisabled($SunSetEventID, true);// Das Objekt wird inaktiv gesetzt.
+            
+            $this->GetWochenplanAction();   
+        }
+            setvalue($this->GetIDForIdent("SS"), $value);
     }     
     
     
