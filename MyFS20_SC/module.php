@@ -73,9 +73,9 @@ class MyFS20_SC extends IPSModule
         //$assocB[0] = "Up";
         //$assocB[1] = "Down";
         //RegisterProfile("Rollo.UpDown", "", "", "", "", "", "", "", 0,  $assocB);
-            if (!IPS_VariableProfileExists("Rollo.UpDown")) {
+           // if (!IPS_VariableProfileExists("Rollo.UpDown")) {
                     IPS_CreateVariableProfile("Rollo.UpDown", 0); // 0 boolean, 1 int, 2 float, 3 string,
-            }
+           // }
         //$assocC[0] = "off";
         //$assocC[1] = "on";
         //RegisterProfile("Rollo.SunSet", "", "", "", "", "", "", "", 0,  $assocC);
