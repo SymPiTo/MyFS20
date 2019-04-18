@@ -88,22 +88,22 @@ class MyFS20_SC extends IPSModule
                     IPS_CreateVariableProfile("Rollo.Position", 1); // 0 boolean, 1 int, 2 float, 3 string,
             }
         IPS_SetVariableProfileDigits('Rollo.Position', 0);
-        IPS_SetVariableProfileIcon('Rollo.Position', '');
+        IPS_SetVariableProfileIcon('Rollo.Position', 'Jalousie');
         IPS_SetVariableProfileText('Rollo.Position', '', ' %');
         IPS_SetVariableProfileValues('Rollo.Position', 0, 100, 1);
         
         //Integer Variable anlegen
         //integer RegisterVariableInteger ( string $Ident, string $Name, string $Profil, integer $Position )
         // Aufruf dieser Variable mit "$this->GetIDForIdent("IDENTNAME")"
-        $this->RegisterVariableInteger("FSSC_Position", "Position", "Rollo.Position");
+        $this->RegisterVariableInteger("FSSC_Position", "Position", "");
         $this->RegisterVariableInteger("FSSC_Timer", "Timer", "");   
         IPS_SetHidden($this->GetIDForIdent("FSSC_Timer"), true); //Objekt verstecken
       
         //Boolean Variable anlegen
         //integer RegisterVariableBoolean ( string $Ident, string $Name, string $Profil, integer $Position )
         // Aufruf dieser Variable mit "$this->GetIDForIdent("IDENTNAME")"
-        $this->RegisterVariableBoolean("UpDown", "Rollo Up/Down");
-        $this->RegisterVariableBoolean("Mode", "Mode");
+        $this->RegisterVariableBoolean("UpDown", "");
+        $this->RegisterVariableBoolean("Mode", "");
         $this->RegisterVariableBoolean("SS", "SunSet-Rise");
         
 
