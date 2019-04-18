@@ -68,7 +68,8 @@ class MyFS20_SC extends IPSModule
             if (!IPS_VariableProfileExists("Rollo.Mode")) {
                     IPS_CreateVariableProfile("Rollo.Mode", 0); // 0 boolean, 1 int, 2 float, 3 string,
             }
-            
+
+        
         //$assocB[0] = "Up";
         //$assocB[1] = "Down";
         //RegisterProfile("Rollo.UpDown", "", "", "", "", "", "", "", 0,  $assocB);
@@ -86,7 +87,11 @@ class MyFS20_SC extends IPSModule
             if (!IPS_VariableProfileExists("Rollo.Position")) {
                     IPS_CreateVariableProfile("Rollo.Position", 1); // 0 boolean, 1 int, 2 float, 3 string,
             }
-            
+        IPS_SetVariableProfileDigits('Rollo.Position', 0);
+        IPS_SetVariableProfileIcon('Rollo.Position', '');
+        IPS_SetVariableProfileText('Rollo.Position', '', ' %');
+        IPS_SetVariableProfileValues('Rollo.Position', 0, 100, 1);
+        
         //Integer Variable anlegen
         //integer RegisterVariableInteger ( string $Ident, string $Name, string $Profil, integer $Position )
         // Aufruf dieser Variable mit "$this->GetIDForIdent("IDENTNAME")"
