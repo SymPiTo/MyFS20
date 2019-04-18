@@ -102,8 +102,8 @@ class MyFS20_SC extends IPSModule
         //Boolean Variable anlegen
         //integer RegisterVariableBoolean ( string $Ident, string $Name, string $Profil, integer $Position )
         // Aufruf dieser Variable mit "$this->GetIDForIdent("IDENTNAME")"
-        $this->RegisterVariableBoolean("UpDown", "");
-        $this->RegisterVariableBoolean("Mode", "");
+        $this->RegisterVariableBoolean("UpDown", "Rollo Up/Down");
+        $this->RegisterVariableBoolean("Mode", "Mode");
         $this->RegisterVariableBoolean("SS", "SunSet-Rise");
         
 
