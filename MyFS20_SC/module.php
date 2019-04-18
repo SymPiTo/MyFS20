@@ -116,16 +116,16 @@ class MyFS20_SC extends IPSModule
         
         // Aktiviert die Standardaktion der Statusvariable zur Bedienbarkeit im Webfront
         $this->EnableAction("FSSC_Position");
-        IPS_SetVariableCustomProfile($this->GetIDForIdent("FSSC_Position"), "Rollo.Position");
+        //IPS_SetVariableCustomProfile($this->GetIDForIdent("FSSC_Position"), "Rollo.Position");
      
         $this->EnableAction("UpDown");
-        IPS_SetVariableCustomProfile($this->GetIDForIdent("UpDown"), "Rollo.UpDown");
+        //IPS_SetVariableCustomProfile($this->GetIDForIdent("UpDown"), "Rollo.UpDown");
         
         $this->EnableAction("Mode");
-        IPS_SetVariableCustomProfile($this->GetIDForIdent("Mode"), "Rollo.Mode");
+       // IPS_SetVariableCustomProfile($this->GetIDForIdent("Mode"), "Rollo.Mode");
 
         $this->EnableAction("SS");
-        IPS_SetVariableCustomProfile($this->GetIDForIdent("SS"), "Rollo.SunSet");        
+       // IPS_SetVariableCustomProfile($this->GetIDForIdent("SS"), "Rollo.SunSet");        
         
         //anlegen eines Timers
         $this->RegisterTimer("LaufzeitTimer", 0, "FSSC_reset(\$_IPS['TARGET']);");
