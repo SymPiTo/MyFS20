@@ -456,10 +456,10 @@ class MyRolloShutter extends IPSModule
             IPS_SetDisabled($SunRiseEventID, true);// Das Objekt wird inaktiv gesetzt.
             IPS_SetHidden($SunSetEventID, false); //Objekt verstecken
             IPS_SetDisabled($SunSetEventID, true);// Das Objekt wird inaktiv gesetzt.
-            $sunriseA = date(' H:i', $sunrise);
-            $sunsetA = date(' H:i', $sunset);
-            setvalue($this->GetIDForIdent("SZ_MoFr"), $sunriseA." - ".$sunsetA);
-            setvalue($this->GetIDForIdent("SZ_SaSo"), $sunriseA." - ".$sunsetA);     
+            //$sunriseA = date(' H:i', $sunrise);
+            //$sunsetA = date(' H:i', $sunset);
+            //setvalue($this->GetIDForIdent("SZ_MoFr"), $sunriseA." - ".$sunsetA);
+            //setvalue($this->GetIDForIdent("SZ_SaSo"), $sunriseA." - ".$sunsetA);     
             
         }  
         else {
