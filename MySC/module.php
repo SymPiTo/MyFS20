@@ -207,11 +207,7 @@ class MyRolloShutter extends IPSModule
 
         } 
 
-        $SSstate = $this->ReadPropertyBoolean('SunRiseActive');
-        if ($SSstate){setvalue($this->GetIDForIdent("SS"), true);}
-        else {
-            setvalue($this->GetIDForIdent("SS"), false);
-        }
+
 
     }
    /* ------------------------------------------------------------ 
