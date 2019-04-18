@@ -62,7 +62,58 @@ class MyRolloShutter extends IPSModule
         $this->RegisterPropertyFloat("Time_UM", 0.5);
         $this->RegisterPropertyBoolean("SunRiseActive", false);
         
- 
+        $assocA[0] = "Manual";
+        $assocA[1] = "Automatic";
+        
+            if (!IPS_VariableProfileExists("Rollo.Mode")) {
+                IPS_CreateVariableProfile("Rollo.Mode", 0); // 0 boolean, 1 int, 2 float, 3 string,
+            }
+
+        
+        $assocB[0] = "Up";
+        $assocB[1] = "Down";
+        
+            if (!IPS_VariableProfileExists("Rollo.UpDown")) {
+                  IPS_CreateVariableProfile("Rollo.UpDown", 0); // 0 boolean, 1 int, 2 float, 3 string,
+            }
+        $assocC[0] = "off";
+        $assocC[1] = "on";
+        
+           if (!IPS_VariableProfileExists("Rollo.SunSet")) {
+                  IPS_CreateVariableProfile("Rollo.SunSet", 0); // 0 boolean, 1 int, 2 float, 3 string,
+           }
+            
+        
+           if (!IPS_VariableProfileExists("Rollo.Position")) {
+                 IPS_CreateVariableProfile("Rollo.Position", 1); // 0 boolean, 1 int, 2 float, 3 string,
+           }
+       IPS_SetVariableProfileDigits('Rollo.Position', 0);
+        IPS_SetVariableProfileIcon('Rollo.Position', 'Jalousie');
+        IPS_SetVariableProfileText('Rollo.Position', '', ' %');
+        IPS_SetVariableProfileValues('Rollo.Position', 0, 100, 1);
+       
+        //Integer Variable anlegen
+        //integer RegisterVariableInteger ( string $Ident, string $Name, string $Profil, integer $Position )
+        // Aufruf dieser Variable mit "$this->GetIDForIdent("IDENTNAME")"
+        $this->RegisterVariableInteger("FSSC_Position", "Position", "");
+        $this->RegisterVariableInteger("FSSC_Timer", "Timer", "");   
+        IPS_SetHidden($this->GetIDForIdent("FSSC_Timer"), true); //Objekt verstecken
+      
+        //Boolean Variable anlegen
+        //integer RegisterVariableBoolean ( string $Ident, string $Name, string $Profil, integer $Position )
+        // Aufruf dieser Variable mit "$this->GetIDForIdent("IDENTNAME")"
+        $this->RegisterVariableBoolean("UpDown", "Rollo Up/Down");
+        $this->RegisterVariableBoolean("Mode", "Mode");
+        $this->RegisterVariableBoolean("SS", "SunSet-Rise");
+        
+
+        
+        //String Variable anlegen
+        //RegisterVariableString (  $Ident,  $Name, $Profil, $Position )
+        // Aufruf dieser Variable mit "$this->GetIDForIdent("IDENTNAME")"
+        $this->RegisterVariableString("SZ_MoFr", "SchaltZeiten Mo-Fr");
+        $this->RegisterVariableString("SZ_SaSo", "SchaltZeiten Sa-So");
+        
         
     }
    /* ------------------------------------------------------------ 
