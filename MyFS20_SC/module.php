@@ -62,8 +62,22 @@ class MyFS20_SC extends IPSModule
         $this->RegisterPropertyFloat("Time_UM", 0.5);
         $this->RegisterPropertyBoolean("SunRiseActive", false);
         
-            
+        $assocA[0] = "Manual";
+        $assocA[1] = "Automatic";
+        RegisterProfile("Rollo.Mode", "", "", "", "", "", "", "", 0,  $assocA);
         
+        $assocB[0] = "Up";
+        $assocB[1] = "Down";
+        RegisterProfile("Rollo.UpDown", "", "", "", "", "", "", "", 0,  $assocB);
+
+        $assocC[0] = "off";
+        $assocC[1] = "on";
+        RegisterProfile("Rollo.SunSet", "", "", "", "", "", "", "", 0,  $assocC);
+
+        $assocD[0] = "off";
+        $assocD[1] = "on";
+        RegisterProfile("Rollo.Position", "Jalousie", "", "%", 0, 100, 1, 0, 1, $assocD);
+            
         //Integer Variable anlegen
         //integer RegisterVariableInteger ( string $Ident, string $Name, string $Profil, integer $Position )
         // Aufruf dieser Variable mit "$this->GetIDForIdent("IDENTNAME")"
@@ -677,7 +691,42 @@ class MyFS20_SC extends IPSModule
             IPS_SetEventScheduleAction($EventID, $ActionID, $Name, $Color, $Script);
     }
     
-		
+    
+    /* ----------------------------------------------------------------------------
+     Function: RegisterProfile
+    ...............................................................................
+    Erstellt ein neues Profil und ordnet es einer Variablen zu.
+    ...............................................................................
+    Parameters: 
+        $Name, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize, $Digits, $Vartype, $VarIdent, $Assoc
+     * $Vartype: 0 boolean, 1 int, 2 float, 3 string,
+     * $Assoc: array mit statustexte
+     *         $assoc[0] = "aus";
+     *         $assoc[1] = "ein";
+     * RegisterProfile("Rollo.Mode", "", "", "", "", "", "", "", 0, "", $Assoc)
+    ..............................................................................
+    Returns:   
+        none
+    ------------------------------------------------------------------------------- */
+    protected function RegisterProfile($Name, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize, $Digits, $Vartype,  $Assoc){
+            if (!IPS_VariableProfileExists($Name)) {
+                    IPS_CreateVariableProfile($Name, $Vartype); // 0 boolean, 1 int, 2 float, 3 string,
+            } else {
+                    $profile = IPS_GetVariableProfile($Name);
+                    if ($profile['ProfileType'] != $Vartype){
+                           // $this->SendDebug("Alarm.Reset:", "Variable profile type does not match for profile " . $Name, 0);
+                    }
+              }
+            
+            //IPS_SetVariableProfileIcon($Name, $Icon);
+            //IPS_SetVariableProfileText($Name, $Prefix, $Suffix);
+            //IPS_SetVariableProfileDigits($Name, $Digits); //  Nachkommastellen
+            //IPS_SetVariableProfileValues($Name, $MinValue, $MaxValue, $StepSize); // string $ProfilName, float $Minimalwert, float $Maximalwert, float $Schrittweite
+            foreach ($Assoc as $key => $value) {
+                IPS_SetVariableProfileAssociation($Name, $key, $value, $Icon, 0xFFFFFF);  
+            }
+           // IPS_SetVariableCustomProfile($this->GetIDForIdent($VarIdent), $Name);
+    }		
 
     /* ----------------------------------------------------------------------------
      Function: GetIPSVersion
@@ -690,7 +739,7 @@ class MyFS20_SC extends IPSModule
     Returns:   
         $ipsversion
     ------------------------------------------------------------------------------- */
-    protected function GetIPSVersion()
+    private function GetIPSVersion()
     {
             $ipsversion = floatval(IPS_GetKernelVersion());
             if ($ipsversion < 4.1) // 4.0
