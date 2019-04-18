@@ -195,17 +195,7 @@ class MyRolloShutter extends IPSModule
         IPS_SetEventScript($SunSetEventID, "FSSC_SetRolloDown(\$_IPS['TARGET']);");
 
             
-        if($this->ReadPropertyBoolean("SunRiseActive")){
-            IPS_SetEventActive($SunRiseEventID, true);             //Ereignis  aktivieren
-            IPS_SetEventActive($SunSetEventID, true);             //Ereignis  aktivieren
-            IPS_SetEventActive($eid, false);             //Ereignis  deaktivieren
-            IPS_SetHidden($eid, true); //Objekt verstecken
 
-
-        }
-        else {
-
-        } 
 
 
 
