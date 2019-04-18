@@ -26,9 +26,9 @@ class MyFS20_SC extends IPSModule
     /* ------------------------------------------------------------ 
     Function: Create  
     Create() wird einmalig beim Erstellen einer neuen Instanz und 
-    neu laden der ModulesausgefÃ¼hrt. Vorhandene Variable werden nicht veÃ¤ndert, auch nicht 
+    neu laden der Modulesausgeführt. Vorhandene Variable werden nicht veändert, auch nicht 
     eingetragene Werte (Properties).
-    Ãœberschreibt die interne IPS_Create($id)  Funktion
+    Überschreibt die interne IPS_Create($id)  Funktion
    
      CONFIG-VARIABLE:
       FS20RSU_ID   -   ID des FS20RSU Modules (selektierbar).
@@ -51,7 +51,7 @@ class MyFS20_SC extends IPSModule
 	//These lines are parsed on Symcon Startup or Instance creation
         //You cannot use variables here. Just static values.}
         
-        // Variable aus dem Instanz Formular registrieren (zugÃ¤nglich zu machen)
+        // Variable aus dem Instanz Formular registrieren (zugänglich zu machen)
         // Aufruf dieser Form Variable mit $Tup = $this->ReadPropertyFloat('IDENTNAME'); 
         $this->RegisterPropertyInteger("FS20RSU_ID", 0);
         $this->RegisterPropertyInteger ("SunSet_ID", 57942);
@@ -66,7 +66,7 @@ class MyFS20_SC extends IPSModule
         //$assocA[1] = "Automatic";
         //RegisterProfile("Rollo.Mode", "", "", "", "", "", "", "", 0,  $assocA);
            // if (!IPS_VariableProfileExists("Rollo.Mode")) {
-                    @IPS_CreateVariableProfile("Rollo.Mode", 0); // 0 boolean, 1 int, 2 float, 3 string,
+                  //  @IPS_CreateVariableProfile("Rollo.Mode", 0); // 0 boolean, 1 int, 2 float, 3 string,
            // }
 
         
@@ -74,24 +74,24 @@ class MyFS20_SC extends IPSModule
         //$assocB[1] = "Down";
         //RegisterProfile("Rollo.UpDown", "", "", "", "", "", "", "", 0,  $assocB);
            // if (!IPS_VariableProfileExists("Rollo.UpDown")) {
-                    @IPS_CreateVariableProfile("Rollo.UpDown", 0); // 0 boolean, 1 int, 2 float, 3 string,
+                  //  @IPS_CreateVariableProfile("Rollo.UpDown", 0); // 0 boolean, 1 int, 2 float, 3 string,
            // }
         //$assocC[0] = "off";
         //$assocC[1] = "on";
         //RegisterProfile("Rollo.SunSet", "", "", "", "", "", "", "", 0,  $assocC);
            // if (!IPS_VariableProfileExists("Rollo.SunSet")) {
-                    @IPS_CreateVariableProfile("Rollo.SunSet", 0); // 0 boolean, 1 int, 2 float, 3 string,
+                  //  @IPS_CreateVariableProfile("Rollo.SunSet", 0); // 0 boolean, 1 int, 2 float, 3 string,
            // }
             
         //RegisterProfile("Rollo.Position", "Jalousie", "", "%", 0, 100, 1, 0, 1, "");
            // if (!IPS_VariableProfileExists("Rollo.Position")) {
-                    @IPS_CreateVariableProfile("Rollo.Position", 1); // 0 boolean, 1 int, 2 float, 3 string,
+                  //  @IPS_CreateVariableProfile("Rollo.Position", 1); // 0 boolean, 1 int, 2 float, 3 string,
            // }
-        IPS_SetVariableProfileDigits('Rollo.Position', 0);
+       /* IPS_SetVariableProfileDigits('Rollo.Position', 0);
         IPS_SetVariableProfileIcon('Rollo.Position', 'Jalousie');
         IPS_SetVariableProfileText('Rollo.Position', '', ' %');
         IPS_SetVariableProfileValues('Rollo.Position', 0, 100, 1);
-        
+        */
         //Integer Variable anlegen
         //integer RegisterVariableInteger ( string $Ident, string $Name, string $Profil, integer $Position )
         // Aufruf dieser Variable mit "$this->GetIDForIdent("IDENTNAME")"
@@ -134,7 +134,7 @@ class MyFS20_SC extends IPSModule
     }
    /* ------------------------------------------------------------ 
      Function: ApplyChanges    
-      ApplyChanges() Wird ausgefÃ¼hrt, wenn auf der Konfigurationsseite "Ãœbernehmen" gedrÃ¼ckt wird 
+      ApplyChanges() Wird ausgeführt, wenn auf der Konfigurationsseite "Übernehmen" gedrückt wird 
       und nach dem unittelbaren Erstellen der Instanz.
      
     SYSTEM-VARIABLE:
@@ -153,7 +153,7 @@ class MyFS20_SC extends IPSModule
     	// Anlegen des Wochenplans mit ($Name, $Ident, $Typ, $Parent, $Position)
 	$this->RegisterEvent("Wochenplan", "SwitchTimeEvent".$this->InstanceID, 2, $this->InstanceID, 20);    
      
-	// Anlegen der Daten fÃ¼r den Wochenplan
+	// Anlegen der Daten für den Wochenplan
         IPS_SetEventScheduleGroup($this->GetIDForIdent("SwitchTimeEvent".$this->InstanceID), 0, 31); //Mo - Fr (1 + 2 + 4 + 8 + 16)
         IPS_SetEventScheduleGroup($this->GetIDForIdent("SwitchTimeEvent".$this->InstanceID), 1, 96); //Sa + So (32 + 64)     
         
@@ -161,7 +161,7 @@ class MyFS20_SC extends IPSModule
 	$this->RegisterScheduleAction($this->GetIDForIdent("SwitchTimeEvent".$this->InstanceID), 0, "Up", 0x40FF00, "FSSC_SetRolloUp(\$_IPS['TARGET']);");
 	$this->RegisterScheduleAction($this->GetIDForIdent("SwitchTimeEvent".$this->InstanceID), 1, "Down", 0xFF0040, "FSSC_SetRolloDown(\$_IPS['TARGET']);");
          
-        //Ã„ndern von Schaltpunkten fÃ¼r Gruppe mit ID = 0 (Mo-Fr) ID = 1 (Sa-So)
+        //Ändern von Schaltpunkten für Gruppe mit ID = 0 (Mo-Fr) ID = 1 (Sa-So)
         $eid = $this->GetIDForIdent("SwitchTimeEvent".$this->InstanceID);
         IPS_SetEventScheduleGroupPoint($eid, 0, 0, 7, 0, 0, 0); //Um 7:00 Aktion mit ID 0 (Up) aufrufen
         IPS_SetEventScheduleGroupPoint($eid, 0, 1, 22, 30, 0, 1); //Um 22:30 Aktion mit ID 1 (Down) aufrufen
@@ -179,7 +179,7 @@ class MyFS20_SC extends IPSModule
     	// Anlegen des cyclic events SunRise mit ($Name, $Ident, $Typ, $Parent, $Position).
 	$this->RegisterEvent("SunRise", "SunRiseEvent".$this->InstanceID, 1, $this->InstanceID, 21); 
         $SunRiseEventID = $this->GetIDForIdent("SunRiseEvent".$this->InstanceID);
-        // tÃ¤glich, um x Uhr
+        // täglich, um x Uhr
         $sunrise = getvalue($this->ReadPropertyInteger("SunRise_ID"));
         $sunrise_H = date("H", $sunrise); 
         $sunrise_M = date("i", $sunrise); 
@@ -188,7 +188,7 @@ class MyFS20_SC extends IPSModule
     	// Anlegen des cyclic events SunSet mit ($Name, $Ident, $Typ, $Parent, $Position)
 	$this->RegisterEvent("SunSet", "SunSetEvent".$this->InstanceID, 1, $this->InstanceID, 21); 
         $SunSetEventID = $this->GetIDForIdent("SunSetEvent".$this->InstanceID);
-        // tÃ¤glich, um x Uhr
+        // täglich, um x Uhr
         $sunset = getvalue($this->ReadPropertyInteger("SunSet_ID"));
         $sunset_H = date("H", $sunset); 
         $sunset_M = date("i", $sunset); 
@@ -233,25 +233,25 @@ class MyFS20_SC extends IPSModule
     }
    /* ------------------------------------------------------------ 
       Function: RequestAction  
-      RequestAction() Wird ausgefÃ¼hrt, wenn auf der Webfront eine Variable
-      geschaltet oder verÃ¤ndert wird. Es werden die System Variable des betÃ¤tigten
-      Elementes Ã¼bergeben.
+      RequestAction() Wird ausgeführt, wenn auf der Webfront eine Variable
+      geschaltet oder verändert wird. Es werden die System Variable des betätigten
+      Elementes übergeben.
      
    
     SYSTEM-VARIABLE:
       $this->GetIDForIdent($Ident)     -   ID der von WebFront geschalteten Variable
-      $Value                           -   Wert der von Webfront geÃ¤nderten Variable
+      $Value                           -   Wert der von Webfront geänderten Variable
 
    STANDARD-AKTIONEN:
-      FSSC_Position    -   Slider fÃ¼r Position
-      UpDown           -   Switch fÃ¼r up / Down
-      Mode             -   Switch fÃ¼r Automatik/Manual
+      FSSC_Position    -   Slider für Position
+      UpDown           -   Switch für up / Down
+      Mode             -   Switch für Automatik/Manual
      ------------------------------------------------------------- */
     public function RequestAction($Ident, $Value) {
          switch($Ident) {
             case "FSSC_Position":
-                //Hier wÃ¼rde normalerweise eine Aktion z.B. das Schalten ausgefÃ¼hrt werden
-                //Ausgaben Ã¼ber 'echo' werden an die Visualisierung zurÃ¼ckgeleitet
+                //Hier würde normalerweise eine Aktion z.B. das Schalten ausgeführt werden
+                //Ausgaben über 'echo' werden an die Visualisierung zurückgeleitet
                 $this->setRollo($Value);
 
                 //Neuen Wert in die Statusvariable schreiben
@@ -279,8 +279,8 @@ class MyFS20_SC extends IPSModule
     }
     /*  ----------------------------------------------------------------------------------------------------------------- 
      Section: Public Funtions
-     Die folgenden Funktionen stehen automatisch zur VerfÃ¼gung, wenn das Modul Ã¼ber die "Module Control" eingefÃ¼gt wurden.
-     Die Funktionen werden, mit dem selbst eingerichteten Prefix, in PHP und JSON-RPC wie folgt zur VerfÃ¼gung gestellt:
+     Die folgenden Funktionen stehen automatisch zur Verfügung, wenn das Modul über die "Module Control" eingefügt wurden.
+     Die Funktionen werden, mit dem selbst eingerichteten Prefix, in PHP und JSON-RPC wie folgt zur Verfügung gestellt:
     
      FSSC_XYFunktion($Instance_id, ... );
      ---------------------------------------------------------------------------------------------------------------------  */
@@ -288,7 +288,7 @@ class MyFS20_SC extends IPSModule
     //-----------------------------------------------------------------------------
     /* Function: StepRolloDown
     ...............................................................................
-    fÃ¤hrt den Rolladen Schrittweise Zu = Down
+    fährt den Rolladen Schrittweise Zu = Down
     ...............................................................................
     Parameters: 
         none
@@ -300,12 +300,12 @@ class MyFS20_SC extends IPSModule
         FS20_DimDown($this->ReadPropertyInteger("FS20RSU_ID"));
         $aktpos = getvalue($this->GetIDForIdent("FSSC_Position")) + 6; 
         if($aktpos > 100){$aktpos = 100;}
-        setvalue($this->GetIDForIdent("FSSC_Position"), $aktpos ); //Stellung um 5% verÃ¤ndern        
+        setvalue($this->GetIDForIdent("FSSC_Position"), $aktpos ); //Stellung um 5% verändern        
     }   
     //*****************************************************************************
     /* Function: StepRolloUp
     ...............................................................................
-    fÃ¤hrt den Rolladen Schrittweise Auf = Up
+    fährt den Rolladen Schrittweise Auf = Up
     ...............................................................................
     Parameters: 
         none
@@ -317,7 +317,7 @@ class MyFS20_SC extends IPSModule
         FS20_DimUp($this->ReadPropertyInteger("FS20RSU_ID"));
         $aktpos = getvalue($this->GetIDForIdent("FSSC_Position")) - 6; 
         if($aktpos < 0){$aktpos = 0;}
-        setvalue($this->GetIDForIdent("FSSC_Position"), $aktpos ); //Stellung um 5% verÃ¤ndern  
+        setvalue($this->GetIDForIdent("FSSC_Position"), $aktpos ); //Stellung um 5% verändern  
     }
     //*****************************************************************************
     /* Function: SetMode
@@ -345,7 +345,7 @@ class MyFS20_SC extends IPSModule
     //*****************************************************************************
     /* Function: SetRolloUp
     ...............................................................................
-    fÃ¤hrt den Rolladen auf 0% = Auf = Up
+    fährt den Rolladen auf 0% = Auf = Up
     ...............................................................................
     Parameters: 
         none
@@ -365,7 +365,7 @@ class MyFS20_SC extends IPSModule
     //*****************************************************************************
     /* Function: SetRolloDown
     ...............................................................................
-    fÃ¤hrt den Rolladen auf 100% = Zu = Down
+    fährt den Rolladen auf 100% = Zu = Down
     ...............................................................................
     Parameters: 
         none
@@ -416,7 +416,7 @@ class MyFS20_SC extends IPSModule
     //*****************************************************************************
     /* Function: SetRollo
     ...............................................................................
-    fÃ¤hrt den Rolladen auf 100% = Zu = Down
+    fährt den Rolladen auf 100% = Zu = Down
     ...............................................................................
     Parameters: 
      $pos -   Position des Rolladens in 0-100%
@@ -431,20 +431,20 @@ class MyFS20_SC extends IPSModule
             //runterfahren
             //Abstand ermitteln
             $dpos = $pos-$lastPos;
-            //Zeit ermitteln fÃ¼r dpos
+            //Zeit ermitteln für dpos
             
             $Tdown = $this->ReadPropertyFloat('Time_OU');
             $Tmid = $this->ReadPropertyFloat('Time_OM');
 
             if($dpos<51){
                 $time = $dpos * ($Tmid/50);
-                //$this->SendDebug( "SetRollo", "Errechnete Zeit fÃ¼r ".$pos."ist: ".$time, 0);
+                //$this->SendDebug( "SetRollo", "Errechnete Zeit für ".$pos."ist: ".$time, 0);
                 FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), false, $time); 
                 Setvalue($this->GetIDForIdent("UpDown"),true); 
             }
             else{
                 $time = $dpos * ($Tdown/50);
-                //$this->SendDebug( "SetRollo", "Errechnete Zeit fÃ¼r ".$pos."ist: ".$time, 0);
+                //$this->SendDebug( "SetRollo", "Errechnete Zeit für ".$pos."ist: ".$time, 0);
                 FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), false, $time); 
                 Setvalue($this->GetIDForIdent("UpDown"),true); 
             }
@@ -453,19 +453,19 @@ class MyFS20_SC extends IPSModule
             //hochfahren
             //Abstand ermitteln
             $dpos = $lastPos-$pos;
-            //Zeit ermitteln fÃ¼r dpos
+            //Zeit ermitteln für dpos
             
             $Tup = $this->ReadPropertyFloat('Time_UO');
             $Tmid = $this->ReadPropertyFloat('Time_UM');
             if($dpos<51){
                 $time = $dpos * ($Tmid/50);
-                //$this->SendDebug( "SetRollo", "Errechnete Zeit fÃ¼r ".$pos."ist: ".$time, 0);
+                //$this->SendDebug( "SetRollo", "Errechnete Zeit für ".$pos."ist: ".$time, 0);
                 FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), true, $time); 
                 Setvalue($this->GetIDForIdent("UpDown"),false); 
             }
             else{
                 $time = $dpos * ($Tup/50);
-                //$this->SendDebug( "SetRollo", "Errechnete Zeit fÃ¼r ".$pos."ist: ".$time, 0);
+                //$this->SendDebug( "SetRollo", "Errechnete Zeit für ".$pos."ist: ".$time, 0);
                 FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), true, $time); 
                 Setvalue($this->GetIDForIdent("UpDown"),false);
             } 
@@ -552,7 +552,7 @@ class MyFS20_SC extends IPSModule
     
    /* _______________________________________________________________________
     * Section: Private Funtions
-    * Die folgenden Funktionen sind nur zur internen Verwendung verfÃ¼gbar
+    * Die folgenden Funktionen sind nur zur internen Verwendung verfügbar
     *   Hilfsfunktionen
     * _______________________________________________________________________
     */  
@@ -592,14 +592,14 @@ class MyFS20_SC extends IPSModule
     ------------------------------------------------------------------------------ */
     private function updateSunRise(){
         $SunRiseEventID = $this->GetIDForIdent("SunRiseEvent".$this->InstanceID);
-        // tÃ¤glich, um x Uhr
+        // täglich, um x Uhr
         $sunrise = getvalue(56145);
         $sunrise_H = date("H", $sunrise); 
         $sunrise_M = date("i", $sunrise); 
         IPS_SetEventCyclicTimeFrom($SunRiseEventID, $sunrise_H, $sunrise_M, 0);
                 
         $SunSetEventID = $this->GetIDForIdent("SunSetEvent".$this->InstanceID);
-        // tÃ¤glich, um x Uhr
+        // täglich, um x Uhr
         $sunset = getvalue(25305);
         $sunset_H = date("H", $sunset); 
         $sunset_M = date("i", $sunset); 
@@ -686,7 +686,7 @@ class MyFS20_SC extends IPSModule
     //*****************************************************************************
     /* Function: RegisterScheduleAction
     ...............................................................................
-     *  Legt eine Aktion fÃ¼r den Event fest
+     *  Legt eine Aktion für den Event fest
      * Beispiel:
      * ("SwitchTimeEvent".$this->InstanceID), 1, "Down", 0xFF0040, "FSSC_SetRolloDown(\$_IPS['TARGET']);");
     ...............................................................................
@@ -745,7 +745,7 @@ class MyFS20_SC extends IPSModule
     /* ----------------------------------------------------------------------------
      Function: GetIPSVersion
     ...............................................................................
-    gibt die instalierte IPS Version zurÃ¼ck
+    gibt die instalierte IPS Version zurück
     ...............................................................................
     Parameters: 
         none
