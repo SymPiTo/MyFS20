@@ -204,7 +204,7 @@ class MyRolloShutter extends IPSModule
      FSSC_XYFunktion($Instance_id, ... );
      ---------------------------------------------------------------------------------------------------------------------  */
     
-    //-----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
     /* Function: StepRolloDown
     ...............................................................................
     fährt den Rolladen Schrittweise Zu = Down
@@ -216,7 +216,10 @@ class MyRolloShutter extends IPSModule
         none
     ------------------------------------------------------------------------------  */
     public function StepRolloDown(){
-    
+        FS20_DimDown($this->ReadPropertyInteger("FS20RSU_ID"));
+        $aktpos = getvalue($this->GetIDForIdent("FSSC_Position")) + 6; 
+        if($aktpos > 100){$aktpos = 100;}
+        setvalue($this->GetIDForIdent("FSSC_Position"), $aktpos ); //Stellung um 5% verändern        
     }   
     //*****************************************************************************
     /* Function: StepRolloUp
@@ -230,7 +233,10 @@ class MyRolloShutter extends IPSModule
         none
     //////////////////////////////////////////////////////////////////////////////*/
     public function StepRolloUp(){
-
+        FS20_DimUp($this->ReadPropertyInteger("FS20RSU_ID"));
+        $aktpos = getvalue($this->GetIDForIdent("FSSC_Position")) - 6; 
+        if($aktpos < 0){$aktpos = 0;}
+        setvalue($this->GetIDForIdent("FSSC_Position"), $aktpos ); //Stellung um 5% verändern  
     }
     //*****************************************************************************
     /* Function: SetMode
@@ -246,7 +252,14 @@ class MyRolloShutter extends IPSModule
         none
     //////////////////////////////////////////////////////////////////////////////*/
     public function SetMode(bool $mode) {
-
+        $eid = $this->GetIDForIdent("SwitchTimeEvent".$this->InstanceID);
+        if ($mode) {
+           IPS_SetEventActive($eid, true); 
+        } 
+        else {
+           IPS_SetEventActive($eid, false); 
+        }
+       SetValue($this->GetIDForIdent("Mode"), $mode);
     } 
     //*****************************************************************************
     /* Function: SetRolloUp
@@ -260,7 +273,13 @@ class MyRolloShutter extends IPSModule
         none
     //////////////////////////////////////////////////////////////////////////////*/
     public function SetRolloUp() {
-
+       //$this->SendDebug( "SetRolloUp", "Fahre Rolladen hoch", 0); 
+       $Tup = $this->ReadPropertyFloat('Time_UO'); 
+       FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), true, $Tup); 
+       Setvalue($this->GetIDForIdent("UpDown"),false);
+       SetValue($this->GetIDForIdent("FSSC_Timer"),time());
+       $this->SetTimerInterval("LaufzeitTimer", 35000);
+       $this->updateSunRise();
     }   
     //*****************************************************************************
     /* Function: SetRolloDown
@@ -274,7 +293,13 @@ class MyRolloShutter extends IPSModule
         none
     //////////////////////////////////////////////////////////////////////////////*/
      public function SetRolloDown() {
-
+       //$this->SendDebug( "SetRolloDown", "Fahre Rolladen runter", 0); 
+       $Tdown = $this->ReadPropertyFloat('Time_OU'); 
+       FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), false, $Tdown); 
+       Setvalue($this->GetIDForIdent("UpDown"),true); 
+       SetValue($this->GetIDForIdent("FSSC_Timer"),time());
+       $this->SetTimerInterval("LaufzeitTimer", 35000);
+       $this->updateSunRise();
     }   
     //*****************************************************************************
     /* Function: StepRolloStop
@@ -288,7 +313,23 @@ class MyRolloShutter extends IPSModule
          none
     //////////////////////////////////////////////////////////////////////////////*/
      public function SetRolloStop() {
-   
+        //$this->SendDebug( "SetRolloStop", "Rolladen anhalten", 0);
+        $this->SetTimerInterval("LaufzeitTimer", 0);  
+        $jetzt = time();
+        $StartTime = getvalue($this->GetIDForIdent("FSSC_Timer")); 
+        $Laufzeit =  $jetzt - $StartTime;  
+        //$this->SendDebug( "SetRolloStop", "Laufzeit: ".$Laufzeit, 0); 
+        $aktPos = getvalue($this->GetIDForIdent("FSSC_Position"));
+        //if ($aktPos > 99){$aktPos = 0;}
+        $direct = getvalue($this->GetIDForIdent("UpDown"));  
+        if($direct){  
+            FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), false, 0);
+            Setvalue($this->GetIDForIdent("FSSC_Position"), $aktPos + ($Laufzeit * (100/$this->ReadPropertyFloat('Time_OU'))));
+        }
+        else{
+           FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), true, 0); 
+           Setvalue($this->GetIDForIdent("FSSC_Position"), $aktPos - ($Laufzeit * (100/$this->ReadPropertyFloat('Time_UO'))));  
+        }     
 
     }  
     //*****************************************************************************
@@ -303,8 +344,56 @@ class MyRolloShutter extends IPSModule
         none
     //////////////////////////////////////////////////////////////////////////////*/
     public function SetRollo($pos) {
+        $lastPos = getvalue($this->GetIDForIdent("FSSC_Position"));
+        //$this->SendDebug( "SetRollo", "Letzte Position: ".$lastPos , 0);
+        if($pos>$lastPos){
+            //runterfahren
+            //Abstand ermitteln
+            $dpos = $pos-$lastPos;
+            //Zeit ermitteln für dpos
+            
+            $Tdown = $this->ReadPropertyFloat('Time_OU');
+            $Tmid = $this->ReadPropertyFloat('Time_OM');
 
-
+            if($dpos<51){
+                $time = $dpos * ($Tmid/50);
+                //$this->SendDebug( "SetRollo", "Errechnete Zeit für ".$pos."ist: ".$time, 0);
+                FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), false, $time); 
+                Setvalue($this->GetIDForIdent("UpDown"),true); 
+            }
+            else{
+                $time = $dpos * ($Tdown/50);
+                //$this->SendDebug( "SetRollo", "Errechnete Zeit für ".$pos."ist: ".$time, 0);
+                FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), false, $time); 
+                Setvalue($this->GetIDForIdent("UpDown"),true); 
+            }
+        }
+        elseif($pos<$lastPos){
+            //hochfahren
+            //Abstand ermitteln
+            $dpos = $lastPos-$pos;
+            //Zeit ermitteln für dpos
+            
+            $Tup = $this->ReadPropertyFloat('Time_UO');
+            $Tmid = $this->ReadPropertyFloat('Time_UM');
+            if($dpos<51){
+                $time = $dpos * ($Tmid/50);
+                //$this->SendDebug( "SetRollo", "Errechnete Zeit für ".$pos."ist: ".$time, 0);
+                FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), true, $time); 
+                Setvalue($this->GetIDForIdent("UpDown"),false); 
+            }
+            else{
+                $time = $dpos * ($Tup/50);
+                //$this->SendDebug( "SetRollo", "Errechnete Zeit für ".$pos."ist: ".$time, 0);
+                FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), true, $time); 
+                Setvalue($this->GetIDForIdent("UpDown"),false);
+            } 
+            
+        }
+        else{
+            // do nothing
+        }
+        SetValue($this->GetIDForIdent("FSSC_Position"), $pos);
     }
 
     /* ---------------------------------------------------------------------------
@@ -323,7 +412,8 @@ class MyRolloShutter extends IPSModule
         none
     ------------------------------------------------------------------------------ */
     public function SetSwitchPoint(int $switchGroup, int $switchPoint, int $h, int $m, int $action) {
- 
+        $eid = $this->GetIDForIdent("SwitchTimeEvent".$this->InstanceID);
+        IPS_SetEventScheduleGroupPoint($eid, $switchGroup, $switchPoint, $h, $m, 0, $UpDown);  
         
     }    
     
@@ -339,9 +429,46 @@ class MyRolloShutter extends IPSModule
         none
     ------------------------------------------------------------------------------ */
     public function SetSunSet(bool $value){
-
+            $sunrise = getvalue($this->ReadPropertyInteger('SunRise_ID'));
+            $sunset = getvalue($this->ReadPropertyInteger('SunSet_ID'));
+            $SunSetEventID = $this->GetIDForIdent("SunSetEvent".$this->InstanceID);
+            $SunRiseEventID = $this->GetIDForIdent("SunRiseEvent".$this->InstanceID);
+            $SunRiseEventID = $this->GetIDForIdent("SunRiseEvent".$this->InstanceID);
+            $eid = $this->GetIDForIdent("SwitchTimeEvent".$this->InstanceID);       
+        if($value){
+            IPS_SetEventActive($SunRiseEventID, true);             //Ereignis  aktivieren
+            IPS_SetEventActive($SunSetEventID, true);             //Ereignis  aktivieren
+            IPS_SetEventActive($eid, false);             //Ereignis  deaktivieren
+            IPS_SetHidden($eid, true); //Objekt verstecken
+            IPS_SetDisabled($eid, true);// Das Objekt wird inaktiv gesetzt.
+            IPS_SetHidden($SunRiseEventID, false); //Objekt verstecken
+            IPS_SetDisabled($SunRiseEventID, true);// Das Objekt wird inaktiv gesetzt.
+            IPS_SetHidden($SunSetEventID, false); //Objekt verstecken
+            IPS_SetDisabled($SunSetEventID, true);// Das Objekt wird inaktiv gesetzt.
+            $sunriseA = date(' H:i', $sunrise);
+            $sunsetA = date(' H:i', $sunset);
+            setvalue($this->GetIDForIdent("SZ_MoFr"), $sunriseA." - ".$sunsetA);
+            setvalue($this->GetIDForIdent("SZ_SaSo"), $sunriseA." - ".$sunsetA);     
+            
+        }  
+        else {
+            IPS_SetEventActive($SunRiseEventID, false);             //Ereignis  deaktivieren
+            IPS_SetEventActive($SunSetEventID, false);             //Ereignis  deaktivieren
+            IPS_SetEventActive($eid, true);             //Ereignis  aktivieren
+            IPS_SetHidden($eid, false); //Objekt nicht verstecken
+            IPS_SetDisabled($eid, false);// Das Objekt wird aktiv gesetzt.
+            IPS_SetHidden($SunRiseEventID, true); //Objekt verstecken
+            IPS_SetDisabled($SunRiseEventID, true);// Das Objekt wird inaktiv gesetzt.
+            IPS_SetHidden($SunSetEventID, true); //Objekt verstecken
+            IPS_SetDisabled($SunSetEventID, true);// Das Objekt wird inaktiv gesetzt.
+            
+            $this->GetWochenplanAction();   
+        }
+            setvalue($this->GetIDForIdent("SS"), $value);
+    }     
     
-    }
+    
+    
    /* _______________________________________________________________________
     * Section: Private Funtions
     * Die folgenden Funktionen sind nur zur internen Verwendung verfügbar
@@ -361,7 +488,14 @@ class MyRolloShutter extends IPSModule
         none
     //////////////////////////////////////////////////////////////////////////////*/
     public function reset(){
-
+        $this->SetTimerInterval("LaufzeitTimer", 0);       
+        $direct = getvalue($this->GetIDForIdent("UpDown"));  
+        if($direct){
+            SetValue($this->GetIDForIdent("FSSC_Position"), 100);
+        }
+        else{
+           SetValue($this->GetIDForIdent("FSSC_Position"), 0);
+        } 
     }
     
     /* ---------------------------------------------------------------------------
@@ -376,7 +510,21 @@ class MyRolloShutter extends IPSModule
         none
     ------------------------------------------------------------------------------ */
     private function updateSunRise(){
-
+        $SunRiseEventID = $this->GetIDForIdent("SunRiseEvent".$this->InstanceID);
+        // täglich, um x Uhr
+        $sunrise = getvalue(56145);
+        $sunrise_H = date("H", $sunrise); 
+        $sunrise_M = date("i", $sunrise); 
+        IPS_SetEventCyclicTimeFrom($SunRiseEventID, $sunrise_H, $sunrise_M, 0);
+                
+        $SunSetEventID = $this->GetIDForIdent("SunSetEvent".$this->InstanceID);
+        // täglich, um x Uhr
+        $sunset = getvalue(25305);
+        $sunset_H = date("H", $sunset); 
+        $sunset_M = date("i", $sunset); 
+        IPS_SetEventCyclicTimeFrom($SunSetEventID, $sunset_H, $sunset_M, 0);
+        setvalue($this->GetIDForIdent("SZ_MoFr"), $sunrise_H.":".$sunrise_M." - ".$sunset_H.":".$sunset_M);
+        setvalue($this->GetIDForIdent("SZ_SaSo"), $sunrise_H.":".$sunrise_M." - ".$sunset_H.":".$sunset_M);
     }    
         
 
@@ -394,7 +542,25 @@ class MyRolloShutter extends IPSModule
     ------------------------------------------------------------------------------ */
     public function GetWochenplanAction() 
     { 
+        $EventID = $this->GetIDForIdent("SwitchTimeEvent".$this->InstanceID);
+        
+        $a = IPS_GetEvent($EventID); 
 
+            $SP = $a['ScheduleGroups'][0]['Points']; 
+            $SP1A_H = $SP[0]['Start']['Hour'];
+            $SP1A_M = $SP[0]['Start']['Minute'];
+            $SP1B_H = $SP[1]['Start']['Hour'];
+            $SP1B_M = $SP[1]['Start']['Minute'];
+            $SP1 = str_pad($SP1A_H, 2, 0, STR_PAD_LEFT).":".str_pad($SP1A_M, 2, 0, STR_PAD_LEFT)." - ".str_pad($SP1B_H, 2, 0, STR_PAD_LEFT).":".str_pad($SP1B_M, 2, 0, STR_PAD_LEFT);
+            
+            $SP2A_H = $SP[0]['Start']['Hour'];
+            $SP2A_M = $SP[0]['Start']['Minute'];
+            $SP2B_H = $SP[1]['Start']['Hour'];
+            $SP2B_M = $SP[1]['Start']['Minute'];
+            $SP2 = str_pad($SP2A_H, 2, 0, STR_PAD_LEFT).":".str_pad($SP2A_M, 2, 0, STR_PAD_LEFT)." - ".str_pad($SP2B_H, 2, 0, STR_PAD_LEFT).":".str_pad($SP2B_M, 2, 0, STR_PAD_LEFT);
+            
+            setvalue($this->GetIDForIdent("SZ_MoFr"), $SP1);
+            setvalue($this->GetIDForIdent("SZ_SaSo"), $SP2);
         
     }  
     
