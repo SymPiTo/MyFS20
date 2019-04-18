@@ -183,7 +183,7 @@ class MyRolloShutter extends IPSModule
         $sunrise_H = date("H", $sunrise); 
         $sunrise_M = date("i", $sunrise); 
         IPS_SetEventCyclicTimeFrom($SunRiseEventID, $sunrise_H, $sunrise_M, 0);
-        IPS_SetEventScript($SunRiseEventID, "FSSC_SetRolloUp(\$_IPS['TARGET']);");
+        IPS_SetEventScript($SunRiseEventID, "FSS_SetRolloUp(\$_IPS['TARGET']);");
     	// Anlegen des cyclic events SunSet mit ($Name, $Ident, $Typ, $Parent, $Position)
 	$this->RegisterEvent("SunSet", "SunSetEvent".$this->InstanceID, 1, $this->InstanceID, 21); 
         $SunSetEventID = $this->GetIDForIdent("SunSetEvent".$this->InstanceID);
@@ -192,7 +192,7 @@ class MyRolloShutter extends IPSModule
         $sunset_H = date("H", $sunset); 
         $sunset_M = date("i", $sunset); 
         IPS_SetEventCyclicTimeFrom($SunSetEventID, $sunset_H, $sunset_M, 0);
-        IPS_SetEventScript($SunSetEventID, "FSSC_SetRolloDown(\$_IPS['TARGET']);");
+        IPS_SetEventScript($SunSetEventID, "FSS_SetRolloDown(\$_IPS['TARGET']);");
 
             
 
@@ -239,7 +239,7 @@ class MyRolloShutter extends IPSModule
                 $this->SetMode($Value);  
                 break;
              case "SS":
-                $this->SetSunSet($Value);  
+                //$this->SetSunSet($Value);  
                 break;
             default:
                 throw new Exception("Invalid Ident");
