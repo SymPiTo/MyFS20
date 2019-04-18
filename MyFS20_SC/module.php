@@ -74,9 +74,8 @@ class MyFS20_SC extends IPSModule
         $assocC[1] = "on";
         RegisterProfile("Rollo.SunSet", "", "", "", "", "", "", "", 0,  $assocC);
 
-        $assocD[0] = "off";
-        $assocD[1] = "on";
-        RegisterProfile("Rollo.Position", "Jalousie", "", "%", 0, 100, 1, 0, 1, $assocD);
+            
+        RegisterProfile("Rollo.Position", "Jalousie", "", "%", 0, 100, 1, 0, 1, "");
             
         //Integer Variable anlegen
         //integer RegisterVariableInteger ( string $Ident, string $Name, string $Profil, integer $Position )
