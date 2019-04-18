@@ -66,7 +66,7 @@ class MyFS20_SC extends IPSModule
         //$assocA[1] = "Automatic";
         //RegisterProfile("Rollo.Mode", "", "", "", "", "", "", "", 0,  $assocA);
            // if (!IPS_VariableProfileExists("Rollo.Mode")) {
-                    IPS_CreateVariableProfile("Rollo.Mode", 0); // 0 boolean, 1 int, 2 float, 3 string,
+                    @IPS_CreateVariableProfile("Rollo.Mode", 0); // 0 boolean, 1 int, 2 float, 3 string,
            // }
 
         
@@ -74,18 +74,18 @@ class MyFS20_SC extends IPSModule
         //$assocB[1] = "Down";
         //RegisterProfile("Rollo.UpDown", "", "", "", "", "", "", "", 0,  $assocB);
            // if (!IPS_VariableProfileExists("Rollo.UpDown")) {
-                    IPS_CreateVariableProfile("Rollo.UpDown", 0); // 0 boolean, 1 int, 2 float, 3 string,
+                    @IPS_CreateVariableProfile("Rollo.UpDown", 0); // 0 boolean, 1 int, 2 float, 3 string,
            // }
         //$assocC[0] = "off";
         //$assocC[1] = "on";
         //RegisterProfile("Rollo.SunSet", "", "", "", "", "", "", "", 0,  $assocC);
            // if (!IPS_VariableProfileExists("Rollo.SunSet")) {
-                    IPS_CreateVariableProfile("Rollo.SunSet", 0); // 0 boolean, 1 int, 2 float, 3 string,
+                    @IPS_CreateVariableProfile("Rollo.SunSet", 0); // 0 boolean, 1 int, 2 float, 3 string,
            // }
             
         //RegisterProfile("Rollo.Position", "Jalousie", "", "%", 0, 100, 1, 0, 1, "");
            // if (!IPS_VariableProfileExists("Rollo.Position")) {
-                    IPS_CreateVariableProfile("Rollo.Position", 1); // 0 boolean, 1 int, 2 float, 3 string,
+                    @IPS_CreateVariableProfile("Rollo.Position", 1); // 0 boolean, 1 int, 2 float, 3 string,
            // }
         IPS_SetVariableProfileDigits('Rollo.Position', 0);
         IPS_SetVariableProfileIcon('Rollo.Position', 'Jalousie');
