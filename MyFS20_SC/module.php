@@ -84,7 +84,7 @@ class MyFS20_SC extends IPSModule
             
         //RegisterProfile("Rollo.Position", "Jalousie", "", "%", 0, 100, 1, 0, 1, "");
             if (!IPS_VariableProfileExists("Rollo.Position")) {
-                    IPS_CreateVariableProfile("Rollo.Position", 0); // 0 boolean, 1 int, 2 float, 3 string,
+                    IPS_CreateVariableProfile("Rollo.Position", 1); // 0 boolean, 1 int, 2 float, 3 string,
             }
             
         //Integer Variable anlegen
