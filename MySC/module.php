@@ -200,11 +200,7 @@ class MyRolloShutter extends IPSModule
             IPS_SetEventActive($SunSetEventID, true);             //Ereignis  aktivieren
             IPS_SetEventActive($eid, false);             //Ereignis  deaktivieren
             IPS_SetHidden($eid, true); //Objekt verstecken
-            IPS_SetDisabled($eid, true);// Das Objekt wird inaktiv gesetzt.
-            IPS_SetHidden($SunRiseEventID, false); //Objekt verstecken
-            IPS_SetDisabled($SunRiseEventID, true);// Das Objekt wird inaktiv gesetzt.
-            IPS_SetHidden($SunSetEventID, false); //Objekt verstecken
-            IPS_SetDisabled($SunSetEventID, true);// Das Objekt wird inaktiv gesetzt.
+
 
         }
         else {
