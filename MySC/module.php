@@ -124,7 +124,7 @@ class MyRolloShutter extends IPSModule
         $this->EnableAction("FSSC_Position");
         $this->EnableAction("UpDown");
         $this->EnableAction("Mode");
-        $this->EnableAction("SS");
+        //$this->EnableAction("SS");
 
         
         //anlegen eines Timers
@@ -218,7 +218,7 @@ class MyRolloShutter extends IPSModule
                 $this->SetMode($Value);  
                 break;
              case "SS":
-                //$this->SetSunSet($Value);  
+                $this->SetSunSet($Value);  
                 break;
             default:
                 throw new Exception("Invalid Ident");
