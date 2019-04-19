@@ -145,7 +145,32 @@ class MyRolloShutter extends IPSModule
       //  IPS_SetEventScheduleGroupPoint($eid, 1, 1, 22, 00, 0, 1); //Um 22:30 Aktion mit ID 1 (Down) aufrufen
      //IPS_SetEventActive($eid, false);             //Ereignis  aktivieren
      
+
+        //$this->RegisterEvent("Laufzeit", "LaufzeitEvent".$this->InstanceID, 1, $this->InstanceID, 22);
+        //$LaufzeitEventID = $this->GetIDForIdent("LaufzeitEvent".$this->InstanceID);
+        //IPS_SetEventCyclic($LaufzeitEventID, 0, 0, 0, 0, 1, 35 /* Alle 35 Sekunden */);    
+        //IPS_SetEventScript($LaufzeitEventID, "FSSC_reset(\$_IPS['TARGET']);")  ;
         
+    	// Anlegen des cyclic events SunRise mit ($Name, $Ident, $Typ, $Parent, $Position).
+	$this->RegisterEvent("SunRise", "SunRiseEvent".$this->InstanceID, 1, $this->InstanceID, 21); 
+        $SunRiseEventID = $this->GetIDForIdent("SunRiseEvent".$this->InstanceID);
+        // täglich, um x Uhr
+        $sunrise = getvalue($this->ReadPropertyInteger("SunRise_ID"));
+        $sunrise_H = date("H", $sunrise); 
+        $sunrise_M = date("i", $sunrise); 
+        IPS_SetEventCyclicTimeFrom($SunRiseEventID, $sunrise_H, $sunrise_M, 0);
+        IPS_SetEventScript($SunRiseEventID, "FSSC_SetRolloUp(\$_IPS['TARGET']);");
+        
+    	// Anlegen des cyclic events SunSet mit ($Name, $Ident, $Typ, $Parent, $Position)
+	$this->RegisterEvent("SunSet", "SunSetEvent".$this->InstanceID, 1, $this->InstanceID, 21); 
+        $SunSetEventID = $this->GetIDForIdent("SunSetEvent".$this->InstanceID);
+        // täglich, um x Uhr
+        $sunset = getvalue($this->ReadPropertyInteger("SunSet_ID"));
+        $sunset_H = date("H", $sunset); 
+        $sunset_M = date("i", $sunset); 
+        IPS_SetEventCyclicTimeFrom($SunSetEventID, $sunset_H, $sunset_M, 0);
+        IPS_SetEventScript($SunSetEventID, "FSSC_SetRolloDown(\$_IPS['TARGET']);");
+    
     }
    /* ------------------------------------------------------------ 
      Function: ApplyChanges    
