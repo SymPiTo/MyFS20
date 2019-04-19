@@ -89,7 +89,8 @@ class MyRolloShutter extends IPSModule
                 IPS_SetVariableProfileValues('Rollo.Position', 0, 100, 1);
             }
 
-    
+        //anlegen eines Timers
+        $this->RegisterTimer("LaufzeitTimer", 0, "FSSC_reset(\$_IPS['TARGET']);");
         
     }
    /* ------------------------------------------------------------ 
@@ -138,8 +139,7 @@ class MyRolloShutter extends IPSModule
         IPS_SetVariableCustomProfile($this->GetIDForIdent("Mode"), "Rollo.Mode");
         IPS_SetVariableCustomProfile($this->GetIDForIdent("SS"), "Rollo.SunSet"); 
 
-        //anlegen eines Timers
-        $this->RegisterTimer("LaufzeitTimer", 0, "FSSC_reset(\$_IPS['TARGET']);");
+
 
      
         // Aktiviert die Standardaktion der Statusvariable zur Bedienbarkeit im Webfront
