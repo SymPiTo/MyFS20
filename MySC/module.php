@@ -255,6 +255,7 @@ class MyRolloShutter extends IPSModule
                  
             }*/ 
             
+            
         } 
 
         $SSstate = $this->ReadPropertyBoolean('SunRiseActive');
