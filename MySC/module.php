@@ -141,8 +141,8 @@ class MyRolloShutter extends IPSModule
         
         $eid = $this->GetIDForIdent("SwitchTimeEvent".$this->InstanceID);
         
-        $this->SetSwitchPoint(0, 0, 7, 0, 0) ;
-        
+            
+        $this->SetSwitchPoint(0, 0, 7, 30, 0, 0);
         
        //  IPS_SetEventScheduleGroupPoint($eid, 0, 0, 7, 0, 0); //Um 7:00 Aktion mit ID 0 (Up) aufrufen
        //  IPS_SetEventScheduleGroupPoint($eid, 0, 1, 22, 30,  1); //Um 22:30 Aktion mit ID 1 (Down) aufrufen
@@ -525,10 +525,9 @@ class MyRolloShutter extends IPSModule
     Returns:    
         none
     ------------------------------------------------------------------------------ */
-    public function SetSwitchPoint(int $switchGroup, int $switchPoint, int $h, int $m, int $action) {
+    public function SetSwitchPoint(int $switchGroup, int $switchPoint, int $h, int $m, int $s, int $action) {
         $eid = $this->GetIDForIdent("SwitchTimeEvent".$this->InstanceID);
-        IPS_SetEventScheduleGroupPoint($eid, $switchGroup, $switchPoint, $h, $m, 0, $UpDown);  
-        
+        IPS_SetEventScheduleGroupPoint($eid, $switchGroup /*Gruppe*/, $switchPoint /*Schaltpunkt*/, $h/*H*/, $m/*M*/, $s/*s*/, $action /*Aktion*/);  
     }    
     
     /* ---------------------------------------------------------------------------
