@@ -192,7 +192,7 @@ class MyRolloShutter extends IPSModule
 
         $this->RegisterMessage(0, IPS_KERNELMESSAGE);    
         $this->RegisterMessage($this->InstanceID, IPS_LOGMESSAGE);
-
+        $eid = $this->GetIDForIdent("SwitchTimeEvent".$this->InstanceID);
         $SunRiseEventID = $this->GetIDForIdent("SunRiseEvent".$this->InstanceID);
         $SunSetEventID = $this->GetIDForIdent("SunSetEvent".$this->InstanceID);
         if($this->ReadPropertyBoolean("SunRiseActive")){
