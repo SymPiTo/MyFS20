@@ -186,7 +186,7 @@ class MyRolloShutter extends IPSModule
             case "FSSC_Position":
                 //Hier würde normalerweise eine Aktion z.B. das Schalten ausgeführt werden
                 //Ausgaben über 'echo' werden an die Visualisierung zurückgeleitet
-                //$this->setRollo($Value);
+                $this->setRollo($Value);
 
                 //Neuen Wert in die Statusvariable schreiben
                 //SetValue($this->GetIDForIdent($Ident), $Value);
@@ -217,5 +217,86 @@ class MyRolloShutter extends IPSModule
     
      FSSC_XYFunktion($Instance_id, ... );
      ---------------------------------------------------------------------------------------------------------------------  */
+
+    //*****************************************************************************
+    /* Function: SetRollo
+    ...............................................................................
+    fährt den Rolladen auf 100% = Zu = Down
+    ...............................................................................
+    Parameters: 
+     $pos -   Position des Rolladens in 0-100%
+    --------------------------------------------------------------------------------
+    Returns:    
+        none
+    //////////////////////////////////////////////////////////////////////////////*/
+    public function SetRollo($pos) {
+        $lastPos = getvalue($this->GetIDForIdent("FSSC_Position"));
+        //$this->SendDebug( "SetRollo", "Letzte Position: ".$lastPos , 0);
+        if($pos>$lastPos){
+            //runterfahren
+            //Abstand ermitteln
+            $dpos = $pos-$lastPos;
+            //Zeit ermitteln für dpos
+            
+            $Tdown = $this->ReadPropertyFloat('Time_OU');
+            $Tmid = $this->ReadPropertyFloat('Time_OM');
+
+            if($dpos<51){
+                $time = $dpos * ($Tmid/50);
+                //$this->SendDebug( "SetRollo", "Errechnete Zeit für ".$pos."ist: ".$time, 0);
+                FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), false, $time); 
+                Setvalue($this->GetIDForIdent("UpDown"),true); 
+            }
+            else{
+                $time = $dpos * ($Tdown/50);
+                //$this->SendDebug( "SetRollo", "Errechnete Zeit für ".$pos."ist: ".$time, 0);
+                FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), false, $time); 
+                Setvalue($this->GetIDForIdent("UpDown"),true); 
+            }
+        }
+        elseif($pos<$lastPos){
+            //hochfahren
+            //Abstand ermitteln
+            $dpos = $lastPos-$pos;
+            //Zeit ermitteln für dpos
+            
+            $Tup = $this->ReadPropertyFloat('Time_UO');
+            $Tmid = $this->ReadPropertyFloat('Time_UM');
+            if($dpos<51){
+                $time = $dpos * ($Tmid/50);
+                //$this->SendDebug( "SetRollo", "Errechnete Zeit für ".$pos."ist: ".$time, 0);
+                FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), true, $time); 
+                Setvalue($this->GetIDForIdent("UpDown"),false); 
+            }
+            else{
+                $time = $dpos * ($Tup/50);
+                //$this->SendDebug( "SetRollo", "Errechnete Zeit für ".$pos."ist: ".$time, 0);
+                FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), true, $time); 
+                Setvalue($this->GetIDForIdent("UpDown"),false);
+            } 
+            
+        }
+        else{
+            // do nothing
+        }
+        SetValue($this->GetIDForIdent("FSSC_Position"), $pos);
+    }
   
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }
