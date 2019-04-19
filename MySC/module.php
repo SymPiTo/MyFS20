@@ -224,13 +224,13 @@ class MyRolloShutter extends IPSModule
         
         if($this->ReadPropertyBoolean("OffSetMoFr")){
             $sunriseMoFr = date('H:i:s', strtotime($OffSetSR_MoFr, strtotime($sunriseA)));  
-            $sunsetMoFr = date('H:i:s', strtotime($OffSetSS_MoFr, strtotime($sunriseA)));   
+            $sunsetMoFr = date('H:i:s', strtotime($OffSetSS_MoFr, strtotime($sunsetA)));   
 
-            $sunriseMoFr_H = date("H", $sunriseMoFr); 
-            $sunriseMoFr_M = date("i", $sunriseMoFr); 
+            $sunriseMoFr_H = date("H", strtotime($sunriseMoFr)); 
+            $sunriseMoFr_M = date("i", strtotime($sunriseMoFr)); 
             IPS_SetEventCyclicTimeFrom($SunRiseMoFrEventID, $sunriseMoFr_H, $sunriseMoFr_M, 0);
-            $sunSetSaSo_H = date("H", $sunsetMoFr); 
-            $sunSetSaSo_M = date("i", $sunsetMoFr);
+            $sunSetSaSo_H = date("H", strtotime($sunsetMoFr)); 
+            $sunSetSaSo_M = date("i", strtotime($sunsetMoFr));
             IPS_SetEventCyclicTimeFrom($SunSetMoFrEventID, $sunSetSaSo_H, $sunSetSaSo_M, 0);
             
             
@@ -239,34 +239,34 @@ class MyRolloShutter extends IPSModule
             $sunriseMoFr = date('H:i', $sunrise); 
             $sunsetMoFr = date('H:i', $sunset);
              
-            $sunriseMoFr_H = date("H", $sunriseMoFr); 
-            $sunriseMoFr_M = date("i", $sunriseMoFr); 
+            $sunriseMoFr_H = date("H", strtotime($sunriseMoFr)); 
+            $sunriseMoFr_M = date("i", strtotime($sunriseMoFr)); 
             IPS_SetEventCyclicTimeFrom($SunRiseMoFrEventID, $sunriseMoFr_H, $sunriseMoFr_M, 0);
-            $sunSetMoFr_H = date("H", $sunsetMoFr); 
-            $sunSetMoFr_M = date("i", $sunsetMoFr);
+            $sunSetMoFr_H = date("H", strtotime($sunsetMoFr)); 
+            $sunSetMoFr_M = date("i", strtotime($sunsetMoFr));
             IPS_SetEventCyclicTimeFrom($SunSetMoFrEventID, $sunSetMoFr_H, $sunSetMoFr_M, 0);
         }
         
         if($this->ReadPropertyBoolean("OffSetSaSo")){
             $sunriseSaSo = date('H:i:s', strtotime($OffSetSR_SaSo, strtotime($sunriseA)));  
-            $sunsetSaSo = date('H:i:s', strtotime($OffSetSS_SaSo, strtotime($sunriseA)));   
+            $sunsetSaSo = date('H:i:s', strtotime($OffSetSS_SaSo, strtotime($sunsetA)));   
 
-            $sunriseSaSo_H = date("H", $sunriseSaSo); 
-            $sunriseSaSo_M = date("i", $sunriseSaSo); 
+            $sunriseSaSo_H = date("H", strtotime($sunriseSaSo)); 
+            $sunriseSaSo_M = date("i", strtotime($sunriseSaSo)); 
             IPS_SetEventCyclicTimeFrom($SunRiseSaSoEventID, $sunriseSaSo_H, $sunriseSaSo_M, 0);
-            $sunSetSaSo_H = date("H", $sunsetSaSo); 
-            $sunSetSaSo_M = date("i", $sunsetSaSo);
+            $sunSetSaSo_H = date("H", strtotime($sunsetSaSo); 
+            $sunSetSaSo_M = date("i", strtotime($sunsetSaSo);
             IPS_SetEventCyclicTimeFrom($SunSetSaSoEventID, $sunSetSaSo_H, $sunSetSaSo_M, 0);
         }
         else {
             $sunriseSaSo = date('H:i', $sunrise); 
             $sunsetSaSo = date('H:i', $sunset);  
             
-            $sunriseSaSo_H = date("H", $sunriseSaSo); 
-            $sunriseSaSo_M = date("i", $sunriseSaSo); 
+            $sunriseSaSo_H = date("H", strtotime($sunriseSaSo)); 
+            $sunriseSaSo_M = date("i", strtotime($sunriseSaSo)); 
             IPS_SetEventCyclicTimeFrom($SunRiseSaSoEventID, $sunriseSaSo_H, $sunriseSaSo_M, 0);
-            $sunSetSaSo_H = date("H", $sunsetSaSo); 
-            $sunSetSaSo_M = date("i", $sunsetSaSo);
+            $sunSetSaSo_H = date("H", strtotime($sunsetSaSo)); 
+            $sunSetSaSo_M = date("i", strtotime($sunsetSaSo));
             IPS_SetEventCyclicTimeFrom($SunSetSaSoEventID, $sunSetSaSo_H, $sunSetSaSo_M, 0);
         }
         
