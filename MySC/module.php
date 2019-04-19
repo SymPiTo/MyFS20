@@ -240,6 +240,9 @@ class MyRolloShutter extends IPSModule
             else {
                 //keine Schaltpunkte vorhanden
                 $this->SendDebug("Schaltpunnkte", "leer", 0);  
+                $eid = $this->GetIDForIdent("SwitchTimeEvent".$this->InstanceID);
+        
+                IPS_SetEventScheduleGroupPoint($eid, 0, 0, 7, 0, 0, 0); //Um 7:00 Aktion mit ID 0 (Up) aufrufen 
             }
             
         } 
