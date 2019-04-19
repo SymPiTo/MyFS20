@@ -238,7 +238,7 @@ class MyRolloShutter extends IPSModule
         else {
             $sunriseMoFr = date(' H:i', $sunrise); 
             $sunsetMoFr = date(' H:i', $sunset);
-            $sunriseMoFr_H = date("H", $sunriseMoFr); 
+             
             $sunriseMoFr_H = date("H", $sunriseMoFr); 
             $sunriseMoFr_M = date("i", $sunriseMoFr); 
             IPS_SetEventCyclicTimeFrom($SunRiseMoFrEventID, $sunriseMoFr_H, $sunriseMoFr_M, 0);
@@ -261,7 +261,7 @@ class MyRolloShutter extends IPSModule
         else {
             $sunriseSaSo = date(' H:i', $sunrise); 
             $sunsetSaSo = date(' H:i', $sunset);  
-            $sunriseSaSo_H = date("H", $sunriseSaSo); 
+            
             $sunriseSaSo_H = date("H", $sunriseSaSo); 
             $sunriseMoFr_M = date("i", $sunriseSaSo); 
             IPS_SetEventCyclicTimeFrom($SunRiseSaSoEventID, $sunriseSaSo_H, $sunriseSaSo_M, 0);
