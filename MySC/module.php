@@ -126,26 +126,7 @@ class MyRolloShutter extends IPSModule
         //anlegen eines Timers
         $this->RegisterTimer("LaufzeitTimer", 0, "FSSC_reset(\$_IPS['TARGET']);");
 
-    	// Anlegen des Wochenplans mit ($Name, $Ident, $Typ, $Parent, $Position)
-	$this->RegisterEvent("Wochenplan", "SwitchTimeEvent".$this->InstanceID, 2, $this->InstanceID, 0);    
-     
-	// Anlegen der Daten für den Wochenplan
-        IPS_SetEventScheduleGroup($this->GetIDForIdent("SwitchTimeEvent".$this->InstanceID), 0, 31); //Mo - Fr (1 + 2 + 4 + 8 + 16)
-        IPS_SetEventScheduleGroup($this->GetIDForIdent("SwitchTimeEvent".$this->InstanceID), 1, 96); //Sa + So (32 + 64)     
-        
-        //Aktionen erstellen mit  ($EventID, $ActionID, $Name, $Color, $Script)
-	$this->RegisterScheduleAction($this->GetIDForIdent("SwitchTimeEvent".$this->InstanceID), 0, "Up", 0x40FF00, "FSS_SetRolloUp(\$_IPS['TARGET']);");
-	$this->RegisterScheduleAction($this->GetIDForIdent("SwitchTimeEvent".$this->InstanceID), 1, "Down", 0xFF0040, "FSS_SetRolloDown(\$_IPS['TARGET']);");
-           
-        //Ändern von Schaltpunkten für Gruppe mit ID = 0 (Mo-Fr) ID = 1 (Sa-So)
-        
-            //$eid = $this->GetIDForIdent("SwitchTimeEvent".$this->InstanceID);
-        
-     //   IPS_SetEventScheduleGroupPoint($eid, 0, 0, 7, 0, 0); //Um 7:00 Aktion mit ID 0 (Up) aufrufen
-       //  IPS_SetEventScheduleGroupPoint($eid, 0, 1, 22, 30,  1); //Um 22:30 Aktion mit ID 1 (Down) aufrufen
-      //  IPS_SetEventScheduleGroupPoint($eid, 1, 0, 8, 0,  0); //Um 8:00 Aktion mit ID 0 (Up) aufrufen
-      // IPS_SetEventScheduleGroupPoint($eid, 1, 1, 22, 0,  1); //Um 22:30 Aktion mit ID 1 (Down) aufrufen
-     //IPS_SetEventActive($eid, false);             //Ereignis  aktivieren
+
      
 
         //$this->RegisterEvent("Laufzeit", "LaufzeitEvent".$this->InstanceID, 1, $this->InstanceID, 22);
@@ -194,6 +175,29 @@ class MyRolloShutter extends IPSModule
         
         $this->RegisterMessage(0, IPS_KERNELMESSAGE);    
         $this->RegisterMessage($this->InstanceID, IPS_LOGMESSAGE);
+        
+        
+    	// Anlegen des Wochenplans mit ($Name, $Ident, $Typ, $Parent, $Position)
+	$this->RegisterEvent("Wochenplan", "SwitchTimeEvent".$this->InstanceID, 2, $this->InstanceID, 0);    
+     
+	// Anlegen der Daten für den Wochenplan
+        IPS_SetEventScheduleGroup($this->GetIDForIdent("SwitchTimeEvent".$this->InstanceID), 0, 31); //Mo - Fr (1 + 2 + 4 + 8 + 16)
+        IPS_SetEventScheduleGroup($this->GetIDForIdent("SwitchTimeEvent".$this->InstanceID), 1, 96); //Sa + So (32 + 64)     
+        
+        //Aktionen erstellen mit  ($EventID, $ActionID, $Name, $Color, $Script)
+	$this->RegisterScheduleAction($this->GetIDForIdent("SwitchTimeEvent".$this->InstanceID), 0, "Up", 0x40FF00, "FSS_SetRolloUp(\$_IPS['TARGET']);");
+	$this->RegisterScheduleAction($this->GetIDForIdent("SwitchTimeEvent".$this->InstanceID), 1, "Down", 0xFF0040, "FSS_SetRolloDown(\$_IPS['TARGET']);");
+           
+        //Ändern von Schaltpunkten für Gruppe mit ID = 0 (Mo-Fr) ID = 1 (Sa-So)
+        
+            //$eid = $this->GetIDForIdent("SwitchTimeEvent".$this->InstanceID);
+        
+     //   IPS_SetEventScheduleGroupPoint($eid, 0, 0, 7, 0, 0); //Um 7:00 Aktion mit ID 0 (Up) aufrufen
+       //  IPS_SetEventScheduleGroupPoint($eid, 0, 1, 22, 30,  1); //Um 22:30 Aktion mit ID 1 (Down) aufrufen
+      //  IPS_SetEventScheduleGroupPoint($eid, 1, 0, 8, 0,  0); //Um 8:00 Aktion mit ID 0 (Up) aufrufen
+      // IPS_SetEventScheduleGroupPoint($eid, 1, 1, 22, 0,  1); //Um 22:30 Aktion mit ID 1 (Down) aufrufen
+     //IPS_SetEventActive($eid, false);             //Ereignis  aktivieren
+        
         
         $sunrise = getvalue($this->ReadPropertyInteger("SunRise_ID"));
         $sunset = getvalue($this->ReadPropertyInteger("SunSet_ID"));
@@ -249,23 +253,6 @@ class MyRolloShutter extends IPSModule
         else {
             setvalue($this->GetIDForIdent("SS"), false);
         }
-
-
-
-
-        
-        
-
-        
-        
-        
-
-
-
-
-
-
-
 
     }
    /* ------------------------------------------------------------ 
