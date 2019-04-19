@@ -254,8 +254,8 @@ class MyRolloShutter extends IPSModule
             $sunriseSaSo_H = date("H", strtotime($sunriseSaSo)); 
             $sunriseSaSo_M = date("i", strtotime($sunriseSaSo)); 
             IPS_SetEventCyclicTimeFrom($SunRiseSaSoEventID, $sunriseSaSo_H, $sunriseSaSo_M, 0);
-            $sunSetSaSo_H = date("H", strtotime($sunsetSaSo); 
-            $sunSetSaSo_M = date("i", strtotime($sunsetSaSo);
+            $sunSetSaSo_H = date("H", strtotime($sunsetSaSo)); 
+            $sunSetSaSo_M = date("i", strtotime($sunsetSaSo));
             IPS_SetEventCyclicTimeFrom($SunSetSaSoEventID, $sunSetSaSo_H, $sunSetSaSo_M, 0);
         }
         else {
