@@ -111,7 +111,16 @@
         
 	"status" : 
         [
-
+            { 
+                "code": 200, 
+                "icon": "error", 
+                "caption": "Alexa Remote Module nicht installiert!!" 
+            },
+            { 
+                "code": 201, 
+                "icon": "error", 
+                "caption": "Telegram Messenger Module nicht installiert!" 
+            }
 	]
         
         
