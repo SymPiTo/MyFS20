@@ -307,7 +307,7 @@ class MyRolloShutter extends IPSModule
 
            // IPS_LogMessage("MessageSink", "Message from SenderID ".$SenderID." with Message ".$Message."\r\n Data: ".print_r($Data, true));
                     $eid = $this->GetIDForIdent("SwitchTimeEvent".$this->InstanceID);
-        if($Message>200){
+        if($Message = KR_READY){
             IPS_SetEventScheduleGroupPoint($eid, 0, 0, 7, 0, 0); //Um 7:00 Aktion mit ID 0 (Up) aufrufen
         }
             
