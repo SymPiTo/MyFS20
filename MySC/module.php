@@ -232,7 +232,7 @@ class MyRolloShutter extends IPSModule
 
     }
     
-    
+   
     
    /* ------------------------------------------------------------ 
       Function: RequestAction  
