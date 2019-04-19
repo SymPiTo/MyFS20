@@ -230,9 +230,9 @@ class MyRolloShutter extends IPSModule
         }
         
 
-
-
     }
+    
+    
    /* ------------------------------------------------------------ 
       Function: RequestAction  
       RequestAction() Wird ausgeführt, wenn auf der Webfront eine Variable
