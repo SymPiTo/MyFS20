@@ -88,31 +88,7 @@ class MyRolloShutter extends IPSModule
                 IPS_SetVariableProfileText('Rollo.Position', '', ' %');
                 IPS_SetVariableProfileValues('Rollo.Position', 0, 100, 1);
             }
-
-        //anlegen eines Timers
-        $this->RegisterTimer("LaufzeitTimer", 0, "FSSC_reset(\$_IPS['TARGET']);");
-        
-    }
-   /* ------------------------------------------------------------ 
-     Function: ApplyChanges    
-      ApplyChanges() Wird ausgeführt, wenn auf der Konfigurationsseite "Übernehmen" gedrückt wird 
-      und nach dem unittelbaren Erstellen der Instanz.
-     
-    SYSTEM-VARIABLE:
-        InstanceID - $this->InstanceID.
-
-    EVENTS:
-        SwitchTimeEvent".$this->InstanceID   -   Wochenplan (Mo-Fr und Sa-So)
-        SunRiseEvent".$this->InstanceID       -   cyclice Time Event jeden Tag at SunRise
-        SunSetEvent".$this->InstanceID       -   cyclice Time Event jeden Tag at SunSet
-    ------------------------------------------------------------- */
-    public function ApplyChanges()
-    {
-	//Never delete this line!
-        parent::ApplyChanges();
-
- 
-
+            
         //Integer Variable anlegen
         //integer RegisterVariableInteger ( string $Ident, string $Name, string $Profil, integer $Position )
         // Aufruf dieser Variable mit "$this->GetIDForIdent("IDENTNAME")"
@@ -145,6 +121,32 @@ class MyRolloShutter extends IPSModule
         $this->EnableAction("UpDown");
         $this->EnableAction("Mode");
         $this->EnableAction("SS");
+        
+        //anlegen eines Timers
+        $this->RegisterTimer("LaufzeitTimer", 0, "FSSC_reset(\$_IPS['TARGET']);");
+        
+    }
+   /* ------------------------------------------------------------ 
+     Function: ApplyChanges    
+      ApplyChanges() Wird ausgeführt, wenn auf der Konfigurationsseite "Übernehmen" gedrückt wird 
+      und nach dem unittelbaren Erstellen der Instanz.
+     
+    SYSTEM-VARIABLE:
+        InstanceID - $this->InstanceID.
+
+    EVENTS:
+        SwitchTimeEvent".$this->InstanceID   -   Wochenplan (Mo-Fr und Sa-So)
+        SunRiseEvent".$this->InstanceID       -   cyclice Time Event jeden Tag at SunRise
+        SunSetEvent".$this->InstanceID       -   cyclice Time Event jeden Tag at SunSet
+    ------------------------------------------------------------- */
+    public function ApplyChanges()
+    {
+	//Never delete this line!
+        parent::ApplyChanges();
+
+ 
+
+
         
 
         
