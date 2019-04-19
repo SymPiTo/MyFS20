@@ -155,6 +155,8 @@ class MyRolloShutter extends IPSModule
 
 
         
+        
+        
 
 
 
