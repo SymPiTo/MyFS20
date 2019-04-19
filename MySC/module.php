@@ -151,7 +151,7 @@ class MyRolloShutter extends IPSModule
         
 
     	// Anlegen des Wochenplans mit ($Name, $Ident, $Typ, $Parent, $Position)
-	$this->RegisterEvent("Wochenplan", "SwitchTimeEvent".$this->InstanceID, 2, $this->InstanceID, 20);    
+	$this->RegisterEvent("Wochenplan", "SwitchTimeEvent".$this->InstanceID, 2, $this->InstanceID, 0);    
      
 	// Anlegen der Daten für den Wochenplan
         IPS_SetEventScheduleGroup($this->GetIDForIdent("SwitchTimeEvent".$this->InstanceID), 0, 31); //Mo - Fr (1 + 2 + 4 + 8 + 16)
