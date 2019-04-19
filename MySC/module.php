@@ -258,8 +258,7 @@ class MyRolloShutter extends IPSModule
         }
 
 
-        ApplyChanges();
-        
+        parent::ApplyChanges();
 
         
         
