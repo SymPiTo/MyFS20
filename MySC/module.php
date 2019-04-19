@@ -231,7 +231,7 @@ class MyRolloShutter extends IPSModule
             if(!empty($EreignisInfo['ScheduleGroups'][0])){
                 //$this->GetWochenplanAction(); 
                 $Message = "Schaltpunkte";
-                $Data = $EreignisInfo['ScheduleGroups'];
+                $Data = $EreignisInfo['ScheduleGroups'][0];
                 $Format = 0;
                 $this->SendDebug($Message, $Data, $Format);
             }
