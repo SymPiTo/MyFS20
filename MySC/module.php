@@ -235,7 +235,7 @@ class MyRolloShutter extends IPSModule
                 
             if(!empty($EreignisInfo['ScheduleGroups'][0])){
                 //$this->GetWochenplanAction(); 
-
+                $this->SendDebug("Schaltpunnkte", "leer", 0);  
             }
             else {
                 //keine Schaltpunkte vorhanden
