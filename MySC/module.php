@@ -119,11 +119,7 @@ class MyRolloShutter extends IPSModule
         $this->RegisterTimer("LaufzeitTimer", 0, "FSSC_reset(\$_IPS['TARGET']);");
 
      
-        // Aktiviert die Standardaktion der Statusvariable zur Bedienbarkeit im Webfront
-        $this->EnableAction("FSSC_Position");
-        $this->EnableAction("UpDown");
-        $this->EnableAction("Mode");
-        $this->EnableAction("SS");
+
     
         
     }
@@ -146,7 +142,11 @@ class MyRolloShutter extends IPSModule
         parent::ApplyChanges();
 
  
-
+        // Aktiviert die Standardaktion der Statusvariable zur Bedienbarkeit im Webfront
+        $this->EnableAction("FSSC_Position");
+        $this->EnableAction("UpDown");
+        $this->EnableAction("Mode");
+        $this->EnableAction("SS");
         
         
 
