@@ -161,7 +161,7 @@ class MyRolloShutter extends IPSModule
         $sunrise_H = date("H", $sunrise); 
         $sunrise_M = date("i", $sunrise); 
         IPS_SetEventCyclicTimeFrom($SunRiseEventID, $sunrise_H, $sunrise_M, 0);
-        IPS_SetEventScript($SunRiseEventID, "FSSC_SetRolloUp(\$_IPS['TARGET']);");
+        IPS_SetEventScript($SunRiseEventID, "FSS_SetRolloUp(\$_IPS['TARGET']);");
         
     	// Anlegen des cyclic events SunSet mit ($Name, $Ident, $Typ, $Parent, $Position)
 	$this->RegisterEvent("SunSet", "SunSetEvent".$this->InstanceID, 1, $this->InstanceID, 21); 
@@ -171,7 +171,7 @@ class MyRolloShutter extends IPSModule
         $sunset_H = date("H", $sunset); 
         $sunset_M = date("i", $sunset); 
         IPS_SetEventCyclicTimeFrom($SunSetEventID, $sunset_H, $sunset_M, 0);
-        IPS_SetEventScript($SunSetEventID, "FSSC_SetRolloDown(\$_IPS['TARGET']);");
+        IPS_SetEventScript($SunSetEventID, "FSS_SetRolloDown(\$_IPS['TARGET']);");
     
     }
    /* ------------------------------------------------------------ 
@@ -226,6 +226,7 @@ class MyRolloShutter extends IPSModule
             IPS_SetDisabled($SunRiseEventID, true);// Das Objekt wird inaktiv gesetzt.
             IPS_SetHidden($SunSetEventID, true); //Objekt verstecken
             IPS_SetDisabled($SunSetEventID, true);// Das Objekt wird inaktiv gesetzt.
+            /*
             //check if switchpoints available
             $EreignisInfo = IPS_GetEvent($eid);
                 $Message = "Schaltpunkte";
@@ -242,7 +243,7 @@ class MyRolloShutter extends IPSModule
                 //keine Schaltpunkte vorhanden
                 //$this->SendDebug("Schaltpunnkte", "leer", 0);  
                // $this->SetStatus(207);
-           /*     
+               
                 $eid = $this->GetIDForIdent("SwitchTimeEvent".$this->InstanceID);
         
                 IPS_SetEventScheduleGroupPoint($eid, 0, 0, 7, 0, 0, 0); //Um 7:00 Aktion mit ID 0 (Up) aufrufen 
@@ -250,9 +251,9 @@ class MyRolloShutter extends IPSModule
                 IPS_SetEventScheduleGroupPoint($eid, 1, 0, 8, 0, 0, 0); //Um 8:00 Aktion mit ID 0 (Up) aufrufen
                 IPS_SetEventScheduleGroupPoint($eid, 1, 1, 22, 20, 0, 1); //Um 22:30 Aktion mit ID 1 (Down) aufrufen
                 IPS_SetEventActive($eid, true);             //Ereignis  aktivieren
-            */   
+              
                  
-            }
+            }*/ 
             
         } 
 
