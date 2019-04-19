@@ -111,10 +111,10 @@ class MyRolloShutter extends IPSModule
         // Aufruf dieser Variable mit "$this->GetIDForIdent("IDENTNAME")"
         $this->RegisterVariableString("SZ_MoFr", "SchaltZeiten Mo-Fr");
         $this->RegisterVariableString("SZ_SaSo", "SchaltZeiten Sa-So");
-        $this->RegisterVariableString("OffSetSR_MoFr", "OffSet Mo-Fr");
-        $this->RegisterVariableString("OffSetSR_SaSo", "OffSet Sa-So");
-        $this->RegisterVariableString("OffSetSS_MoFr", "OffSet Mo-Fr");
-        $this->RegisterVariableString("OffSetSS_SaSo", "OffSet Sa-So");
+        $this->RegisterVariableString("OffSetSR_MoFr", "OffSet SunRise Mo-Fr");
+        $this->RegisterVariableString("OffSetSR_SaSo", "OffSet SunRise Sa-So");
+        $this->RegisterVariableString("OffSetSS_MoFr", "OffSet SunSet Mo-Fr");
+        $this->RegisterVariableString("OffSetSS_SaSo", "OffSet SunSet Sa-So");
         setvalue($this->GetIDForIdent("OffSetSR_MoFr"),"+0");
         setvalue($this->GetIDForIdent("OffSetSR_SaSo"),"+0");
         setvalue($this->GetIDForIdent("OffSetSS_MoFr"),"+0");
