@@ -115,7 +115,11 @@ class MyRolloShutter extends IPSModule
         $this->RegisterVariableString("SZ_MoFr", "SchaltZeiten Mo-Fr");
         $this->RegisterVariableString("SZ_SaSo", "SchaltZeiten Sa-So");
         
-
+        // Profile den Variablen zuordnen   
+        IPS_SetVariableCustomProfile($this->GetIDForIdent("FSSC_Position"), "Rollo.Position");
+        IPS_SetVariableCustomProfile($this->GetIDForIdent("UpDown"), "Rollo.UpDown");
+        IPS_SetVariableCustomProfile($this->GetIDForIdent("Mode"), "Rollo.Mode");
+        IPS_SetVariableCustomProfile($this->GetIDForIdent("SS"), "Rollo.SunSet"); 
         
         // Aktiviert die Standardaktion der Statusvariable zur Bedienbarkeit im Webfront
         $this->EnableAction("FSSC_Position");
