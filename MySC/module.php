@@ -441,7 +441,7 @@ class MyRolloShutter extends IPSModule
     Returns:    
         none
     //////////////////////////////////////////////////////////////////////////////*/
-    public function SetRollo($pos) {
+    public function SetRollo(int $pos) {
         $lastPos = getvalue($this->GetIDForIdent("FSSC_Position"));
         //$this->SendDebug( "SetRollo", "Letzte Position: ".$lastPos , 0);
         if($pos>$lastPos){
