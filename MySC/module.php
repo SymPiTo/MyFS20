@@ -189,8 +189,7 @@ class MyRolloShutter extends IPSModule
     ------------------------------------------------------------- */
     public function ApplyChanges()
     {
-	//Never delete this line!
-        parent::ApplyChanges();
+
 
         $this->RegisterMessage(0, IPS_KERNELMESSAGE);    
         $this->RegisterMessage($this->InstanceID, IPS_LOGMESSAGE);
@@ -235,7 +234,7 @@ class MyRolloShutter extends IPSModule
                 
             if(!empty($EreignisInfo['ScheduleGroups'][0]['Points'])){
                 //$this->GetWochenplanAction(); 
-                $this->SendDebug("Schaltpunnkte", "voll", 0);  
+                $this->SendDebug("Schaltpunnkte", $EreignisInfo, 0);  
             }
             else {
                 //keine Schaltpunkte vorhanden
@@ -258,6 +257,7 @@ class MyRolloShutter extends IPSModule
         }
 
 
+	//Never delete this line!
         parent::ApplyChanges();
 
         
