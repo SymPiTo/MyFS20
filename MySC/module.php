@@ -228,6 +228,7 @@ class MyRolloShutter extends IPSModule
             IPS_SetDisabled($SunSetEventID, true);// Das Objekt wird inaktiv gesetzt.
             
            // $this->GetWochenplanAction(); 
+            
         } 
 
         $SSstate = $this->ReadPropertyBoolean('SunRiseActive');
