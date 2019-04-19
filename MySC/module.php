@@ -226,8 +226,15 @@ class MyRolloShutter extends IPSModule
             IPS_SetDisabled($SunRiseEventID, true);// Das Objekt wird inaktiv gesetzt.
             IPS_SetHidden($SunSetEventID, true); //Objekt verstecken
             IPS_SetDisabled($SunSetEventID, true);// Das Objekt wird inaktiv gesetzt.
-            
-            $this->GetWochenplanAction(); 
+            //check if switchpoints available
+            $EreignisInfo = IPS_GetEvent($eid);
+            if(!empty($EreignisInfo['ScheduleGroups'])){
+                $this->GetWochenplanAction(); 
+            }
+            else {
+                //keine Schaltpunkte vorhanden
+                
+            }
             
         } 
 
