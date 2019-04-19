@@ -1,6 +1,6 @@
 <?php
 
-//require_once(__DIR__ . "/../libs/NetworkTraits1.php");
+ require_once(__DIR__ . "/../libs/NetworkTraits3.php");
 
 /**
  * Title: FS20 RSU Shutter Control
@@ -15,7 +15,7 @@
 class MyRolloShutter extends IPSModule
 {
     //externe Klasse einbinden - ueberlagern mit TRAIT.
-    //use MyDebugHelper1;
+    use MyDebugHelper3;
     /* 
     _______________________________________________________________________ 
      Section: Internal Modul Funtions
