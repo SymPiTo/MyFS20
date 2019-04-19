@@ -55,6 +55,7 @@ class MyRolloShutter extends IPSModule
         
         // Variable aus dem Instanz Formular registrieren (zugänglich zu machen)
         // Aufruf dieser Form Variable mit $Tup = $this->ReadPropertyFloat('IDENTNAME'); 
+        $this->RegisterPropertyBoolean("aktiv", false);
         $this->RegisterPropertyInteger("FS20RSU_ID", 0);
         $this->RegisterPropertyInteger ("SunSet_ID", 57942);
         $this->RegisterPropertyInteger ("SunRise_ID", 11938);
@@ -62,7 +63,8 @@ class MyRolloShutter extends IPSModule
         $this->RegisterPropertyFloat("Time_OU", 0.5);
         $this->RegisterPropertyFloat("Time_UM", 0.5);
         $this->RegisterPropertyFloat("Time_OM", 0.5);
-        $this->RegisterPropertyBoolean("SunRiseActive", false);
+        $this->RegisterPropertyBoolean("OffSetMoFr", false);
+        $this->RegisterPropertyBoolean("OffSetSaSo", false);
         
          //Profile anlegen falls noch nicht vorhanden.
         $assocA[0] = "Manual";
@@ -109,19 +111,27 @@ class MyRolloShutter extends IPSModule
         // Aufruf dieser Variable mit "$this->GetIDForIdent("IDENTNAME")"
         $this->RegisterVariableString("SZ_MoFr", "SchaltZeiten Mo-Fr");
         $this->RegisterVariableString("SZ_SaSo", "SchaltZeiten Sa-So");
+        $this->RegisterVariableString("OffSetSR_MoFr", "OffSet Mo-Fr");
+        $this->RegisterVariableString("OffSetSR_SaSo", "OffSet Sa-So");
+        $this->RegisterVariableString("OffSetSS_MoFr", "OffSet Mo-Fr");
+        $this->RegisterVariableString("OffSetSS_SaSo", "OffSet Sa-So");
+        setvalue($this->GetIDForIdent("OffSetSR_MoFr"),"+0");
+        setvalue($this->GetIDForIdent("OffSetSR_SaSo"),"+0");
+        setvalue($this->GetIDForIdent("OffSetSS_MoFr"),"+0");
+        setvalue($this->GetIDForIdent("OffSetSS_SaSo"),"+0");
         
         // Profile den Variablen zuordnen   
         IPS_SetVariableCustomProfile($this->GetIDForIdent("FSSC_Position"), "Rollo.Position");
         IPS_SetVariableCustomProfile($this->GetIDForIdent("UpDown"), "Rollo.UpDown");
         IPS_SetVariableCustomProfile($this->GetIDForIdent("Mode"), "Rollo.Mode");
-        IPS_SetVariableCustomProfile($this->GetIDForIdent("SS"), "Rollo.SunSet"); 
+        
 
      
         // Aktiviert die Standardaktion der Statusvariable zur Bedienbarkeit im Webfront
         $this->EnableAction("FSSC_Position");
         $this->EnableAction("UpDown");
         $this->EnableAction("Mode");
-        $this->EnableAction("SS");
+            
         
         //anlegen eines Timers
         $this->RegisterTimer("LaufzeitTimer", 0, "FSSC_reset(\$_IPS['TARGET']);");
@@ -134,27 +144,49 @@ class MyRolloShutter extends IPSModule
         //IPS_SetEventCyclic($LaufzeitEventID, 0, 0, 0, 0, 1, 35 /* Alle 35 Sekunden */);    
         //IPS_SetEventScript($LaufzeitEventID, "FSSC_reset(\$_IPS['TARGET']);")  ;
         
+        
+        
     	// Anlegen des cyclic events SunRise mit ($Name, $Ident, $Typ, $Parent, $Position).
-	$this->RegisterEvent("SunRise", "SunRiseEvent".$this->InstanceID, 1, $this->InstanceID, 21); 
-        $SunRiseEventID = $this->GetIDForIdent("SunRiseEvent".$this->InstanceID);
+	$this->RegisterEvent("SunRiseMoFr", "SunRiseEventMoFr".$this->InstanceID, 1, $this->InstanceID, 21); 
+        $SunRiseMoFrEventID = $this->GetIDForIdent("SunRiseEventMoFr".$this->InstanceID);
         // täglich, um x Uhr
         $sunrise = getvalue($this->ReadPropertyInteger("SunRise_ID"));
         $sunrise_H = date("H", $sunrise); 
         $sunrise_M = date("i", $sunrise); 
-        IPS_SetEventCyclicTimeFrom($SunRiseEventID, $sunrise_H, $sunrise_M, 0);
-        IPS_SetEventScript($SunRiseEventID, "FSS_SetRolloUp(\$_IPS['TARGET']);");
+        IPS_SetEventCyclicTimeFrom($SunRiseMoFrEventID, $sunrise_H, $sunrise_M, 0);
+        IPS_SetEventScript($SunRiseMoFrEventID, "FSS_SetRolloUp(\$_IPS['TARGET']);");
         
     	// Anlegen des cyclic events SunSet mit ($Name, $Ident, $Typ, $Parent, $Position)
-	$this->RegisterEvent("SunSet", "SunSetEvent".$this->InstanceID, 1, $this->InstanceID, 21); 
-        $SunSetEventID = $this->GetIDForIdent("SunSetEvent".$this->InstanceID);
+	$this->RegisterEvent("SunSetMoFr", "SunSetEventMoFr".$this->InstanceID, 1, $this->InstanceID, 21); 
+        $SunSetMoFrEventID = $this->GetIDForIdent("SunSetEventMoFr".$this->InstanceID);
         // täglich, um x Uhr
         $sunset = getvalue($this->ReadPropertyInteger("SunSet_ID"));
         $sunset_H = date("H", $sunset); 
         $sunset_M = date("i", $sunset); 
-        IPS_SetEventCyclicTimeFrom($SunSetEventID, $sunset_H, $sunset_M, 0);
-        IPS_SetEventScript($SunSetEventID, "FSS_SetRolloDown(\$_IPS['TARGET']);");
-    
+        IPS_SetEventCyclicTimeFrom($SunSetMoFrEventID, $sunset_H, $sunset_M, 0);
+        IPS_SetEventScript($SunSetMoFrEventID, "FSS_SetRolloDown(\$_IPS['TARGET']);");
+
+    	// Anlegen des cyclic events SunRise mit ($Name, $Ident, $Typ, $Parent, $Position).
+	$this->RegisterEvent("SunRiseSaSo", "SunRiseEventSaSo".$this->InstanceID, 1, $this->InstanceID, 21); 
+        $SunRiseSaSoEventID = $this->GetIDForIdent("SunRiseEventSaSo".$this->InstanceID);
+        // täglich, um x Uhr
+        $sunrise = getvalue($this->ReadPropertyInteger("SunRise_ID"));
+        $sunrise_H = date("H", $sunrise); 
+        $sunrise_M = date("i", $sunrise); 
+        IPS_SetEventCyclicTimeFrom($SunRiseSaSoEventID, $sunrise_H, $sunrise_M, 0);
+        IPS_SetEventScript($SunRiseSaSoEventID, "FSS_SetRolloUp(\$_IPS['TARGET']);");
+        
+    	// Anlegen des cyclic events SunSet mit ($Name, $Ident, $Typ, $Parent, $Position)
+	$this->RegisterEvent("SunSetSaSo", "SunSetEventSaSo".$this->InstanceID, 1, $this->InstanceID, 21); 
+        $SunSetEventSaSoID = $this->GetIDForIdent("SunSetEventSaSo".$this->InstanceID);
+        // täglich, um x Uhr
+        $sunset = getvalue($this->ReadPropertyInteger("SunSet_ID"));
+        $sunset_H = date("H", $sunset); 
+        $sunset_M = date("i", $sunset); 
+        IPS_SetEventCyclicTimeFrom($SunSetEventSaSoID, $sunset_H, $sunset_M, 0);
+        IPS_SetEventScript($SunSetEventSaSoID, "FSS_SetRolloDown(\$_IPS['TARGET']);");
     }
+    
    /* ------------------------------------------------------------ 
      Function: ApplyChanges    
       ApplyChanges() Wird ausgeführt, wenn auf der Konfigurationsseite "Übernehmen" gedrückt wird 
@@ -176,32 +208,87 @@ class MyRolloShutter extends IPSModule
         $this->RegisterMessage(0, IPS_KERNELMESSAGE);    
         $this->RegisterMessage($this->InstanceID, IPS_LOGMESSAGE);
         
-        
-    	// Anlegen des Wochenplans mit ($Name, $Ident, $Typ, $Parent, $Position)
-	$this->RegisterEvent("Wochenplan", "SwitchTimeEvent".$this->InstanceID, 2, $this->InstanceID, 0);    
-     
-	// Anlegen der Daten für den Wochenplan
-        IPS_SetEventScheduleGroup($this->GetIDForIdent("SwitchTimeEvent".$this->InstanceID), 0, 31); //Mo - Fr (1 + 2 + 4 + 8 + 16)
-        IPS_SetEventScheduleGroup($this->GetIDForIdent("SwitchTimeEvent".$this->InstanceID), 1, 96); //Sa + So (32 + 64)     
-        
-        //Aktionen erstellen mit  ($EventID, $ActionID, $Name, $Color, $Script)
-	$this->RegisterScheduleAction($this->GetIDForIdent("SwitchTimeEvent".$this->InstanceID), 0, "Up", 0x40FF00, "FSS_SetRolloUp(\$_IPS['TARGET']);");
-	$this->RegisterScheduleAction($this->GetIDForIdent("SwitchTimeEvent".$this->InstanceID), 1, "Down", 0xFF0040, "FSS_SetRolloDown(\$_IPS['TARGET']);");
-           
-        //Ändern von Schaltpunkten für Gruppe mit ID = 0 (Mo-Fr) ID = 1 (Sa-So)
-        
-            //$eid = $this->GetIDForIdent("SwitchTimeEvent".$this->InstanceID);
-        
-     //   IPS_SetEventScheduleGroupPoint($eid, 0, 0, 7, 0, 0); //Um 7:00 Aktion mit ID 0 (Up) aufrufen
-       //  IPS_SetEventScheduleGroupPoint($eid, 0, 1, 22, 30,  1); //Um 22:30 Aktion mit ID 1 (Down) aufrufen
-      //  IPS_SetEventScheduleGroupPoint($eid, 1, 0, 8, 0,  0); //Um 8:00 Aktion mit ID 0 (Up) aufrufen
-      // IPS_SetEventScheduleGroupPoint($eid, 1, 1, 22, 0,  1); //Um 22:30 Aktion mit ID 1 (Down) aufrufen
-     //IPS_SetEventActive($eid, false);             //Ereignis  aktivieren
-        
-        
         $sunrise = getvalue($this->ReadPropertyInteger("SunRise_ID"));
         $sunset = getvalue($this->ReadPropertyInteger("SunSet_ID"));
+        $OffSetSR_MoFr = getvalue($this->GetIDForIdent("OffSetSR_MoFr"))." minutes" ;
+        $OffSetSS_MoFr = getvalue($this->GetIDForIdent("OffSetSS_MoFr"))." minutes" ;
+        $OffSetSR_SaSo = getvalue($this->GetIDForIdent("OffSetSR_SaSo"))." minutes";
+        $OffSetSS_SaSo = getvalue($this->GetIDForIdent("OffSetSS_SaSo"))." minutes";
         
+        $sunriseA = date(' H:i', $sunrise);
+        $sunsetA = date(' H:i', $sunset);
+        $SunRiseMoFrEventID = $this->GetIDForIdent("SunRiseEventMoFr".$this->InstanceID);
+        $SunSetMoFrEventID = $this->GetIDForIdent("SunSetEventMoFr".$this->InstanceID);        
+        $SunRiseSaSoEventID = $this->GetIDForIdent("SunRiseEventSaSo".$this->InstanceID);
+        $SunSetSaSoEventID = $this->GetIDForIdent("SunSetEventSaSo".$this->InstanceID);       
+        
+        if($this->ReadPropertyInteger("OffSetMoFr")){
+            $sunriseMoFr = date('H:i:s', strtotime($OffSetSR_MoFr, strtotime($sunriseA)));  
+            $sunsetMoFr = date('H:i:s', strtotime($OffSetSS_MoFr, strtotime($sunriseA)));   
+
+            $sunriseMoFr_H = date("H", $sunriseMoFr); 
+            $sunriseMoFr_M = date("i", $sunriseMoFr); 
+            IPS_SetEventCyclicTimeFrom($SunRiseMoFrEventID, $sunriseMoFr_H, $sunriseMoFr_M, 0);
+            $sunSetSaSo_H = date("H", $sunsetMoFr); 
+            $sunSetSaSo_M = date("i", $sunsetMoFr);
+            IPS_SetEventCyclicTimeFrom($SunSetMoFrEventID, $sunSetSaSo_H, $sunSetSaSo_M, 0);
+            
+            
+        }
+        else {
+            $sunriseMoFr = date(' H:i', $sunrise); 
+            $sunsetMoFr = date(' H:i', $sunset);
+            $sunriseMoFr_H = date("H", $sunriseMoFr); 
+            $sunriseMoFr_H = date("H", $sunriseMoFr); 
+            $sunriseMoFr_M = date("i", $sunriseMoFr); 
+            IPS_SetEventCyclicTimeFrom($SunRiseMoFrEventID, $sunriseMoFr_H, $sunriseMoFr_M, 0);
+            $sunSetMoFr_H = date("H", $sunsetMoFr); 
+            $sunSetMoFr_M = date("i", $sunsetMoFr);
+            IPS_SetEventCyclicTimeFrom($SunSetMoFrEventID, $sunSetMoFr_H, $sunSetMoFr_M, 0);
+        }
+        
+        if($this->ReadPropertyInteger("OffSetSaSo")){
+            $sunriseSaSo = date('H:i:s', strtotime($OffSetSR_SaSo, strtotime($sunriseA)));  
+            $sunsetSaSo = date('H:i:s', strtotime($OffSetSS_SaSo, strtotime($sunriseA)));   
+
+            $sunriseSaSo_H = date("H", $sunriseSaSo); 
+            $sunriseSaSo_M = date("i", $sunriseSaSo); 
+            IPS_SetEventCyclicTimeFrom($SunRiseSaSoEventID, $sunriseSaSo_H, $sunriseSaSo_M, 0);
+            $sunSetSaSo_H = date("H", $sunsetSaSo); 
+            $sunSetSaSo_M = date("i", $sunsetSaSo);
+            IPS_SetEventCyclicTimeFrom($SunSetSaSoEventID, $sunSetSaSo_H, $sunSetSaSo_M, 0);
+        }
+        else {
+            $sunriseSaSo = date(' H:i', $sunrise); 
+            $sunsetSaSo = date(' H:i', $sunset);  
+            $sunriseSaSo_H = date("H", $sunriseSaSo); 
+            $sunriseSaSo_H = date("H", $sunriseSaSo); 
+            $sunriseMoFr_M = date("i", $sunriseSaSo); 
+            IPS_SetEventCyclicTimeFrom($SunRiseSaSoEventID, $sunriseSaSo_H, $sunriseSaSo_M, 0);
+            $sunSetSaSo_H = date("H", $sunsetSaSo); 
+            $sunSetSaSo_M = date("i", $sunsetSaSo);
+            IPS_SetEventCyclicTimeFrom($SunSetSaSoEventID, $sunSetSaSo_H, $sunSetSaSo_M, 0);
+        }
+        
+        setvalue($this->GetIDForIdent("SZ_MoFr"), $sunriseMoFr." - ".$sunsetMoFr);
+        setvalue($this->GetIDForIdent("SZ_SaSo"), $sunriseSaSo." - ".$sunsetSaSo);
+        
+  
+        $state = $this->ReadPropertyBoolean('aktiv');
+        if ($Sstate){
+            IPS_SetEventActive($SunRiseMoFrEventID, true);             //Ereignis  aktivieren
+            IPS_SetEventActive($SunSetMoFrEventID, true);             //Ereignis  aktivieren 
+            IPS_SetEventActive($SunRiseSaSoEventID, true);             //Ereignis  aktivieren
+            IPS_SetEventActive($SunSetSaSoEventID, true);             //Ereignis  aktivieren 
+        }    
+        else {
+            IPS_SetEventActive($SunRiseMoFrEventID, false);             //Ereignis  aktivieren
+            IPS_SetEventActive($SunSetMoFrEventID, false);             //Ereignis  aktivieren 
+            IPS_SetEventActive($SunRiseSaSoEventID, false);             //Ereignis  aktivieren
+            IPS_SetEventActive($SunSetSaSoEventID, false);             //Ereignis  aktivieren  
+        }
+        
+  /*      
         $eid = $this->GetIDForIdent("SwitchTimeEvent".$this->InstanceID);
         $SunRiseEventID = $this->GetIDForIdent("SunRiseEvent".$this->InstanceID);
         $SunSetEventID = $this->GetIDForIdent("SunSetEvent".$this->InstanceID);
@@ -231,28 +318,10 @@ class MyRolloShutter extends IPSModule
             IPS_SetHidden($SunSetEventID, true); //Objekt verstecken
             IPS_SetDisabled($SunSetEventID, true);// Das Objekt wird inaktiv gesetzt.
             
-            
-            //check if switchpoints available
-            @$EreignisInfo = IPS_GetEvent($eid);
-  
-            if(!empty($EreignisInfo['ScheduleGroups'][0]['Points'])){
-                 $this->GetWochenplanAction(); 
-            }
-            else {
-                //keine Schaltpunkte vorhanden
-                $this->SendDebug("Schaltpunnkte", "Bitte Manuell Schaltpunkte eintragen", 0);  
-               // $this->SetStatus(207);
-            
-            }
-            
-            
+   
         } 
+*/
 
-        $SSstate = $this->ReadPropertyBoolean('SunRiseActive');
-        if ($SSstate){setvalue($this->GetIDForIdent("SS"), true);}
-        else {
-            setvalue($this->GetIDForIdent("SS"), false);
-        }
 
     }
    /* ------------------------------------------------------------ 
@@ -292,9 +361,6 @@ class MyRolloShutter extends IPSModule
                 break;
              case "Mode":
                $this->SetMode($Value);  
-                break;
-             case "SS":
-               $this->SetSunSet($Value);  
                 break;
             default:
                 throw new Exception("Invalid Ident");
@@ -516,26 +582,7 @@ class MyRolloShutter extends IPSModule
         SetValue($this->GetIDForIdent("FSSC_Position"), $pos);
     }
 
-    /* ---------------------------------------------------------------------------
-     Function: SetSwitchPoint
-    ...............................................................................
-    setzt einen Schaltpunkt.
-    ...............................................................................
-    Parameters: 
-        $switchGroup    -   0 = Mo-Fr // 1 = Sa-So
-        $switchPoint    -   0 = Up // 1 = Down
-        $h              -   time - hour
-        $m              -   time - minute
-     *  $s              -   time - sekunde
-        $action         -   0 = Up  // 1 = Down
-    ...............................................................................
-    Returns:    
-        none
-    ------------------------------------------------------------------------------ */
-    public function SetSwitchPoint(int $switchGroup, int $switchPoint, int $h, int $m, int $s, int $action) {
-        $eid = $this->GetIDForIdent("SwitchTimeEvent".$this->InstanceID);
-        IPS_SetEventScheduleGroupPoint($eid, $switchGroup /*Gruppe*/, $switchPoint /*Schaltpunkt*/, $h/*H*/, $m/*M*/, $s/*s*/, $action /*Aktion*/);  
-    }    
+ 
             
     /* ---------------------------------------------------------------------------
      Function: SetSunSet
@@ -649,41 +696,7 @@ class MyRolloShutter extends IPSModule
         
     
 
-    
-    /* ---------------------------------------------------------------------------
-     Function: GetWochenplanAction
-    ...............................................................................
-    
-    ...............................................................................
-    Parameters: 
-        none
-    ...............................................................................
-    Returns:    
-        none
-    ------------------------------------------------------------------------------ */
-    public function GetWochenplanAction() 
-    { 
-        $EventID = $this->GetIDForIdent("SwitchTimeEvent".$this->InstanceID);
-        
-        $a = IPS_GetEvent($EventID); 
-
-            $SP = $a['ScheduleGroups'][0]['Points']; 
-            $SP1A_H = $SP[0]['Start']['Hour'];
-            $SP1A_M = $SP[0]['Start']['Minute'];
-            $SP1B_H = $SP[1]['Start']['Hour'];
-            $SP1B_M = $SP[1]['Start']['Minute'];
-            $SP1 = str_pad($SP1A_H, 2, 0, STR_PAD_LEFT).":".str_pad($SP1A_M, 2, 0, STR_PAD_LEFT)." - ".str_pad($SP1B_H, 2, 0, STR_PAD_LEFT).":".str_pad($SP1B_M, 2, 0, STR_PAD_LEFT);
-            
-            $SP2A_H = $SP[0]['Start']['Hour'];
-            $SP2A_M = $SP[0]['Start']['Minute'];
-            $SP2B_H = $SP[1]['Start']['Hour'];
-            $SP2B_M = $SP[1]['Start']['Minute'];
-            $SP2 = str_pad($SP2A_H, 2, 0, STR_PAD_LEFT).":".str_pad($SP2A_M, 2, 0, STR_PAD_LEFT)." - ".str_pad($SP2B_H, 2, 0, STR_PAD_LEFT).":".str_pad($SP2B_M, 2, 0, STR_PAD_LEFT);
-            
-            setvalue($this->GetIDForIdent("SZ_MoFr"), $SP1);
-            setvalue($this->GetIDForIdent("SZ_SaSo"), $SP2);
-        
-    }  
+ 
     
     /* ----------------------------------------------------------------------------
      Function: RegisterEvent

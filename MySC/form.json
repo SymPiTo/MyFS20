@@ -1,6 +1,11 @@
 {
 	"elements":
 	[
+                        {
+                                "name" : "aktiv",
+                                "type" :  "CheckBox",
+                                "caption" : "aktiv"
+                        },
 			{
 				"name": "FS20RSU_ID",
 				"type": "SelectObject",
@@ -58,12 +63,22 @@
 			},
 			{
 				"type" : "Label",
-				"label" : "Sonnen Auf/Untergangs Zeiten verwenden"
+				"label" : "Offest Mo-Fr aktivieren."
 			},
 			{ 
-				"name" : "SunRiseActive",
+				"name" : "OffSetMoFr",
 				"type" : "CheckBox",
-				"caption" : "SunRise / SunDown"
+				"caption" : "Offset Mo-Fr"
+    
+			},
+			{
+				"type" : "Label",
+				"label" : "Offest Sa-So aktivieren."
+			},
+			{ 
+				"name" : "OffSetSaSo",
+				"type" : "CheckBox",
+				"caption" : "Offset Sa-So"
     
 			}
                 
