@@ -57,38 +57,34 @@ class MyRolloShutter extends IPSModule
         $this->RegisterPropertyInteger("FS20RSU_ID", 0);
         $this->RegisterPropertyInteger ("SunSet_ID", 57942);
         $this->RegisterPropertyInteger ("SunRise_ID", 11938);
-        $this->RegisterPropertyFloat("Time_OU", 0.5);
         $this->RegisterPropertyFloat("Time_UO", 0.5);
-        $this->RegisterPropertyFloat("Time_OM", 0.5);
+        $this->RegisterPropertyFloat("Time_OU", 0.5);
         $this->RegisterPropertyFloat("Time_UM", 0.5);
+        $this->RegisterPropertyFloat("Time_OM", 0.5);
         $this->RegisterPropertyBoolean("SunRiseActive", false);
         
+         //Profile anlegen falls noch nicht vorhanden.
         $assocA[0] = "Manual";
         $assocA[1] = "Automatic";
-        
             if (!IPS_VariableProfileExists("Rollo.Mode")) {
                 IPS_CreateVariableProfile("Rollo.Mode", 0); // 0 boolean, 1 int, 2 float, 3 string,
             }
-
         
         $assocB[0] = "Up";
         $assocB[1] = "Down";
-        
             if (!IPS_VariableProfileExists("Rollo.UpDown")) {
                   IPS_CreateVariableProfile("Rollo.UpDown", 0); // 0 boolean, 1 int, 2 float, 3 string,
             }
         $assocC[0] = "off";
         $assocC[1] = "on";
-        
            if (!IPS_VariableProfileExists("Rollo.SunSet")) {
                   IPS_CreateVariableProfile("Rollo.SunSet", 0); // 0 boolean, 1 int, 2 float, 3 string,
            }
-            
-        
+
            if (!IPS_VariableProfileExists("Rollo.Position")) {
                  IPS_CreateVariableProfile("Rollo.Position", 1); // 0 boolean, 1 int, 2 float, 3 string,
            }
-       IPS_SetVariableProfileDigits('Rollo.Position', 0);
+        IPS_SetVariableProfileDigits('Rollo.Position', 0);
         IPS_SetVariableProfileIcon('Rollo.Position', 'Jalousie');
         IPS_SetVariableProfileText('Rollo.Position', '', ' %');
         IPS_SetVariableProfileValues('Rollo.Position', 0, 100, 1);
@@ -107,8 +103,6 @@ class MyRolloShutter extends IPSModule
         $this->RegisterVariableBoolean("Mode", "Mode");
         $this->RegisterVariableBoolean("SS", "SunSet-Rise");
         
-
-        
         //String Variable anlegen
         //RegisterVariableString (  $Ident,  $Name, $Profil, $Position )
         // Aufruf dieser Variable mit "$this->GetIDForIdent("IDENTNAME")"
@@ -120,14 +114,7 @@ class MyRolloShutter extends IPSModule
         IPS_SetVariableCustomProfile($this->GetIDForIdent("UpDown"), "Rollo.UpDown");
         IPS_SetVariableCustomProfile($this->GetIDForIdent("Mode"), "Rollo.Mode");
         IPS_SetVariableCustomProfile($this->GetIDForIdent("SS"), "Rollo.SunSet"); 
-        
-        // Aktiviert die Standardaktion der Statusvariable zur Bedienbarkeit im Webfront
-        $this->EnableAction("FSSC_Position");
-        $this->EnableAction("UpDown");
-        $this->EnableAction("Mode");
-        $this->EnableAction("SS");
 
-        
         //anlegen eines Timers
         $this->RegisterTimer("LaufzeitTimer", 0, "FSSC_reset(\$_IPS['TARGET']);");
         
@@ -187,33 +174,7 @@ class MyRolloShutter extends IPSModule
       Mode             -   Switch für Automatik/Manual
      ------------------------------------------------------------- */
     public function RequestAction($Ident, $Value) {
-         switch($Ident) {
-            case "FSSC_Position":
-                //Hier würde normalerweise eine Aktion z.B. das Schalten ausgeführt werden
-                //Ausgaben über 'echo' werden an die Visualisierung zurückgeleitet
-                //$this->setRollo($Value);
 
-                //Neuen Wert in die Statusvariable schreiben
-                //SetValue($this->GetIDForIdent($Ident), $Value);
-                break;
-            case "UpDown":
-                SetValue($this->GetIDForIdent($Ident), $Value);
-                if(getvalue($this->GetIDForIdent($Ident))){
-                   // $this->SetRolloDown();  
-                }
-                else{
-                   // $this->SetRolloUp();
-                }
-                break;
-             case "Mode":
-                //$this->SetMode($Value);  
-                break;
-             case "SS":
-                //$this->SetSunSet($Value);  
-                break;
-            default:
-                throw new Exception("Invalid Ident");
-        }
     }
     /*  ----------------------------------------------------------------------------------------------------------------- 
      Section: Public Funtions
