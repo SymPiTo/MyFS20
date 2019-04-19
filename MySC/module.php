@@ -241,7 +241,7 @@ class MyRolloShutter extends IPSModule
             else {
                 //keine Schaltpunkte vorhanden
                 //$this->SendDebug("Schaltpunnkte", "leer", 0);  
-                $this->SetStatus(207);
+               // $this->SetStatus(207);
            /*     
                 $eid = $this->GetIDForIdent("SwitchTimeEvent".$this->InstanceID);
         
