@@ -111,10 +111,10 @@ class MyRolloShutter extends IPSModule
         // Aufruf dieser Variable mit "$this->GetIDForIdent("IDENTNAME")"
         $this->RegisterVariableString("SZ_MoFr", "SchaltZeiten Mo-Fr");
         $this->RegisterVariableString("SZ_SaSo", "SchaltZeiten Sa-So");
-        $this->RegisterVariableString("OffSetSR_MoFr", "OffSet SunRise Mo-Fr");
-        $this->RegisterVariableString("OffSetSR_SaSo", "OffSet SunRise Sa-So");
-        $this->RegisterVariableString("OffSetSS_MoFr", "OffSet SunSet Mo-Fr");
-        $this->RegisterVariableString("OffSetSS_SaSo", "OffSet SunSet Sa-So");
+        $this->RegisterVariableInteger("OffSetSR_MoFr", "OffSet SunRise Mo-Fr");
+        $this->RegisterVariableInteger("OffSetSR_SaSo", "OffSet SunRise Sa-So");
+        $this->RegisterVariableInteger("OffSetSS_MoFr", "OffSet SunSet Mo-Fr");
+        $this->RegisterVariableInteger("OffSetSS_SaSo", "OffSet SunSet Sa-So");
         setvalue($this->GetIDForIdent("OffSetSR_MoFr"),"+0");
         setvalue($this->GetIDForIdent("OffSetSR_SaSo"),"+0");
         setvalue($this->GetIDForIdent("OffSetSS_MoFr"),"+0");
@@ -223,8 +223,8 @@ class MyRolloShutter extends IPSModule
         $SunSetSaSoEventID = $this->GetIDForIdent("SunSetEventSaSo".$this->InstanceID);       
         
         if($this->ReadPropertyBoolean("OffSetMoFr")){
-            $sunriseMoFr = date('H:i:s', strtotime($sunriseA) +  $OffSetSR_MoFr);  
-            $sunsetMoFr = date('H:i:s',  strtotime($sunsetA) + $OffSetSS_MoFr);   
+            $sunriseMoFr = date('H:i:s', strtotime($sunriseA) + $OffSetSR_MoFr *60);  
+            $sunsetMoFr = date('H:i:s',  strtotime($sunsetA) + $OffSetSS_MoFr *60);   
 
             $sunriseMoFr_H = date("H", strtotime($sunriseMoFr)); 
             $sunriseMoFr_M = date("i", strtotime($sunriseMoFr)); 
@@ -248,8 +248,8 @@ class MyRolloShutter extends IPSModule
         }
         
         if($this->ReadPropertyBoolean("OffSetSaSo")){
-            $sunriseSaSo = date('H:i:s', strtotime($OffSetSR_SaSo, strtotime($sunriseA)));  
-            $sunsetSaSo = date('H:i:s', strtotime($OffSetSS_SaSo, strtotime($sunsetA)));   
+            $sunriseSaSo = date('H:i:s', strtotime($sunriseA) +  $OffSetSR_SaSo*60);  
+            $sunsetSaSo = date('H:i:s', strtotime($sunsetA) + $OffSetSS_SaSo*60);   
 
             $sunriseSaSo_H = date("H", strtotime($sunriseSaSo)); 
             $sunriseSaSo_M = date("i", strtotime($sunriseSaSo)); 
