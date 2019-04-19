@@ -263,7 +263,7 @@ class MyRolloShutter extends IPSModule
             $sunsetSaSo = date(' H:i', $sunset);  
             
             $sunriseSaSo_H = date("H", $sunriseSaSo); 
-            $sunriseMoFr_M = date("i", $sunriseSaSo); 
+            $sunriseSaSo_M = date("i", $sunriseSaSo); 
             IPS_SetEventCyclicTimeFrom($SunRiseSaSoEventID, $sunriseSaSo_H, $sunriseSaSo_M, 0);
             $sunSetSaSo_H = date("H", $sunsetSaSo); 
             $sunSetSaSo_M = date("i", $sunsetSaSo);
@@ -275,7 +275,7 @@ class MyRolloShutter extends IPSModule
         
   
         $state = $this->ReadPropertyBoolean('aktiv');
-        if ($Sstate){
+        if ($state){
             IPS_SetEventActive($SunRiseMoFrEventID, true);             //Ereignis  aktivieren
             IPS_SetEventActive($SunSetMoFrEventID, true);             //Ereignis  aktivieren 
             IPS_SetEventActive($SunRiseSaSoEventID, true);             //Ereignis  aktivieren
