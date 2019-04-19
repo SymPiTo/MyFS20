@@ -136,7 +136,7 @@ class MyRolloShutter extends IPSModule
         //Aktionen erstellen mit  ($EventID, $ActionID, $Name, $Color, $Script)
 	$this->RegisterScheduleAction($this->GetIDForIdent("SwitchTimeEvent".$this->InstanceID), 0, "Up", 0x40FF00, "FSS_SetRolloUp(\$_IPS['TARGET']);");
 	$this->RegisterScheduleAction($this->GetIDForIdent("SwitchTimeEvent".$this->InstanceID), 1, "Down", 0xFF0040, "FSS_SetRolloDown(\$_IPS['TARGET']);");
-    
+            ips_sleep(2000);
         //Ändern von Schaltpunkten für Gruppe mit ID = 0 (Mo-Fr) ID = 1 (Sa-So)
         $eid = $this->GetIDForIdent("SwitchTimeEvent".$this->InstanceID);
         IPS_SetEventScheduleGroupPoint($eid, 0, 0, 7, 0, 0, 0); //Um 7:00 Aktion mit ID 0 (Up) aufrufen
