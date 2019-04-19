@@ -212,25 +212,25 @@ class MyRolloShutter extends IPSModule
             case "FSSC_Position":
                 //Hier würde normalerweise eine Aktion z.B. das Schalten ausgeführt werden
                 //Ausgaben über 'echo' werden an die Visualisierung zurückgeleitet
-                //$this->setRollo($Value);
+                $this->setRollo($Value);
 
                 //Neuen Wert in die Statusvariable schreiben
-                //SetValue($this->GetIDForIdent($Ident), $Value);
+                SetValue($this->GetIDForIdent($Ident), $Value);
                 break;
             case "UpDown":
                 //SetValue($this->GetIDForIdent($Ident), $Value);
                 if(getvalue($this->GetIDForIdent($Ident))){
-                    //$this->SetRolloDown();  
+                    $this->SetRolloDown();  
                 }
                 else{
-                   // $this->SetRolloUp();
+                   $this->SetRolloUp();
                 }
                 break;
              case "Mode":
-               // $this->SetMode($Value);  
+               $this->SetMode($Value);  
                 break;
              case "SS":
-               // $this->SetSunSet($Value);  
+               $this->SetSunSet($Value);  
                 break;
             default:
                 throw new Exception("Invalid Ident");
