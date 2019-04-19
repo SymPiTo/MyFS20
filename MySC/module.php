@@ -235,10 +235,13 @@ class MyRolloShutter extends IPSModule
             if(!empty($EreignisInfo['ScheduleGroups'][0]['Points'])){
                 //$this->GetWochenplanAction(); 
                 $this->SendDebug("Schaltpunnkte", $EreignisInfo, 0);  
+                
             }
             else {
                 //keine Schaltpunkte vorhanden
-                $this->SendDebug("Schaltpunnkte", "leer", 0);  
+                //$this->SendDebug("Schaltpunnkte", "leer", 0);  
+                $this->SetStatus(207);
+                
                 $eid = $this->GetIDForIdent("SwitchTimeEvent".$this->InstanceID);
         
                 IPS_SetEventScheduleGroupPoint($eid, 0, 0, 7, 0, 0, 0); //Um 7:00 Aktion mit ID 0 (Up) aufrufen 
@@ -246,6 +249,8 @@ class MyRolloShutter extends IPSModule
                 IPS_SetEventScheduleGroupPoint($eid, 1, 0, 8, 0, 0, 0); //Um 8:00 Aktion mit ID 0 (Up) aufrufen
                 IPS_SetEventScheduleGroupPoint($eid, 1, 1, 22, 20, 0, 1); //Um 22:30 Aktion mit ID 1 (Down) aufrufen
                 IPS_SetEventActive($eid, true);             //Ereignis  aktivieren
+               
+                 
             }
             
         } 
@@ -325,9 +330,9 @@ class MyRolloShutter extends IPSModule
     public function MessageSink($TimeStamp, $SenderID, $Message, $Data) {
 
            // IPS_LogMessage("MessageSink", "Message from SenderID ".$SenderID." with Message ".$Message."\r\n Data: ".print_r($Data, true));
-                    $eid = $this->GetIDForIdent("SwitchTimeEvent".$this->InstanceID);
+                    
         if($Message = KR_READY){
-            IPS_SetEventScheduleGroupPoint($eid, 0, 0, 7, 0, 0); //Um 7:00 Aktion mit ID 0 (Up) aufrufen
+           
         }
             
     }
