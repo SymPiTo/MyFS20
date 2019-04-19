@@ -23,6 +23,7 @@ class MyRolloShutter extends IPSModule
     _______________________________________________________________________ 
      */
             
+    
     /* ------------------------------------------------------------ 
     Function: Create  
     Create() wird einmalig beim Erstellen einer neuen Instanz und 
