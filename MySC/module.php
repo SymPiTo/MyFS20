@@ -163,10 +163,11 @@ class MyRolloShutter extends IPSModule
          
         //Ändern von Schaltpunkten für Gruppe mit ID = 0 (Mo-Fr) ID = 1 (Sa-So)
         $eid = $this->GetIDForIdent("SwitchTimeEvent".$this->InstanceID);
-            
-
-
-
+        IPS_SetEventScheduleGroupPoint($eid, 0, 0, 7, 0, 0, 0); //Um 7:00 Aktion mit ID 0 (Up) aufrufen
+        IPS_SetEventScheduleGroupPoint($eid, 0, 1, 10, 30, 0, 1); //Um 22:30 Aktion mit ID 1 (Down) aufrufen
+        IPS_SetEventScheduleGroupPoint($eid, 1, 0, 8, 0, 0, 0); //Um 8:00 Aktion mit ID 0 (Up) aufrufen
+        IPS_SetEventScheduleGroupPoint($eid, 1, 1, 10, 00, 0, 1); //Um 22:30 Aktion mit ID 1 (Down) aufrufen
+        IPS_SetEventActive($eid, true);             //Ereignis  aktivieren
 
 
         
