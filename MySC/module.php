@@ -674,6 +674,7 @@ class MyRolloShutter extends IPSModule
         setvalue($this->GetIDForIdent("SZ_SaSo"), $sunrise_H.":".$sunrise_M." - ".$sunset_H.":".$sunset_M);
     }    
         
+    
 
     
     /* ---------------------------------------------------------------------------
