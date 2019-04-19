@@ -169,7 +169,7 @@ class MyRolloShutter extends IPSModule
         $this->RegisterMessage($this->InstanceID, IPS_LOGMESSAGE);
 
         
-
+            
 
 
 
