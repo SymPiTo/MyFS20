@@ -145,7 +145,7 @@ class MyRolloShutter extends IPSModule
 	//Never delete this line!
         parent::ApplyChanges();
 
-            
+        $this->RegisterMessage(0, IPS_KERNELMESSAGE);    
         $this->RegisterMessage($this->InstanceID, IPS_LOGMESSAGE);
 
         
