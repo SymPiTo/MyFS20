@@ -210,10 +210,10 @@ class MyRolloShutter extends IPSModule
         
         $sunrise = getvalue($this->ReadPropertyInteger("SunRise_ID"));
         $sunset = getvalue($this->ReadPropertyInteger("SunSet_ID"));
-        $OffSetSR_MoFr = getvalue($this->GetIDForIdent("OffSetSR_MoFr"))." minutes" ;
-        $OffSetSS_MoFr = getvalue($this->GetIDForIdent("OffSetSS_MoFr"))." minutes" ;
-        $OffSetSR_SaSo = getvalue($this->GetIDForIdent("OffSetSR_SaSo"))." minutes";
-        $OffSetSS_SaSo = getvalue($this->GetIDForIdent("OffSetSS_SaSo"))." minutes";
+        $OffSetSR_MoFr = getvalue($this->GetIDForIdent("OffSetSR_MoFr")) ;
+        $OffSetSS_MoFr = getvalue($this->GetIDForIdent("OffSetSS_MoFr")) ;
+        $OffSetSR_SaSo = getvalue($this->GetIDForIdent("OffSetSR_SaSo"));
+        $OffSetSS_SaSo = getvalue($this->GetIDForIdent("OffSetSS_SaSo"));
         
         $sunriseA = date('H:i', $sunrise);
         $sunsetA = date('H:i', $sunset);
