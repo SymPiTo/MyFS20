@@ -211,6 +211,14 @@ class MyRolloShutter extends IPSModule
                 throw new Exception("Invalid Ident");
         }
     }
+    
+    
+    public function MessageSink($TimeStamp, $SenderID, $Message, $Data) {
+
+            IPS_LogMessage("MessageSink", "Message from SenderID ".$SenderID." with Message ".$Message."\r\n Data: ".print_r($Data, true));
+    }
+
+    
     /*  ----------------------------------------------------------------------------------------------------------------- 
      Section: Public Funtions
      Die folgenden Funktionen stehen automatisch zur Verfügung, wenn das Modul über die "Module Control" eingefügt wurden.
