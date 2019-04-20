@@ -371,14 +371,27 @@ class MyRolloShutter extends IPSModule
         none
     //////////////////////////////////////////////////////////////////////////////*/
     public function SetRolloUp() {
-       //$this->SendDebug( "SetRolloUp", "Fahre Rolladen hoch", 0); 
-       $Tup = $this->ReadPropertyFloat('Time_UO'); 
-       FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), true, $Tup); 
-       Setvalue($this->GetIDForIdent("UpDown"),false);
-       SetValue($this->GetIDForIdent("FSSC_Timer"),time());
-       $this->SetTimerInterval("LaufzeitTimer", 35000);
-       $this->updateSwitchTimes();
+       //prüfen ob über ein Event gesteuert wird
+       //$_IPS['EVENT']
+        if ($_IPS["SENDER"] === "TimerEvent")
+        {
+            //falls Man - Mode dann  function ausführen
+            $mode = getvalue($this->GetIDForIdent("Mode"));
+            if (false) {
+                // keine Aktin nur Handbetrieb
+            }
+        }
+        else {
+            //$this->SendDebug( "SetRolloUp", "Fahre Rolladen hoch", 0); 
+            $Tup = $this->ReadPropertyFloat('Time_UO'); 
+            FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), true, $Tup); 
+            Setvalue($this->GetIDForIdent("UpDown"),false);
+            SetValue($this->GetIDForIdent("FSSC_Timer"),time());
+            $this->SetTimerInterval("LaufzeitTimer", 35000);
+            $this->updateSwitchTimes();    
+        }
     }   
+    
     //*****************************************************************************
     /* Function: SetRolloDown
     ...............................................................................
@@ -391,13 +404,25 @@ class MyRolloShutter extends IPSModule
         none
     //////////////////////////////////////////////////////////////////////////////*/
      public function SetRolloDown() {
-       //$this->SendDebug( "SetRolloDown", "Fahre Rolladen runter", 0); 
-       $Tdown = $this->ReadPropertyFloat('Time_OU'); 
-       FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), false, $Tdown); 
-       Setvalue($this->GetIDForIdent("UpDown"),true); 
-       SetValue($this->GetIDForIdent("FSSC_Timer"),time());
-       $this->SetTimerInterval("LaufzeitTimer", 35000);
-       $this->updateSwitchTimes();
+       //prüfen ob über ein Event gesteuert wird
+       //$_IPS['EVENT']
+        if ($_IPS["SENDER"] === "TimerEvent")
+        {
+            //falls Man - Mode dann  function ausführen
+            $mode = getvalue($this->GetIDForIdent("Mode"));
+            if (false) {
+                // keine Aktin nur Handbetrieb
+            }
+        }
+        else {
+            //$this->SendDebug( "SetRolloDown", "Fahre Rolladen runter", 0); 
+            $Tdown = $this->ReadPropertyFloat('Time_OU'); 
+            FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), false, $Tdown); 
+            Setvalue($this->GetIDForIdent("UpDown"),true); 
+            SetValue($this->GetIDForIdent("FSSC_Timer"),time());
+            $this->SetTimerInterval("LaufzeitTimer", 35000);
+            $this->updateSwitchTimes();
+        }
     }   
     //*****************************************************************************
     /* Function: StepRolloStop
@@ -495,9 +520,9 @@ class MyRolloShutter extends IPSModule
     }
 
  
-            
-     
     
+            
+         
     
     
    /* _______________________________________________________________________
