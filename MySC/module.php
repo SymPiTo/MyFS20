@@ -206,36 +206,23 @@ class MyRolloShutter extends IPSModule
         parent::ApplyChanges();
         
         $this->RegisterMessage(0, IPS_KERNELMESSAGE);    
-       // $this->RegisterMessage($this->InstanceID, IPS_LOGMESSAGE);
+        $this->RegisterMessage($this->InstanceID, KL_MESSAGE);
         
         $this->updateSwitchTimes();
         
-        $SunRiseMoFrEventID = $this->GetIDForIdent("SunRiseEventMoFr".$this->InstanceID);
-        $SunSetMoFrEventID = $this->GetIDForIdent("SunSetEventMoFr".$this->InstanceID);        
-        $SunRiseSaSoEventID = $this->GetIDForIdent("SunRiseEventSaSo".$this->InstanceID);
-        $SunSetSaSoEventID = $this->GetIDForIdent("SunSetEventSaSo".$this->InstanceID);  
+ 
         
         $state = $this->ReadPropertyBoolean('aktiv');
         if ($state){
-            IPS_SetEventActive($SunRiseMoFrEventID, true);             //Ereignis  aktivieren
-            IPS_SetEventActive($SunSetMoFrEventID, true);             //Ereignis  aktivieren 
-            IPS_SetEventActive($SunRiseSaSoEventID, true);             //Ereignis  aktivieren
-            IPS_SetEventActive($SunSetSaSoEventID, true);             //Ereignis  aktivieren 
+            $this->switchEvent(true);
         }    
         else {
-            IPS_SetEventActive($SunRiseMoFrEventID, false);             //Ereignis  aktivieren
-            IPS_SetEventActive($SunSetMoFrEventID, false);             //Ereignis  aktivieren 
-            IPS_SetEventActive($SunRiseSaSoEventID, false);             //Ereignis  aktivieren
-            IPS_SetEventActive($SunSetSaSoEventID, false);             //Ereignis  aktivieren  
+            $this->switchEvent(fasle);
         }
-        
-
     }
     
    
-    
-    
-    
+
    /* ------------------------------------------------------------ 
       Function: RequestAction  
       RequestAction() Wird ausgeführt, wenn auf der Webfront eine Variable
@@ -282,10 +269,10 @@ class MyRolloShutter extends IPSModule
     
     public function MessageSink($TimeStamp, $SenderID, $Message, $Data) {
 
-           // IPS_LogMessage("MessageSink", "Message from SenderID ".$SenderID." with Message ".$Message."\r\n Data: ".print_r($Data, true));
+          
                     
-        if($Message = 201){
-           
+        if($Message = KL_MESSAGE){
+            IPS_LogMessage("MessageSink", "Message from SenderID ".$SenderID." with Message ".$Message."\r\n Data: ".print_r($Data, true));
         }
             
     }
@@ -350,15 +337,47 @@ class MyRolloShutter extends IPSModule
         none
     //////////////////////////////////////////////////////////////////////////////*/
     public function SetMode(bool $mode) {
-        $eid = $this->GetIDForIdent("SwitchTimeEvent".$this->InstanceID);
         if ($mode) {
-           IPS_SetEventActive($eid, true); 
+           $this->switchEvent(true);
         } 
         else {
-           IPS_SetEventActive($eid, false); 
+           $this->switchEvent(false);
         }
        SetValue($this->GetIDForIdent("Mode"), $mode);
     } 
+    //*****************************************************************************
+    /* Function: switchEvent
+    ...............................................................................
+     
+     *  aktiviert die Events
+     *  deaktiviert die Events
+      ...............................................................................
+    Parameters: 
+        none
+    --------------------------------------------------------------------------------
+    Returns:    
+        none
+    //////////////////////////////////////////////////////////////////////////////*/
+    public function switchEvent(bool $state) {
+        $SunRiseMoFrEventID = $this->GetIDForIdent("SunRiseEventMoFr".$this->InstanceID);
+        $SunSetMoFrEventID = $this->GetIDForIdent("SunSetEventMoFr".$this->InstanceID);        
+        $SunRiseSaSoEventID = $this->GetIDForIdent("SunRiseEventSaSo".$this->InstanceID);
+        $SunSetSaSoEventID = $this->GetIDForIdent("SunSetEventSaSo".$this->InstanceID);  
+        if ($state) {        
+            IPS_SetEventActive($SunRiseMoFrEventID, true);             //Ereignis  aktivieren
+            IPS_SetEventActive($SunSetMoFrEventID, true);             //Ereignis  aktivieren 
+            IPS_SetEventActive($SunRiseSaSoEventID, true);             //Ereignis  aktivieren
+            IPS_SetEventActive($SunSetSaSoEventID, true);             //Ereignis  aktivieren 
+        } 
+        else {            
+            IPS_SetEventActive($SunRiseMoFrEventID, false);             //Ereignis  aktivieren
+            IPS_SetEventActive($SunSetMoFrEventID, false);             //Ereignis  aktivieren 
+            IPS_SetEventActive($SunRiseSaSoEventID, false);             //Ereignis  aktivieren
+            IPS_SetEventActive($SunSetSaSoEventID, false);             //Ereignis  aktivieren  
+        }
+    } 
+    
+    
     //*****************************************************************************
     /* Function: SetRolloUp
     ...............................................................................
