@@ -105,7 +105,7 @@ class MyRolloShutter extends IPSModule
         // Aufruf dieser Variable mit "$this->GetIDForIdent("IDENTNAME")"
         $this->RegisterVariableBoolean("UpDown", "Rollo Up/Down");
         $this->RegisterVariableBoolean("Mode", "Mode");
-        $this->RegisterVariableBoolean("SS", "SunSet-Rise");
+        
         
         //String Variable anlegen
         //RegisterVariableString (  $Ident,  $Name, $Profil, $Position )
