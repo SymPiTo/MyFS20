@@ -135,7 +135,7 @@ class MyRolloShutter extends IPSModule
             
         
         //anlegen eines Timers
-        $this->RegisterTimer("LaufzeitTimer", 0, "FSSC_reset(\$_IPS['TARGET']);");
+        $this->RegisterTimer("LaufzeitTimer", 0, "FSS_reset(\$_IPS['TARGET']);");
 
 
      
