@@ -65,6 +65,7 @@ class MyRolloShutter extends IPSModule
         $this->RegisterPropertyFloat("Time_OM", 0.5);
         $this->RegisterPropertyBoolean("OffSetMoFr", false);
         $this->RegisterPropertyBoolean("OffSetSaSo", false);
+        $this->RegisterPropertyInteger("Door_ID", 0);
         
          //Profile anlegen falls noch nicht vorhanden.
         $assocA[0] = "Manual";
@@ -301,10 +302,18 @@ class MyRolloShutter extends IPSModule
         none
     ------------------------------------------------------------------------------  */
     public function StepRolloDown(){
-        FS20_DimDown($this->ReadPropertyInteger("FS20RSU_ID"));
-        $aktpos = getvalue($this->GetIDForIdent("FSSC_Position")) + 6; 
-        if($aktpos > 100){$aktpos = 100;}
-        setvalue($this->GetIDForIdent("FSSC_Position"), $aktpos ); //Stellung um 5% verändern        
+        if ($this->ReadPropertyInteger("Door_ID")>0){
+            if(getvalue($this->GetIDForIdent("Door_ID")) === true){
+                // keine Ation asuführen, da Tür auf ist
+            }
+        }
+        else {
+            FS20_DimDown($this->ReadPropertyInteger("FS20RSU_ID"));
+            $aktpos = getvalue($this->GetIDForIdent("FSSC_Position")) + 6; 
+            if($aktpos > 100){$aktpos = 100;}
+            setvalue($this->GetIDForIdent("FSSC_Position"), $aktpos ); //Stellung um 5% verändern     
+        }
+     
     }   
     //*****************************************************************************
     /* Function: StepRolloUp

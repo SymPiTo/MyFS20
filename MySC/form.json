@@ -12,6 +12,11 @@
 				"caption": "FS20_RSU Objekt selektieren."
 			},
 			{
+				"name": "Door_ID",
+				"type": "SelectObject",
+				"caption": "Tür Kontakt Objekt selektieren."
+			},
+			{
 				"name": "SunSet_ID",
 				"type": "SelectObject",
 				"caption": "SunSet Objekt selektieren."
