@@ -206,7 +206,7 @@ class MyRolloShutter extends IPSModule
         parent::ApplyChanges();
         
         $this->RegisterMessage(0, IPS_KERNELMESSAGE);    
-        $this->RegisterMessage($this->InstanceID, IPS_LOGMESSAGE);
+       // $this->RegisterMessage($this->InstanceID, IPS_LOGMESSAGE);
         
         $this->updateSwitchTimes();
         
