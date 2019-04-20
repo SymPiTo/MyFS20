@@ -284,7 +284,7 @@ class MyRolloShutter extends IPSModule
 
            // IPS_LogMessage("MessageSink", "Message from SenderID ".$SenderID." with Message ".$Message."\r\n Data: ".print_r($Data, true));
                     
-        if($Message = KR_READY){
+        if($Message = 201){
            
         }
             
