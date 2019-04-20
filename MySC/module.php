@@ -609,8 +609,8 @@ class MyRolloShutter extends IPSModule
         $SunSetSaSoEventID = $this->GetIDForIdent("SunSetEventSaSo".$this->InstanceID);       
         
         if($this->ReadPropertyBoolean("OffSetMoFr")){
-            $sunriseMoFr = date('H:i:s', strtotime($sunriseA) + $OffSetSR_MoFr *60);  
-            $sunsetMoFr = date('H:i:s',  strtotime($sunsetA) + $OffSetSS_MoFr *60);   
+            $sunriseMoFr = date('H:i', strtotime($sunriseA) + $OffSetSR_MoFr *60);  
+            $sunsetMoFr = date('H:i',  strtotime($sunsetA) + $OffSetSS_MoFr *60);   
 
             $sunriseMoFr_H = date("H", strtotime($sunriseMoFr)); 
             $sunriseMoFr_M = date("i", strtotime($sunriseMoFr)); 
@@ -634,8 +634,8 @@ class MyRolloShutter extends IPSModule
         }
         
         if($this->ReadPropertyBoolean("OffSetSaSo")){
-            $sunriseSaSo = date('H:i:s', strtotime($sunriseA) +  $OffSetSR_SaSo*60);  
-            $sunsetSaSo = date('H:i:s', strtotime($sunsetA) + $OffSetSS_SaSo*60);   
+            $sunriseSaSo = date('H:i', strtotime($sunriseA) +  $OffSetSR_SaSo*60);  
+            $sunsetSaSo = date('H:i', strtotime($sunsetA) + $OffSetSS_SaSo*60);   
 
             $sunriseSaSo_H = date("H", strtotime($sunriseSaSo)); 
             $sunriseSaSo_M = date("i", strtotime($sunriseSaSo)); 
