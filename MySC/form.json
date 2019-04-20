@@ -127,9 +127,9 @@
 	"status" : 
         [
             { 
-                "code": 207, 
+                "code": 201, 
                 "icon": "error", 
-                "caption": "Schaltpunkte sind Manuell anzulegen!" 
+                "caption": "Instance gibt es schon." 
             } 
 	]
         
