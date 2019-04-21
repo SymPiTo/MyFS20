@@ -51,7 +51,7 @@ class MyRolloShutter extends IPSModule
 	//Never delete this line!
         parent::Create();
 
-       $this->RegisterProperties();
+       $this->RegisterPropertyBoolean("aktiv", false);
 
     }
     
@@ -77,35 +77,5 @@ class MyRolloShutter extends IPSModule
     }
     
  
-    /* ----------------------------------------------------------------------------
-     Function: RegisterProperties()
-    ...............................................................................
-        Variable aus dem Instanz Formular registrieren (zugänglich zu machen)
-        Aufruf dieser Form Variable mit $Tup = $this->ReadPropertyFloat('IDENTNAME');
-    ...............................................................................
-    Parameters: 
-        none
-    ..............................................................................
-    Returns:   
-        $ipsversion
-    ------------------------------------------------------------------------------- */
-    protected function RegisterProperties(){
-        $this->RegisterPropertyBoolean("aktiv", false);
-        
-        /*
-         $this->RegisterPropertyInteger("FS20RSU_ID", 0);
-         
-        $this->RegisterPropertyInteger ("SunSet_ID", 57942);
-        $this->RegisterPropertyInteger ("SunRise_ID", 11938);
-        $this->RegisterPropertyFloat("Time_UO", 0.5);
-        $this->RegisterPropertyFloat("Time_OU", 0.5);
-        $this->RegisterPropertyFloat("Time_UM", 0.5);
-        $this->RegisterPropertyFloat("Time_OM", 0.5);
-        $this->RegisterPropertyInteger("Door_ID", 0);
-        $this->RegisterPropertyBoolean("SunSet", true);
-       
-     */
-
-    
-    }
+ 
 }
