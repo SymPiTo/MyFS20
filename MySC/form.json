@@ -1,7 +1,11 @@
 {
 	"elements":
 	[
-
+                        {
+                                "name" : "aktiv",
+                                "type" :  "CheckBox",
+                                "caption" : "aktiv"
+                        }
         ],
         
 	"status" : 
