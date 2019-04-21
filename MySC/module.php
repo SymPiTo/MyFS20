@@ -136,13 +136,14 @@ class MyRolloShutter extends IPSModule
        // $this->RegisterMessage(0, IPS_KERNELMESSAGE);    
        // $this->RegisterMessage($this->InstanceID, KL_MESSAGE);
         
-         $this->updateSwitchTimes();
-        
+         
             
         
         $state = $this->ReadPropertyBoolean('aktiv');
         if ($state){
             $this->switchEvent(true);
+            $this->updateSwitchTimes();
+        
         }    
         else {
             $this->switchEvent(false);
