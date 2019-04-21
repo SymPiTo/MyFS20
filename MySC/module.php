@@ -559,7 +559,7 @@ class MyRolloShutter extends IPSModule
     Returns:    
         none
     ------------------------------------------------------------------------------ */
-    private function updateSwitchTimes(){
+    protected function updateSwitchTimes(){
         $sunrise = getvalue($this->ReadPropertyInteger("SunRise_ID"));
         $sunset = getvalue($this->ReadPropertyInteger("SunSet_ID"));
         $OffSetSR_MoFr = getvalue($this->GetIDForIdent("OffSetSR_MoFr")) ;
@@ -626,7 +626,7 @@ class MyRolloShutter extends IPSModule
     Returns:    
         none
     -------------------------------------------------------------------------------- */
-    private function RegisterEvent($Name, $Ident, $Typ, $Parent, $Position)
+    protected function RegisterEvent($Name, $Ident, $Typ, $Parent, $Position)
     {
             $EventID = @$this->GetIDForIdent($Ident);
             if($EventID === false) {
@@ -664,7 +664,7 @@ class MyRolloShutter extends IPSModule
     Returns:    
         none
     //////////////////////////////////////////////////////////////////////////////*/
-    private function RegisterScheduleAction($EventID, $ActionID, $Name, $Color, $Script)
+    protected function RegisterScheduleAction($EventID, $ActionID, $Name, $Color, $Script)
     {
             IPS_SetEventScheduleAction($EventID, $ActionID, $Name, $Color, $Script);
     }
@@ -728,7 +728,7 @@ class MyRolloShutter extends IPSModule
     Returns:   
         $ipsversion
     ------------------------------------------------------------------------------- */
-    private function GetIPSVersion()
+    protected function GetIPSVersion()
     {
             $ipsversion = floatval(IPS_GetKernelVersion());
             if ($ipsversion < 4.1) // 4.0
@@ -767,7 +767,7 @@ class MyRolloShutter extends IPSModule
     Returns:   
         $ipsversion
     ------------------------------------------------------------------------------- */
-    private function RegisterProperties(){
+    protected function RegisterProperties(){
         $this->RegisterPropertyBoolean("aktiv", false);
         $this->RegisterPropertyInteger("FS20RSU_ID", 0);
         $this->RegisterPropertyInteger ("SunSet_ID", 57942);
@@ -792,7 +792,7 @@ class MyRolloShutter extends IPSModule
     Returns:   
         $ipsversion
     ------------------------------------------------------------------------------- */
-    private function RegisterProfiles(){
+    protected function RegisterProfiles(){
             
         $Assoc[0]['value'] = "Manual";
         $Assoc[1]['value'] = "Automatic";
