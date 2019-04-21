@@ -143,7 +143,7 @@ class MyRolloShutter extends IPSModule
         else{
             $this->SetStatus(102);
         }
-        setvalue($this->GetIDForIdent(SS), $this->ReadPropertyBoolean('SunSet'));
+        setvalue($this->GetIDForIdent("SS"), $this->ReadPropertyBoolean('SunSet'));
         
         $state = $this->ReadPropertyBoolean('aktiv');
         if ($state){
