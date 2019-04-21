@@ -140,6 +140,9 @@ class MyRolloShutter extends IPSModule
         if($this->ReadPropertyInteger("FS20RSU_ID") === 0){
             $this->SetStatus(204);
         } 
+        else{
+            $this->SetStatus(102);
+        }
         
         $state = $this->ReadPropertyBoolean('aktiv');
         if ($state){
