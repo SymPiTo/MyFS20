@@ -92,16 +92,16 @@ class MyRolloShutter extends IPSModule
         $ipsversion
     ------------------------------------------------------------------------------- */
     protected function RegisterProperties(){
-        $this->RegisterPropertyBoolean("aktiv", false);
-        $this->RegisterPropertyInteger("FS20RSU_ID", 0);
-        $this->RegisterPropertyInteger ("SunSet_ID", 57942);
-        $this->RegisterPropertyInteger ("SunRise_ID", 11938);
-        $this->RegisterPropertyFloat("Time_UO", 0.5);
-        $this->RegisterPropertyFloat("Time_OU", 0.5);
-        $this->RegisterPropertyFloat("Time_UM", 0.5);
-        $this->RegisterPropertyFloat("Time_OM", 0.5);
-        $this->RegisterPropertyInteger("Door_ID", 0);
-        $this->RegisterPropertyBoolean("SunSet", true);
+        RegisterPropertyBoolean("aktiv", false);
+        RegisterPropertyInteger("FS20RSU_ID", 0);
+        RegisterPropertyInteger ("SunSet_ID", 57942);
+        RegisterPropertyInteger ("SunRise_ID", 11938);
+        RegisterPropertyFloat("Time_UO", 0.5);
+        RegisterPropertyFloat("Time_OU", 0.5);
+        RegisterPropertyFloat("Time_UM", 0.5);
+        RegisterPropertyFloat("Time_OM", 0.5);
+        RegisterPropertyInteger("Door_ID", 0);
+        RegisterPropertyBoolean("SunSet", true);
     }
     
     /* ----------------------------------------------------------------------------
