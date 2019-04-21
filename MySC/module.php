@@ -111,7 +111,7 @@ class MyRolloShutter extends IPSModule
 
         
     	// Anlegen des cyclic events Down mit ($Name, $Ident, $Typ, $Parent, $Position)
-	$this->RegisterEvent("Down", "Down".$this->InstanceID, 1, $this->InstanceID, 21); 
+	$Down_EventID = $this->RegisterEvent("Down", "Down".$this->InstanceID, 1, $this->InstanceID, 21); 
             
 
     }
