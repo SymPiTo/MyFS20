@@ -78,10 +78,6 @@
 			},
 			{
 				"type" : "Label",
-				"label" : "Offest Sa-So aktivieren."
-			},
-			{
-				"type" : "Label",
 				"label" : "Offest Mo-Fr aktivieren."
 			},
 			{ 

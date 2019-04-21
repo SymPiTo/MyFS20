@@ -92,84 +92,21 @@ class MyRolloShutter extends IPSModule
         $ipsversion
     ------------------------------------------------------------------------------- */
     protected function RegisterProperties(){
-        RegisterPropertyBoolean("aktiv", false);
-        RegisterPropertyInteger("FS20RSU_ID", 0);
-        RegisterPropertyInteger ("SunSet_ID", 57942);
-        RegisterPropertyInteger ("SunRise_ID", 11938);
-        RegisterPropertyFloat("Time_UO", 0.5);
-        RegisterPropertyFloat("Time_OU", 0.5);
-        RegisterPropertyFloat("Time_UM", 0.5);
-        RegisterPropertyFloat("Time_OM", 0.5);
-        RegisterPropertyInteger("Door_ID", 0);
-        RegisterPropertyBoolean("SunSet", true);
+        $this->RegisterPropertyBoolean("aktiv", false);
+        $this->RegisterPropertyInteger("FS20RSU_ID", 0);
+        $this->RegisterPropertyInteger ("SunSet_ID", 57942);
+        $this->RegisterPropertyInteger ("SunRise_ID", 11938);
+        $this->RegisterPropertyFloat("Time_UO", 0.5);
+        $this->RegisterPropertyFloat("Time_OU", 0.5);
+        $this->RegisterPropertyFloat("Time_UM", 0.5);
+        $this->RegisterPropertyFloat("Time_OM", 0.5);
+        $this->RegisterPropertyInteger("Door_ID", 0);
+        $this->RegisterPropertyBoolean("SunSet", true);
+        $this->RegisterPropertyBoolean("OffSetMoFr", true);
+        $this->RegisterPropertyBoolean("OffSetSaSo", true);
     }
     
-    /* ----------------------------------------------------------------------------
-     Function: Registerrofiles()
-    ...............................................................................
-        Profile fürVaiable anlegen falls nicht schon vorhanden
-    ...............................................................................
-    Parameters: 
-        $Vartype => 0 boolean, 1 int, 2 float, 3 string
-    ..............................................................................
-    Returns:   
-        $ipsversion
-    ------------------------------------------------------------------------------- */
-    protected function RegisterProfiles(){
-            
-        $Assoc[0]['value'] = "Manual";
-        $Assoc[1]['value'] = "Automatic";
-        $Name = "Rollo.Mode";
-        $Vartype = 0;
-        $Icon = NULL;
-        $Prefix = NULL;
-        $Suffix = NULL;
-        $MinValue = NULL;
-        $MaxValue = NULL;
-        $StepSize = NULL;
-        $Digits = NULL;
-        $this->createProfile($Name, $Vartype,  $Assoc, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize, $Digits);
-                
-        $Assoc[0] = "Up";
-        $Assoc[1] = "Up";
-        $Name = "Rollo.UpDown";
-        $Vartype = 0;
-        $Icon = NULL;
-        $Prefix = NULL;
-        $Suffix = NULL;
-        $MinValue = NULL;
-        $MaxValue = NULL;
-        $StepSize = NULL;
-        $Digits = NULL;
-        $this->createProfile($Name, $Vartype,  $Assoc, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize, $Digits);            
-            
-        $Assoc[0] = "off";
-        $Assoc[1] = "on";
-        $Name = "Rollo.SunSet";
-        $Vartype = 0;
-        $Icon = NULL;
-        $Prefix = NULL;
-        $Suffix = NULL;
-        $MinValue = NULL;
-        $MaxValue = NULL;
-        $StepSize = NULL;
-        $Digits = NULL;
-        $this->createProfile($Name, $Vartype,  $Assoc, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize, $Digits);       
-            
-        $Assoc = NULL;
-        $Name = "Rollo.Position";
-        $Vartype = 1;
-        $Icon = 'Jalousie';
-        $Prefix = NULL;
-        $Suffix = ' %';
-        $MinValue = 0;
-        $MaxValue = 100;
-        $StepSize = 1;
-        $Digits = 0;
-        $this->createProfile($Name, $Vartype,  $Assoc, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize, $Digits);  
-            
-                   
-    }
+ 
     
     
 
