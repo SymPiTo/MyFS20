@@ -55,7 +55,7 @@ class MyRolloShutter extends IPSModule
         //You cannot use variables here. Just static values.}
         
         $this->RegisterProperties();
-        $this->RegisterProfiles();
+        //$this->RegisterProfiles();
         
 
         //Integer Variable anlegen
@@ -137,7 +137,7 @@ class MyRolloShutter extends IPSModule
         $this->RegisterMessage(0, IPS_KERNELMESSAGE);    
         $this->RegisterMessage($this->InstanceID, KL_MESSAGE);
         
-        $this->updateSwitchTimes();
+        //$this->updateSwitchTimes();
         
  
         
