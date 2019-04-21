@@ -636,7 +636,7 @@ class MyRolloShutter extends IPSModule
                     $EventID = 0;
             }
             //we need to create one
-            if ($eid == 0) {
+            if ($EventID == 0) {
                     $EventID = IPS_CreateEvent($Typ);
                     IPS_SetParent($EventID, $Parent);
                     IPS_SetIdent($EventID, $Ident);
