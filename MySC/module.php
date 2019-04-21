@@ -103,7 +103,7 @@ class MyRolloShutter extends IPSModule
         //anlegen eines Timers
         $this->RegisterTimer("LaufzeitTimer", 0, "FSS_reset(\$_IPS['TARGET']);");
 
-
+/*
         
     	// Anlegen des cyclic events Up mit ($Name, $Ident, $Typ, $Parent, $Position).
 	$Up_EventID = $this->RegisterEvent("Up", "Up".$this->InstanceID, 1, $this->InstanceID, 21); 
@@ -112,7 +112,7 @@ class MyRolloShutter extends IPSModule
         
     	// Anlegen des cyclic events Down mit ($Name, $Ident, $Typ, $Parent, $Position)
 	$Down_EventID = $this->RegisterEvent("Down", "Down".$this->InstanceID, 1, $this->InstanceID, 21); 
-            
+    */        
 
     }
     
@@ -134,12 +134,12 @@ class MyRolloShutter extends IPSModule
 	//Never delete this line!
         parent::ApplyChanges();
         
-        $this->RegisterMessage(0, IPS_KERNELMESSAGE);    
-        $this->RegisterMessage($this->InstanceID, KL_MESSAGE);
+       // $this->RegisterMessage(0, IPS_KERNELMESSAGE);    
+       // $this->RegisterMessage($this->InstanceID, KL_MESSAGE);
         
         //$this->updateSwitchTimes();
         
- 
+ /*
         
         $state = $this->ReadPropertyBoolean('aktiv');
         if ($state){
@@ -148,6 +148,8 @@ class MyRolloShutter extends IPSModule
         else {
             $this->switchEvent(false);
         }
+  * 
+  */
     }
     
    
