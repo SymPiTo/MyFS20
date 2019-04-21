@@ -686,7 +686,7 @@ class MyRolloShutter extends IPSModule
     Returns:   
         none
     ------------------------------------------------------------------------------- */
-    protected function creatProfile($Name, $Vartype,  $Assoc, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize, $Digits){
+    protected function createProfile($Name, $Vartype,  $Assoc, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize, $Digits){
             if (!IPS_VariableProfileExists($Name)) {
                 IPS_CreateVariableProfile($Name, $Vartype); // 0 boolean, 1 int, 2 float, 3 string,
                 if(!is_Null($Icon)){
@@ -805,7 +805,7 @@ class MyRolloShutter extends IPSModule
         $MaxValue = NULL;
         $StepSize = NULL;
         $Digits = NULL;
-        creatProfile($Name, $Vartype,  $Assoc, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize, $Digits);
+        $this->createProfile($Name, $Vartype,  $Assoc, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize, $Digits);
                 
         $Assoc[0] = "Up";
         $Assoc[1] = "Up";
@@ -818,7 +818,7 @@ class MyRolloShutter extends IPSModule
         $MaxValue = NULL;
         $StepSize = NULL;
         $Digits = NULL;
-        creatProfile($Name, $Vartype,  $Assoc, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize, $Digits);            
+        $this->createProfile($Name, $Vartype,  $Assoc, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize, $Digits);            
             
         $Assoc[0] = "off";
         $Assoc[1] = "on";
@@ -831,7 +831,7 @@ class MyRolloShutter extends IPSModule
         $MaxValue = NULL;
         $StepSize = NULL;
         $Digits = NULL;
-        creatProfile($Name, $Vartype,  $Assoc, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize, $Digits);       
+        $this->createProfile($Name, $Vartype,  $Assoc, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize, $Digits);       
             
         $Assoc = NULL;
         $Name = "Rollo.Position";
@@ -843,7 +843,7 @@ class MyRolloShutter extends IPSModule
         $MaxValue = 100;
         $StepSize = 1;
         $Digits = 0;
-        creatProfile($Name, $Vartype,  $Assoc, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize, $Digits);  
+        $this->createProfile($Name, $Vartype,  $Assoc, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize, $Digits);  
             
                    
     }
