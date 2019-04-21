@@ -60,22 +60,27 @@ class MyRolloShutter extends IPSModule
         //Integer Variable anlegen
         //integer RegisterVariableInteger ( string $Ident, string $Name, string $Profil, integer $Position )
         // Aufruf dieser Variable mit "$this->GetIDForIdent("IDENTNAME")"
-        $this->RegisterVariableInteger("FSSC_Position", "Position", "");
+        $variablenID = $this->RegisterVariableInteger("FSSC_Position", "Position", "");
+        IPS_SetInfo ($variablenID, "WSS");
         $this->RegisterVariableInteger("FSSC_Timer", "Timer", "");   
         IPS_SetHidden($this->GetIDForIdent("FSSC_Timer"), true); //Objekt verstecken
       
         //Boolean Variable anlegen
         //integer RegisterVariableBoolean ( string $Ident, string $Name, string $Profil, integer $Position )
         // Aufruf dieser Variable mit "$this->GetIDForIdent("IDENTNAME")"
-        $this->RegisterVariableBoolean("UpDown", "Rollo Up/Down");
-        $this->RegisterVariableBoolean("Mode", "Mode");
-        $this->RegisterVariableBoolean("SS", "SunSetactive");
-        
+        $variablenID = $this->RegisterVariableBoolean("UpDown", "Rollo Up/Down");
+        IPS_SetInfo ($variablenID, "WSS");
+        $variablenID = $this->RegisterVariableBoolean("Mode", "Mode");
+        IPS_SetInfo ($variablenID, "WSS");
+        $variablenID = $this->RegisterVariableBoolean("SS", "SunSetactive");
+        IPS_SetInfo ($variablenID, "WSS");
         //String Variable anlegen
         //RegisterVariableString (  $Ident,  $Name, $Profil, $Position )
         // Aufruf dieser Variable mit "$this->GetIDForIdent("IDENTNAME")"
-        $this->RegisterVariableString("SZ_MoFr", "SchaltZeiten Mo-Fr");
-        $this->RegisterVariableString("SZ_SaSo", "SchaltZeiten Sa-So");
+        $variablenID = $this->RegisterVariableString("SZ_MoFr", "SchaltZeiten Mo-Fr");
+        IPS_SetInfo ($variablenID, "WSS");
+        $variablenID = $this->RegisterVariableString("SZ_SaSo", "SchaltZeiten Sa-So");
+        IPS_SetInfo ($variablenID, "WSS");
         $this->RegisterVariableInteger("OffSetSR_MoFr", "OffSet SunRise Mo-Fr");
         $this->RegisterVariableInteger("OffSetSR_SaSo", "OffSet SunRise Sa-So");
         $this->RegisterVariableInteger("OffSetSS_MoFr", "OffSet SunSet Mo-Fr");
@@ -143,7 +148,7 @@ class MyRolloShutter extends IPSModule
         else{
             $this->SetStatus(102);
         }
-        setvalue($this->GetIDForIdent("SS"), $this->ReadPropertyBoolean('SunSet'));
+        setvalue($this->GetIDForIdent("SS" ), $this->ReadPropertyBoolean('SunSet'));
         
         $state = $this->ReadPropertyBoolean('aktiv');
         if ($state){
