@@ -68,6 +68,20 @@
 			},
 			{
 				"type" : "Label",
+				"label" : "Sunset aktivieren."
+			},
+			{ 
+				"name" : "SunSet",
+				"type" : "CheckBox",
+				"caption" : "SunSet aktivieren"
+    
+			},
+			{
+				"type" : "Label",
+				"label" : "Offest Sa-So aktivieren."
+			},
+			{
+				"type" : "Label",
 				"label" : "Offest Mo-Fr aktivieren."
 			},
 			{ 

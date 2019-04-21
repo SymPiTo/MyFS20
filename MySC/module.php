@@ -1,4 +1,5 @@
-<?php
+
+#<?php
 
  require_once(__DIR__ . "/../libs/NetworkTraits3.php");
 
@@ -53,46 +54,10 @@ class MyRolloShutter extends IPSModule
 	//These lines are parsed on Symcon Startup or Instance creation
         //You cannot use variables here. Just static values.}
         
-        // Variable aus dem Instanz Formular registrieren (zugänglich zu machen)
-        // Aufruf dieser Form Variable mit $Tup = $this->ReadPropertyFloat('IDENTNAME'); 
-        $this->RegisterPropertyBoolean("aktiv", false);
-        $this->RegisterPropertyInteger("FS20RSU_ID", 0);
-        $this->RegisterPropertyInteger ("SunSet_ID", 57942);
-        $this->RegisterPropertyInteger ("SunRise_ID", 11938);
-        $this->RegisterPropertyFloat("Time_UO", 0.5);
-        $this->RegisterPropertyFloat("Time_OU", 0.5);
-        $this->RegisterPropertyFloat("Time_UM", 0.5);
-        $this->RegisterPropertyFloat("Time_OM", 0.5);
-        $this->RegisterPropertyBoolean("OffSetMoFr", false);
-        $this->RegisterPropertyBoolean("OffSetSaSo", false);
-        $this->RegisterPropertyInteger("Door_ID", 0);
+        $this->RegisterProperties();
+        $this->RegisterProfiles();
         
-         //Profile anlegen falls noch nicht vorhanden.
-        $assocA[0] = "Manual";
-        $assocA[1] = "Automatic";
-            if (!IPS_VariableProfileExists("Rollo.Mode")) {
-                IPS_CreateVariableProfile("Rollo.Mode", 0); // 0 boolean, 1 int, 2 float, 3 string,
-            }
-        
-        $assocB[0] = "Up";
-        $assocB[1] = "Down";
-            if (!IPS_VariableProfileExists("Rollo.UpDown")) {
-                  IPS_CreateVariableProfile("Rollo.UpDown", 0); // 0 boolean, 1 int, 2 float, 3 string,
-            }
-        $assocC[0] = "off";
-        $assocC[1] = "on";
-           if (!IPS_VariableProfileExists("Rollo.SunSet")) {
-                  IPS_CreateVariableProfile("Rollo.SunSet", 0); // 0 boolean, 1 int, 2 float, 3 string,
-           }
 
-            if (!IPS_VariableProfileExists("Rollo.Position")) {
-                IPS_CreateVariableProfile("Rollo.Position", 1); // 0 boolean, 1 int, 2 float, 3 string,
-                IPS_SetVariableProfileDigits('Rollo.Position', 0);
-                IPS_SetVariableProfileIcon('Rollo.Position', 'Jalousie');
-                IPS_SetVariableProfileText('Rollo.Position', '', ' %');
-                IPS_SetVariableProfileValues('Rollo.Position', 0, 100, 1);
-            }
-            
         //Integer Variable anlegen
         //integer RegisterVariableInteger ( string $Ident, string $Name, string $Profil, integer $Position )
         // Aufruf dieser Variable mit "$this->GetIDForIdent("IDENTNAME")"
@@ -120,6 +85,7 @@ class MyRolloShutter extends IPSModule
         setvalue($this->GetIDForIdent("OffSetSR_SaSo"),"+0");
         setvalue($this->GetIDForIdent("OffSetSS_MoFr"),"+0");
         setvalue($this->GetIDForIdent("OffSetSS_SaSo"),"+0");
+  
         
         // Profile den Variablen zuordnen   
         IPS_SetVariableCustomProfile($this->GetIDForIdent("FSSC_Position"), "Rollo.Position");
@@ -138,54 +104,16 @@ class MyRolloShutter extends IPSModule
         $this->RegisterTimer("LaufzeitTimer", 0, "FSS_reset(\$_IPS['TARGET']);");
 
 
-     
+        
+    	// Anlegen des cyclic events Up mit ($Name, $Ident, $Typ, $Parent, $Position).
+	$Up_EventID = $this->RegisterEvent("Up", "Up".$this->InstanceID, 1, $this->InstanceID, 21); 
+            
 
-        //$this->RegisterEvent("Laufzeit", "LaufzeitEvent".$this->InstanceID, 1, $this->InstanceID, 22);
-        //$LaufzeitEventID = $this->GetIDForIdent("LaufzeitEvent".$this->InstanceID);
-        //IPS_SetEventCyclic($LaufzeitEventID, 0, 0, 0, 0, 1, 35 /* Alle 35 Sekunden */);    
-        //IPS_SetEventScript($LaufzeitEventID, "FSSC_reset(\$_IPS['TARGET']);")  ;
         
-        
-        
-    	// Anlegen des cyclic events SunRise mit ($Name, $Ident, $Typ, $Parent, $Position).
-	$this->RegisterEvent("SunRiseMoFr", "SunRiseEventMoFr".$this->InstanceID, 1, $this->InstanceID, 21); 
-        $SunRiseMoFrEventID = $this->GetIDForIdent("SunRiseEventMoFr".$this->InstanceID);
-        // täglich, um x Uhr
-        $sunrise = getvalue($this->ReadPropertyInteger("SunRise_ID"));
-        $sunrise_H = date("H", $sunrise); 
-        $sunrise_M = date("i", $sunrise); 
-        IPS_SetEventCyclicTimeFrom($SunRiseMoFrEventID, $sunrise_H, $sunrise_M, 0);
-        IPS_SetEventScript($SunRiseMoFrEventID, "FSS_SetRolloUp(\$_IPS['TARGET']);");
-        
-    	// Anlegen des cyclic events SunSet mit ($Name, $Ident, $Typ, $Parent, $Position)
-	$this->RegisterEvent("SunSetMoFr", "SunSetEventMoFr".$this->InstanceID, 1, $this->InstanceID, 21); 
-        $SunSetMoFrEventID = $this->GetIDForIdent("SunSetEventMoFr".$this->InstanceID);
-        // täglich, um x Uhr
-        $sunset = getvalue($this->ReadPropertyInteger("SunSet_ID"));
-        $sunset_H = date("H", $sunset); 
-        $sunset_M = date("i", $sunset); 
-        IPS_SetEventCyclicTimeFrom($SunSetMoFrEventID, $sunset_H, $sunset_M, 0);
-        IPS_SetEventScript($SunSetMoFrEventID, "FSS_SetRolloDown(\$_IPS['TARGET']);");
+    	// Anlegen des cyclic events Down mit ($Name, $Ident, $Typ, $Parent, $Position)
+	$this->RegisterEvent("Down", "Down".$this->InstanceID, 1, $this->InstanceID, 21); 
+            
 
-    	// Anlegen des cyclic events SunRise mit ($Name, $Ident, $Typ, $Parent, $Position).
-	$this->RegisterEvent("SunRiseSaSo", "SunRiseEventSaSo".$this->InstanceID, 1, $this->InstanceID, 21); 
-        $SunRiseSaSoEventID = $this->GetIDForIdent("SunRiseEventSaSo".$this->InstanceID);
-        // täglich, um x Uhr
-        $sunrise = getvalue($this->ReadPropertyInteger("SunRise_ID"));
-        $sunrise_H = date("H", $sunrise); 
-        $sunrise_M = date("i", $sunrise); 
-        IPS_SetEventCyclicTimeFrom($SunRiseSaSoEventID, $sunrise_H, $sunrise_M, 0);
-        IPS_SetEventScript($SunRiseSaSoEventID, "FSS_SetRolloUp(\$_IPS['TARGET']);");
-        
-    	// Anlegen des cyclic events SunSet mit ($Name, $Ident, $Typ, $Parent, $Position)
-	$this->RegisterEvent("SunSetSaSo", "SunSetEventSaSo".$this->InstanceID, 1, $this->InstanceID, 21); 
-        $SunSetEventSaSoID = $this->GetIDForIdent("SunSetEventSaSo".$this->InstanceID);
-        // täglich, um x Uhr
-        $sunset = getvalue($this->ReadPropertyInteger("SunSet_ID"));
-        $sunset_H = date("H", $sunset); 
-        $sunset_M = date("i", $sunset); 
-        IPS_SetEventCyclicTimeFrom($SunSetEventSaSoID, $sunset_H, $sunset_M, 0);
-        IPS_SetEventScript($SunSetEventSaSoID, "FSS_SetRolloDown(\$_IPS['TARGET']);");
     }
     
    /* ------------------------------------------------------------ 
@@ -370,22 +298,68 @@ class MyRolloShutter extends IPSModule
     public function switchEvent(bool $state) {
         $SunRiseMoFrEventID = $this->GetIDForIdent("SunRiseEventMoFr".$this->InstanceID);
         $SunSetMoFrEventID = $this->GetIDForIdent("SunSetEventMoFr".$this->InstanceID);        
-        $SunRiseSaSoEventID = $this->GetIDForIdent("SunRiseEventSaSo".$this->InstanceID);
-        $SunSetSaSoEventID = $this->GetIDForIdent("SunSetEventSaSo".$this->InstanceID);  
+
         if ($state) {        
             IPS_SetEventActive($SunRiseMoFrEventID, true);             //Ereignis  aktivieren
             IPS_SetEventActive($SunSetMoFrEventID, true);             //Ereignis  aktivieren 
-            IPS_SetEventActive($SunRiseSaSoEventID, true);             //Ereignis  aktivieren
-            IPS_SetEventActive($SunSetSaSoEventID, true);             //Ereignis  aktivieren 
+
         } 
         else {            
             IPS_SetEventActive($SunRiseMoFrEventID, false);             //Ereignis  aktivieren
             IPS_SetEventActive($SunSetMoFrEventID, false);             //Ereignis  aktivieren 
-            IPS_SetEventActive($SunRiseSaSoEventID, false);             //Ereignis  aktivieren
-            IPS_SetEventActive($SunSetSaSoEventID, false);             //Ereignis  aktivieren  
+ 
         }
     } 
-    
+    //*****************************************************************************
+    /* Function: SetEventTime()
+    ...............................................................................
+     
+     *  aktiviert die Events
+     *  deaktiviert die Events
+      ...............................................................................
+    Parameters: 
+        none
+    --------------------------------------------------------------------------------
+    Returns:    
+        none
+    //////////////////////////////////////////////////////////////////////////////*/
+    public function SetEventTime() {
+        //Wochentag ermittel und den entsprechende Zeit in time Event schreiben
+        $wochentage = array("Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag");
+        $day =  $wochentage[date("w")];   
+        //falls Sa oder So dann Werte aus SaSo Zeit schreiben
+        if($day === "Samstag" || $day === "Sonntag"){
+            $SZ_SaSo = getvalue($this->GetIDForIdent("SZ_SaSo"));
+            $UpTimeSaSo = substr($SZ_SaSo,0,5);
+            $UpSaSo_H = date("H", strtotime($UpTimeSaSo)); 
+            $UpSaSo_M = date("i", strtotime($UpTimeSaSo));
+            $DownTimeSaSo = substr($SZ_SaSo,8,5);
+            $DownSaSo_H = date("H", strtotime($DownTimeSaSo)); 
+            $DownSaSo_M = date("i", strtotime($DownTimeSaSo));
+            $UpEventID = $this->GetIDForIdent("Up").$this->InstanceID;
+            IPS_SetEventCyclicTimeFrom($UpEventID, $UpSaSo_H, $UpSaSo_M, 0);
+            IPS_SetEventScript($UpEventID, "FSS_SetRolloUp(\$_IPS['TARGET']);");  
+            $DownEventID = $this->GetIDForIdent("Down").$this->InstanceID;
+            IPS_SetEventCyclicTimeFrom($DownEventID, $DownSaSo_H, $DownSaSo_M, 0);
+            IPS_SetEventScript($DownEventID, "FSS_SetRolloDown(\$_IPS['TARGET']);");  
+        }
+        else {
+            $SZ_MoFr = getvalue($this->GetIDForIdent("SZ_MoFr"));
+            $UpTimeMoFr = substr($SZ_MoFr,0,5);
+            $UpMoFr_H = date("H", strtotime($UpTimeMoFr)); 
+            $UpMoFr_M = date("i", strtotime($UpTimeMoFr));
+            $DownTimeMoFr = substr($SZ_MoFr,8,5);
+            $DownMoF_H = date("H", strtotime($DownTimeMoFr)); 
+            $DownoFr_M = date("i", strtotime($DownTimeMoFr));
+            $UpEventID = $this->GetIDForIdent("Up").$this->InstanceID;
+            IPS_SetEventCyclicTimeFrom($UpEventID, $UpMoFr_H, $UpMoFr_M, 0);
+            IPS_SetEventScript($UpEventID, "FSS_SetRolloUp(\$_IPS['TARGET']);");  
+            $DownEventID = $this->GetIDForIdent("Down").$this->InstanceID;
+            IPS_SetEventCyclicTimeFrom($DownEventID, $DownMoF_H, $DownoFr_M, 0);
+            IPS_SetEventScript($DownEventID, "FSS_SetRolloDown(\$_IPS['TARGET']);");  
+        }
+
+    } 
     
     //*****************************************************************************
     /* Function: SetRolloUp
@@ -419,6 +393,8 @@ class MyRolloShutter extends IPSModule
             $this->updateSwitchTimes();    
         }
     }   
+
+            
     
     //*****************************************************************************
     /* Function: SetRolloDown
@@ -432,17 +408,7 @@ class MyRolloShutter extends IPSModule
         none
     //////////////////////////////////////////////////////////////////////////////*/
      public function SetRolloDown() {
-       //prüfen ob über ein Event gesteuert wird
-       //$_IPS['EVENT']
-        if ($_IPS["SENDER"] === "TimerEvent")
-        {
-            //falls Man - Mode dann  function ausführen
-            $mode = getvalue($this->GetIDForIdent("Mode"));
-            if (false) {
-                // keine Aktin nur Handbetrieb
-            }
-        }
-        else {
+
             //$this->SendDebug( "SetRolloDown", "Fahre Rolladen runter", 0); 
             $Tdown = $this->ReadPropertyFloat('Time_OU'); 
             FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), false, $Tdown); 
@@ -450,7 +416,7 @@ class MyRolloShutter extends IPSModule
             SetValue($this->GetIDForIdent("FSSC_Timer"),time());
             $this->SetTimerInterval("LaufzeitTimer", 35000);
             $this->updateSwitchTimes();
-        }
+            
     }   
     //*****************************************************************************
     /* Function: StepRolloStop
@@ -603,62 +569,39 @@ class MyRolloShutter extends IPSModule
         
         $sunriseA = date('H:i', $sunrise);
         $sunsetA = date('H:i', $sunset);
-        $SunRiseMoFrEventID = $this->GetIDForIdent("SunRiseEventMoFr".$this->InstanceID);
-        $SunSetMoFrEventID = $this->GetIDForIdent("SunSetEventMoFr".$this->InstanceID);        
-        $SunRiseSaSoEventID = $this->GetIDForIdent("SunRiseEventSaSo".$this->InstanceID);
-        $SunSetSaSoEventID = $this->GetIDForIdent("SunSetEventSaSo".$this->InstanceID);       
         
-        if($this->ReadPropertyBoolean("OffSetMoFr")){
-            $sunriseMoFr = date('H:i', strtotime($sunriseA) + $OffSetSR_MoFr *60);  
-            $sunsetMoFr = date('H:i',  strtotime($sunsetA) + $OffSetSS_MoFr *60);   
-
-            $sunriseMoFr_H = date("H", strtotime($sunriseMoFr)); 
-            $sunriseMoFr_M = date("i", strtotime($sunriseMoFr)); 
-            IPS_SetEventCyclicTimeFrom($SunRiseMoFrEventID, $sunriseMoFr_H, $sunriseMoFr_M, 0);
-            $sunSetSaSo_H = date("H", strtotime($sunsetMoFr)); 
-            $sunSetSaSo_M = date("i", strtotime($sunsetMoFr));
-            IPS_SetEventCyclicTimeFrom($SunSetMoFrEventID, $sunSetSaSo_H, $sunSetSaSo_M, 0);
-            
-            
+        $UpTime = getvalue($this->GetIDForIdent("SZ_MoFr"));
+        $DownTime = getvalue($this->GetIDForIdent("SZ_SaSo"));
+        
+        //falls timer leer dann mit vorgabe füllen
+        if($UpTime === ""){
+            $UpTimeMoFr = date('H:i', $sunrise);
+            $UpTimeSaSo = date('H:i', $sunrise);
         }
-        else {
-            $sunriseMoFr = date('H:i', $sunrise); 
-            $sunsetMoFr = date('H:i', $sunset);
-             
-            $sunriseMoFr_H = date("H", strtotime($sunriseMoFr)); 
-            $sunriseMoFr_M = date("i", strtotime($sunriseMoFr)); 
-            IPS_SetEventCyclicTimeFrom($SunRiseMoFrEventID, $sunriseMoFr_H, $sunriseMoFr_M, 0);
-            $sunSetMoFr_H = date("H", strtotime($sunsetMoFr)); 
-            $sunSetMoFr_M = date("i", strtotime($sunsetMoFr));
-            IPS_SetEventCyclicTimeFrom($SunSetMoFrEventID, $sunSetMoFr_H, $sunSetMoFr_M, 0);
+        if($DownTime === ""){
+            $DownTimeMoFr = date('H:i', $sunset);
+            $DownTimeSaSo = date('H:i', $sunset);
         }
         
-        if($this->ReadPropertyBoolean("OffSetSaSo")){
-            $sunriseSaSo = date('H:i', strtotime($sunriseA) +  $OffSetSR_SaSo*60);  
-            $sunsetSaSo = date('H:i', strtotime($sunsetA) + $OffSetSS_SaSo*60);   
-
-            $sunriseSaSo_H = date("H", strtotime($sunriseSaSo)); 
-            $sunriseSaSo_M = date("i", strtotime($sunriseSaSo)); 
-            IPS_SetEventCyclicTimeFrom($SunRiseSaSoEventID, $sunriseSaSo_H, $sunriseSaSo_M, 0);
-            $sunSetSaSo_H = date("H", strtotime($sunsetSaSo)); 
-            $sunSetSaSo_M = date("i", strtotime($sunsetSaSo));
-            IPS_SetEventCyclicTimeFrom($SunSetSaSoEventID, $sunSetSaSo_H, $sunSetSaSo_M, 0);
-        }
-        else {
-            $sunriseSaSo = date('H:i', $sunrise); 
-            $sunsetSaSo = date('H:i', $sunset);  
-            
-            $sunriseSaSo_H = date("H", strtotime($sunriseSaSo)); 
-            $sunriseSaSo_M = date("i", strtotime($sunriseSaSo)); 
-            IPS_SetEventCyclicTimeFrom($SunRiseSaSoEventID, $sunriseSaSo_H, $sunriseSaSo_M, 0);
-            $sunSetSaSo_H = date("H", strtotime($sunsetSaSo)); 
-            $sunSetSaSo_M = date("i", strtotime($sunsetSaSo));
-            IPS_SetEventCyclicTimeFrom($SunSetSaSoEventID, $sunSetSaSo_H, $sunSetSaSo_M, 0);
+        // falls SunSet aktiv dann nächste SunSet SunRise Werte mit Offset eintragen
+        if($this->ReadPropertyFloat('SunSet')){
+            $UpTimeMoFr = date('H:i', strtotime($sunriseA) + $OffSetSR_MoFr *60);  
+            $DownTimeMoFr = date('H:i',  strtotime($sunsetA) + $OffSetSS_MoFr *60);   
+            $UpTimeSaSo = date('H:i', strtotime($sunriseA) + $OffSetSR_SaSo *60);  
+            $DownTimeSaSo = date('H:i',  strtotime($sunsetA) + $OffSetSS_SaSo *60); 
         }
         
-        setvalue($this->GetIDForIdent("SZ_MoFr"), $sunriseMoFr." - ".$sunsetMoFr);
-        setvalue($this->GetIDForIdent("SZ_SaSo"), $sunriseSaSo." - ".$sunsetSaSo);
-              
+        
+        // falls Wochenplan aktiv dann nächste Werte aus Wochenplan eintragen
+        else{
+            
+        }
+        
+        
+        setvalue($this->GetIDForIdent("SZ_MoFr"), $UpTimeMoFr." - ".$DownTimeMoFr);
+        setvalue($this->GetIDForIdent("SZ_SaSo"), $UpTimeSaSo." - ".$DownTimeSaSo);
+        
+         
     }    
         
     
@@ -685,7 +628,7 @@ class MyRolloShutter extends IPSModule
     -------------------------------------------------------------------------------- */
     private function RegisterEvent($Name, $Ident, $Typ, $Parent, $Position)
     {
-            $eid = @$this->GetIDForIdent($Ident);
+            $EventID = @$this->GetIDForIdent($Ident);
             if($eid === false) {
                     $eid = 0;
             } elseif(IPS_GetEvent($eid)['EventType'] <> $Typ) {
@@ -701,6 +644,7 @@ class MyRolloShutter extends IPSModule
                     IPS_SetPosition($EventID, $Position);
                     IPS_SetEventActive($EventID, false);  
             }
+            return $EventID;
     }
     
     //*****************************************************************************
@@ -742,24 +686,35 @@ class MyRolloShutter extends IPSModule
     Returns:   
         none
     ------------------------------------------------------------------------------- */
-    protected function RegisterProfile($Name, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize, $Digits, $Vartype,  $Assoc){
+    protected function creatProfile($Name, $Vartype,  $Assoc, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize, $Digits){
             if (!IPS_VariableProfileExists($Name)) {
-                    IPS_CreateVariableProfile($Name, $Vartype); // 0 boolean, 1 int, 2 float, 3 string,
-            } else {
-                    $profile = IPS_GetVariableProfile($Name);
-                    if ($profile['ProfileType'] != $Vartype){
-                           // $this->SendDebug("Alarm.Reset:", "Variable profile type does not match for profile " . $Name, 0);
+                IPS_CreateVariableProfile($Name, $Vartype); // 0 boolean, 1 int, 2 float, 3 string,
+                if(!is_Null($Icon)){
+                    IPS_SetVariableProfileIcon($Name, $Icon);
+                }
+                if(!is_Null($Prefix)){
+                    IPS_SetVariableProfileText($Name, $Prefix, $Suffix);
+                }
+                if(!is_Null($Digits)){
+                    IPS_SetVariableProfileDigits($Name, $Digits); //  Nachkommastellen
+                }
+                if(!is_Null($MinValue)){
+                    IPS_SetVariableProfileValues($Name, $MinValue, $MaxValue, $StepSize);
+                }
+                if(!is_Null($Assoc)){
+                    foreach ($Assoc as $key => $data) {
+                        if(is_null($data['icon'])){$data['icon'] = "";}; 
+                        if(is_null($data['color'])){$data['color'] = "";}; 
+                        IPS_SetVariableProfileAssociation($Name, $key, $data['value'], $data['icon'], $data['color']);  
                     }
-              }
-            
-            //IPS_SetVariableProfileIcon($Name, $Icon);
-            //IPS_SetVariableProfileText($Name, $Prefix, $Suffix);
-            //IPS_SetVariableProfileDigits($Name, $Digits); //  Nachkommastellen
-            //IPS_SetVariableProfileValues($Name, $MinValue, $MaxValue, $StepSize); // string $ProfilName, float $Minimalwert, float $Maximalwert, float $Schrittweite
-            foreach ($Assoc as $key => $value) {
-                IPS_SetVariableProfileAssociation($Name, $key, $value, $Icon, 0xFFFFFF);  
-            }
-           // IPS_SetVariableCustomProfile($this->GetIDForIdent($VarIdent), $Name);
+                }
+            } 
+            else {
+                $profile = IPS_GetVariableProfile($Name);
+                if ($profile['ProfileType'] != $Vartype){
+                       // $this->SendDebug("Alarm.Reset:", "Variable profile type does not match for profile " . $Name, 0);
+                }
+             }
     }		
 
     /* ----------------------------------------------------------------------------
@@ -800,11 +755,98 @@ class MyRolloShutter extends IPSModule
     }
  
     
+    /* ----------------------------------------------------------------------------
+     Function: RegisterProperties()
+    ...............................................................................
+        Variable aus dem Instanz Formular registrieren (zugänglich zu machen)
+        Aufruf dieser Form Variable mit $Tup = $this->ReadPropertyFloat('IDENTNAME');
+    ...............................................................................
+    Parameters: 
+        none
+    ..............................................................................
+    Returns:   
+        $ipsversion
+    ------------------------------------------------------------------------------- */
+    private function RegisterProperties(){
+        $this->RegisterPropertyBoolean("aktiv", false);
+        $this->RegisterPropertyInteger("FS20RSU_ID", 0);
+        $this->RegisterPropertyInteger ("SunSet_ID", 57942);
+        $this->RegisterPropertyInteger ("SunRise_ID", 11938);
+        $this->RegisterPropertyFloat("Time_UO", 0.5);
+        $this->RegisterPropertyFloat("Time_OU", 0.5);
+        $this->RegisterPropertyFloat("Time_UM", 0.5);
+        $this->RegisterPropertyFloat("Time_OM", 0.5);
+        $this->RegisterPropertyInteger("Door_ID", 0);
+        $this->RegisterPropertyBoolean("SunSet", true);
+    }
     
     
-    
-    
-    
+    /* ----------------------------------------------------------------------------
+     Function: Registerrofiles()
+    ...............................................................................
+        Profile fürVaiable anlegen falls nicht schon vorhanden
+    ...............................................................................
+    Parameters: 
+        $Vartype => 0 boolean, 1 int, 2 float, 3 string
+    ..............................................................................
+    Returns:   
+        $ipsversion
+    ------------------------------------------------------------------------------- */
+    private function RegisterProfiles(){
+            
+        $Assoc[0]['value'] = "Manual";
+        $Assoc[1]['value'] = "Automatic";
+        $Name = "Rollo.Mode";
+        $Vartype = 0;
+        $Icon = NULL;
+        $Prefix = NULL;
+        $Suffix = NULL;
+        $MinValue = NULL;
+        $MaxValue = NULL;
+        $StepSize = NULL;
+        $Digits = NULL;
+        creatProfile($Name, $Vartype,  $Assoc, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize, $Digits);
+                
+        $Assoc[0] = "Up";
+        $Assoc[1] = "Up";
+        $Name = "Rollo.UpDown";
+        $Vartype = 0;
+        $Icon = NULL;
+        $Prefix = NULL;
+        $Suffix = NULL;
+        $MinValue = NULL;
+        $MaxValue = NULL;
+        $StepSize = NULL;
+        $Digits = NULL;
+        creatProfile($Name, $Vartype,  $Assoc, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize, $Digits);            
+            
+        $Assoc[0] = "off";
+        $Assoc[1] = "on";
+        $Name = "Rollo.SunSet";
+        $Vartype = 0;
+        $Icon = NULL;
+        $Prefix = NULL;
+        $Suffix = NULL;
+        $MinValue = NULL;
+        $MaxValue = NULL;
+        $StepSize = NULL;
+        $Digits = NULL;
+        creatProfile($Name, $Vartype,  $Assoc, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize, $Digits);       
+            
+        $Assoc = NULL;
+        $Name = "Rollo.Position";
+        $Vartype = 1;
+        $Icon = 'Jalousie';
+        $Prefix = NULL;
+        $Suffix = ' %';
+        $MinValue = 0;
+        $MaxValue = 100;
+        $StepSize = 1;
+        $Digits = 0;
+        creatProfile($Name, $Vartype,  $Assoc, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize, $Digits);  
+            
+                   
+    }
     
     
     
