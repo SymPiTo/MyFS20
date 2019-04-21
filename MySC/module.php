@@ -143,7 +143,7 @@ class MyRolloShutter extends IPSModule
         if ($state){
             $this->switchEvent(true);
             $this->updateSwitchTimes();
-            SetEventTime();
+            $this->SetEventTime();
         }    
         else {
             $this->switchEvent(false);
