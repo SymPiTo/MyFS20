@@ -296,17 +296,17 @@ class MyRolloShutter extends IPSModule
         none
     //////////////////////////////////////////////////////////////////////////////*/
     public function switchEvent(bool $state) {
-        $SunRiseMoFrEventID = $this->GetIDForIdent("SunRiseEventMoFr".$this->InstanceID);
-        $SunSetMoFrEventID = $this->GetIDForIdent("SunSetEventMoFr".$this->InstanceID);        
+        $UpEventID = $this->GetIDForIdent("Up".$this->InstanceID);
+        $DownEventID = $this->GetIDForIdent("Down".$this->InstanceID);        
 
         if ($state) {        
-            IPS_SetEventActive($SunRiseMoFrEventID, true);             //Ereignis  aktivieren
-            IPS_SetEventActive($SunSetMoFrEventID, true);             //Ereignis  aktivieren 
+            IPS_SetEventActive($UpEventID, true);             //Ereignis  aktivieren
+            IPS_SetEventActive($DownEventID, true);             //Ereignis  aktivieren 
 
         } 
         else {            
-            IPS_SetEventActive($SunRiseMoFrEventID, false);             //Ereignis  aktivieren
-            IPS_SetEventActive($SunSetMoFrEventID, false);             //Ereignis  aktivieren 
+            IPS_SetEventActive($UpEventID, false);             //Ereignis  aktivieren
+            IPS_SetEventActive($DownEventID, false);             //Ereignis  aktivieren 
  
         }
     } 
