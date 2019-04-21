@@ -629,11 +629,11 @@ class MyRolloShutter extends IPSModule
     private function RegisterEvent($Name, $Ident, $Typ, $Parent, $Position)
     {
             $EventID = @$this->GetIDForIdent($Ident);
-            if($eid === false) {
-                    $eid = 0;
-            } elseif(IPS_GetEvent($eid)['EventType'] <> $Typ) {
-                    IPS_DeleteEvent($eid);
-                    $eid = 0;
+            if($EventID === false) {
+                    $EventID = 0;
+            } elseif(IPS_GetEvent($EventID)['EventType'] <> $Typ) {
+                    IPS_DeleteEvent($EventID);
+                    $EventID = 0;
             }
             //we need to create one
             if ($eid == 0) {
