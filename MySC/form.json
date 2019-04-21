@@ -5,12 +5,147 @@
                                 "name" : "aktiv",
                                 "type" :  "CheckBox",
                                 "caption" : "aktiv"
+                        },
+			{
+				"name": "FS20RSU_ID",
+				"type": "SelectObject",
+				"caption": "FS20_RSU Objekt selektieren."
+			},
+			{
+				"name": "Door_ID",
+				"type": "SelectObject",
+				"caption": "Tür Kontakt Objekt selektieren."
+			},
+			{
+				"name": "SunSet_ID",
+				"type": "SelectObject",
+				"caption": "SunSet Objekt selektieren."
+			},
+			{
+				"name": "SunRise_ID",
+				"type": "SelectObject",
+				"caption": "SunRise Objekt selektieren."
+			},
+			{
+				"type" : "Label",
+				"label" : "Zeit Unten bis oben"
+			},
+			{
+				"name" : "Time_UO",
+				"type": "NumberSpinner",
+				"caption" : "Zeit in Sekunden",
+                                "digits"  : 1
+			},
+			{
+				"type" : "Label",
+				"label" : "Zeit Oben bis Unten"
+			},
+			{
+				"name" : "Time_OU",
+				"type" : "NumberSpinner",
+				"caption" : "Zeit in Sekunden",
+                                "digits"  : 1  
+			},
+			{
+				"type" : "Label",
+				"label" : "Zeit Unten bis Mitte"
+			},
+			{
+				"name" : "Time_UM",
+				"type": "NumberSpinner",
+				"caption" : "Zeit in Sekunden",
+                                "digits"  : 1
+			},
+			{
+				"type" : "Label",
+				"label" : "Zeit Oben bis Mitte"
+			},
+			{
+				"name" : "Time_OM",
+				"type" : "NumberSpinner",
+				"caption" : "Zeit in Sekunden",
+                                "digits"  : 1  
+			},
+			{
+				"type" : "Label",
+				"label" : "Sunset aktivieren."
+			},
+			{ 
+				"name" : "SunSet",
+				"type" : "CheckBox",
+				"caption" : "SunSet aktivieren"
+    
+			},
+			{
+				"type" : "Label",
+				"label" : "Offest Mo-Fr aktivieren."
+			},
+			{ 
+				"name" : "OffSetMoFr",
+				"type" : "CheckBox",
+				"caption" : "Offset Mo-Fr"
+    
+			},
+			{
+				"type" : "Label",
+				"label" : "Offest Sa-So aktivieren."
+			},
+			{ 
+				"name" : "OffSetSaSo",
+				"type" : "CheckBox",
+				"caption" : "Offset Sa-So"
+    
+			}
+                
+	],
+	"actions":
+	[
+                        { 
+                                "type": "Button", 
+                                "caption": "Step Up", 
+                                "onClick": "FSS_StepRolloUp($id);" 
+                        },
+                        { 
+                                "type": "Button", 
+                                "caption": "Step Down", 
+                                "onClick": "FSS_StepRolloDown($id);" 
+                        },
+                        {
+				"type" : "Label",
+				"label" : "Test Umgebung:"
+			},
+                        { 
+                                "type": "Button", 
+                                "caption": "Hoch", 
+                                "onClick": "FSS_SetRolloUp($id);" 
+                        },
+                        { 
+                                "type": "Button", 
+                                "caption": "Stop", 
+                                "onClick": "FSS_SetRolloStop($id);" 
+                        },
+                        { 
+                                "type": "Button", 
+                                "caption": "Runter", 
+                                "onClick": "FSS_SetRolloDown($id);" 
+                        },
+                        { 
+                                "type": "HorizontalSlider", 
+                                "name": "Slider", 
+                                "caption": "Position", 
+                                "minimum": 0, 
+                                "maximum": 100, 
+                                "onChange": "FSS_SetRollo($id, 50);" 
                         }
         ],
         
 	"status" : 
         [
- 
+            { 
+                "code": 201, 
+                "icon": "error", 
+                "caption": "Instance gibt es schon." 
+            } 
 	]
         
         
