@@ -69,7 +69,7 @@ class MyRolloShutter extends IPSModule
         // Aufruf dieser Variable mit "$this->GetIDForIdent("IDENTNAME")"
         $this->RegisterVariableBoolean("UpDown", "Rollo Up/Down");
         $this->RegisterVariableBoolean("Mode", "Mode");
-        
+        $this->RegisterVariableBoolean("SS", "SunSetactive");
         
         //String Variable anlegen
         //RegisterVariableString (  $Ident,  $Name, $Profil, $Position )
@@ -143,6 +143,7 @@ class MyRolloShutter extends IPSModule
         else{
             $this->SetStatus(102);
         }
+        setvalue($this->GetIDForIdent(SS), $this->ReadPropertyBoolean('SunSet'));
         
         $state = $this->ReadPropertyBoolean('aktiv');
         if ($state){
@@ -327,8 +328,8 @@ class MyRolloShutter extends IPSModule
     /* Function: SetEventTime()
     ...............................................................................
      
-     *  aktiviert die Events
-     *  deaktiviert die Events
+     *  Wert aus den Variablen SZ_SaSo und SZ_MoFr holen abhängig vom Wochentag und
+     *  in die Timer Events übertrgagen Schaltzeit setzen
       ...............................................................................
     Parameters: 
         none
@@ -403,7 +404,8 @@ class MyRolloShutter extends IPSModule
             Setvalue($this->GetIDForIdent("UpDown"),false);
             SetValue($this->GetIDForIdent("FSSC_Timer"),time());
             $this->SetTimerInterval("LaufzeitTimer", 35000);
-            $this->updateSwitchTimes();    
+            $this->updateSwitchTimes(); 
+            $this->SetEventTime();
         }
     }   
 
@@ -428,8 +430,8 @@ class MyRolloShutter extends IPSModule
             Setvalue($this->GetIDForIdent("UpDown"),true); 
             SetValue($this->GetIDForIdent("FSSC_Timer"),time());
             $this->SetTimerInterval("LaufzeitTimer", 35000);
-            $this->updateSwitchTimes();
-            
+            $this->updateSwitchTimes();  // vorgabe Zeit schreiben
+            $this->SetEventTime();  // neue Eventzeit setzten
     }   
     //*****************************************************************************
     /* Function: StepRolloStop
@@ -562,7 +564,7 @@ class MyRolloShutter extends IPSModule
     }
     
     /* ---------------------------------------------------------------------------
-     Function: updateSunRise
+     Function: updateSwitchTimes
     ...............................................................................
     
     ...............................................................................
