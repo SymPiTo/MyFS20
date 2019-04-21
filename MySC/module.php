@@ -205,7 +205,7 @@ class MyRolloShutter extends IPSModule
                     
             
         switch ($Message) {
-            case 204:
+            case "204":
                 
 
                 break;
