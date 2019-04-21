@@ -137,7 +137,9 @@ class MyRolloShutter extends IPSModule
        // $this->RegisterMessage($this->InstanceID, KL_MESSAGE);
         
          
-            
+        if($this->ReadPropertyInteger("FS20RSU_ID") === 0){
+            $this->SetStatus(204);
+        } 
         
         $state = $this->ReadPropertyBoolean('aktiv');
         if ($state){
@@ -201,8 +203,15 @@ class MyRolloShutter extends IPSModule
 
           
                     
-        if($Message = KL_MESSAGE){
-            IPS_LogMessage("MessageSink", "Message from SenderID ".$SenderID." with Message ".$Message."\r\n Data: ".print_r($Data, true));
+            
+        switch ($Message) {
+            case 204:
+                
+
+                break;
+
+            default:
+                break;
         }
             
     }

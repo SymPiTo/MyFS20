@@ -145,6 +145,11 @@
                 "code": 201, 
                 "icon": "error", 
                 "caption": "Instance gibt es schon." 
+            }, 
+            { 
+                "code": 204, 
+                "icon": "error", 
+                "caption": "FS20 Rolladen Device selektieren." 
             } 
 	]
         
