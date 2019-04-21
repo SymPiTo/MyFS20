@@ -337,10 +337,10 @@ class MyRolloShutter extends IPSModule
             $DownTimeSaSo = substr($SZ_SaSo,8,5);
             $DownSaSo_H = date("H", strtotime($DownTimeSaSo)); 
             $DownSaSo_M = date("i", strtotime($DownTimeSaSo));
-            $UpEventID = $this->GetIDForIdent("Up").$this->InstanceID;
+            $UpEventID = $this->GetIDForIdent("Up".$this->InstanceID);
             IPS_SetEventCyclicTimeFrom($UpEventID, $UpSaSo_H, $UpSaSo_M, 0);
             IPS_SetEventScript($UpEventID, "FSS_SetRolloUp(\$_IPS['TARGET']);");  
-            $DownEventID = $this->GetIDForIdent("Down").$this->InstanceID;
+            $DownEventID = $this->GetIDForIdent("Down".$this->InstanceID);
             IPS_SetEventCyclicTimeFrom($DownEventID, $DownSaSo_H, $DownSaSo_M, 0);
             IPS_SetEventScript($DownEventID, "FSS_SetRolloDown(\$_IPS['TARGET']);");  
         }
@@ -352,10 +352,10 @@ class MyRolloShutter extends IPSModule
             $DownTimeMoFr = substr($SZ_MoFr,8,5);
             $DownMoF_H = date("H", strtotime($DownTimeMoFr)); 
             $DownoFr_M = date("i", strtotime($DownTimeMoFr));
-            $UpEventID = $this->GetIDForIdent("Up").$this->InstanceID;
+            $UpEventID = $this->GetIDForIdent("Up".$this->InstanceID);
             IPS_SetEventCyclicTimeFrom($UpEventID, $UpMoFr_H, $UpMoFr_M, 0);
             IPS_SetEventScript($UpEventID, "FSS_SetRolloUp(\$_IPS['TARGET']);");  
-            $DownEventID = $this->GetIDForIdent("Down").$this->InstanceID;
+            $DownEventID = $this->GetIDForIdent("Down".$this->InstanceID);
             IPS_SetEventCyclicTimeFrom($DownEventID, $DownMoF_H, $DownoFr_M, 0);
             IPS_SetEventScript($DownEventID, "FSS_SetRolloDown(\$_IPS['TARGET']);");  
         }
