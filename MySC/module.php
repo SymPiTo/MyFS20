@@ -738,7 +738,7 @@ class MyRolloShutter extends IPSModule
     Returns:   
         none
     ------------------------------------------------------------------------------- */
-    protected function createProfile(string $Name, int $Vartype, array $Assoc, $Icon, string $Prefix, string $Suffix,  float $MinValue,  float $MaxValue, float $StepSize, int $Digits){
+    protected function createProfile(string $Name, int $Vartype, $Assoc, $Icon,  $Prefix,  $Suffix,   $MinValue,   $MaxValue,  $StepSize,  $Digits){
             if (!IPS_VariableProfileExists($Name)) {
                 IPS_CreateVariableProfile($Name, $Vartype); // 0 boolean, 1 int, 2 float, 3 string,
                 if(!is_Null($Icon)){
