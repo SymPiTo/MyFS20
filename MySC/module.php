@@ -357,10 +357,10 @@ class MyRolloShutter extends IPSModule
             $DownSaSo_M = date("i", strtotime($DownTimeSaSo));
             $UpEventID = $this->GetIDForIdent("Up".$this->InstanceID);
             IPS_SetEventCyclicTimeFrom($UpEventID, $UpSaSo_H, $UpSaSo_M, 0);
-            IPS_SetEventScript($UpEventID, "FSS_SetRolloUp(\$_IPS['TARGET']);");  
+            IPS_SetEventScript($UpEventID, "FSS_checkAutMode(\$_IPS['TARGET'],up');");  
             $DownEventID = $this->GetIDForIdent("Down".$this->InstanceID);
             IPS_SetEventCyclicTimeFrom($DownEventID, $DownSaSo_H, $DownSaSo_M, 0);
-            IPS_SetEventScript($DownEventID, "FSS_SetRolloDown(\$_IPS['TARGET']);");  
+            IPS_SetEventScript($DownEventID, "FSS_checkAutMode(\$_IPS['TARGET'],'down');");  
         }
         else {
             $SZ_MoFr = getvalue($this->GetIDForIdent("SZ_MoFr"));
@@ -372,13 +372,55 @@ class MyRolloShutter extends IPSModule
             $DownoFr_M = date("i", strtotime($DownTimeMoFr));
             $UpEventID = $this->GetIDForIdent("Up".$this->InstanceID);
             IPS_SetEventCyclicTimeFrom($UpEventID, $UpMoFr_H, $UpMoFr_M, 0);
-            IPS_SetEventScript($UpEventID, "FSS_SetRolloUp(\$_IPS['TARGET']);");  
+            IPS_SetEventScript($UpEventID, "FSS_checkAutMode(\$_IPS['TARGET'],'up);");  
             $DownEventID = $this->GetIDForIdent("Down".$this->InstanceID);
             IPS_SetEventCyclicTimeFrom($DownEventID, $DownMoF_H, $DownoFr_M, 0);
-            IPS_SetEventScript($DownEventID, "FSS_SetRolloDown(\$_IPS['TARGET']);");  
+            IPS_SetEventScript($DownEventID, "FSS_checkAutMode(\$_IPS['TARGET'],'down');");  
         }
 
     } 
+            
+    //*****************************************************************************
+    /* Function: checkAutMode
+    ...............................................................................
+     * fährt den Rolladen auf 0% = Auf = Up bzw Down - zu wenn Kriterien erfüllt sind
+     * Auslöser ist eine Zeit Trigger
+     *
+    ...............................................................................
+    Parameters: 
+       $direction -> up / down
+    --------------------------------------------------------------------------------
+    Returns:    
+        none
+    //////////////////////////////////////////////////////////////////////////////*/
+    public function checkAutMode(string $direction) {
+        //prüfen ob über ein Event gesteuert wird
+       //$_IPS['EVENT']
+        if ($_IPS["SENDER"] === "TimerEvent"){
+            //falls Auto - Mode dann ausführen
+            $mode = getvalue($this->GetIDForIdent("Mode"));
+            if (true) {
+                if($direction === "down"){
+                    //prüfen ob Türkontakt vorhanden und Tür offen
+                    if($this->ReadPropertyInteger('Door_ID') > 0  && getvalue($this->ReadPropertyInteger('Door_ID')) = 'false'){
+                        $this->SetRolloDown();
+                    }
+                }
+                elseif ("up"){
+                    $this->SetRolloUp();
+                }
+                else {
+                    //falscher Parameter
+                }
+            }
+            else{
+               // Man Mode keine Aktion 
+            }
+        }
+        else {   
+            // kein Event Signal
+        }
+    }  
     
     //*****************************************************************************
     /* Function: SetRolloUp
@@ -392,17 +434,7 @@ class MyRolloShutter extends IPSModule
         none
     //////////////////////////////////////////////////////////////////////////////*/
     public function SetRolloUp() {
-       //prüfen ob über ein Event gesteuert wird
-       //$_IPS['EVENT']
-        if ($_IPS["SENDER"] === "TimerEvent")
-        {
-            //falls Man - Mode dann  function ausführen
-            $mode = getvalue($this->GetIDForIdent("Mode"));
-            if (false) {
-                // keine Aktin nur Handbetrieb
-            }
-        }
-        else {
+
             //$this->SendDebug( "SetRolloUp", "Fahre Rolladen hoch", 0); 
             $Tup = $this->ReadPropertyFloat('Time_UO'); 
             FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), true, $Tup); 
@@ -411,7 +443,7 @@ class MyRolloShutter extends IPSModule
             $this->SetTimerInterval("LaufzeitTimer", 35000);
             $this->updateSwitchTimes(); 
             $this->SetEventTime();
-        }
+
     }   
 
             
@@ -646,7 +678,7 @@ class MyRolloShutter extends IPSModule
     Returns:    
         none
     -------------------------------------------------------------------------------- */
-    protected function RegisterEvent($Name, $Ident, $Typ, $Parent, $Position)
+    protected function RegisterEvent(string $Name, string $Ident, int $Typ, int $Parent, int $Position)
     {
             $EventID = @$this->GetIDForIdent($Ident);
             if($EventID === false) {
@@ -706,7 +738,7 @@ class MyRolloShutter extends IPSModule
     Returns:   
         none
     ------------------------------------------------------------------------------- */
-    protected function createProfile($Name, $Vartype,  $Assoc, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize, $Digits){
+    protected function createProfile(string $Name, int $Vartype, array $Assoc, string $Icon, string $Prefix, string $Suffix,  float $MinValue,  float $MaxValue, float $StepSize, int $Digits){
             if (!IPS_VariableProfileExists($Name)) {
                 IPS_CreateVariableProfile($Name, $Vartype); // 0 boolean, 1 int, 2 float, 3 string,
                 if(!is_Null($Icon)){
@@ -870,11 +902,7 @@ class MyRolloShutter extends IPSModule
     
     
     
-    
-    
-    
-    
-    
+  
     
     
 }
