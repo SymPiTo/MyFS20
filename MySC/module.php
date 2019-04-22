@@ -401,8 +401,8 @@ class MyRolloShutter extends IPSModule
             $mode = getvalue($this->GetIDForIdent("Mode"));
             if (true) {
                 if($direction === "down"){
-                    //prüfen ob Türkontakt vorhanden und Tür offen
-                    if($this->ReadPropertyInteger('Door_ID') > 0  && getvalue($this->ReadPropertyInteger('Door_ID')) = 'false'){
+                    //prüfen ob Türkontakt vorhanden und Tür zu
+                    if($this->ReadPropertyInteger('Door_ID') > 0  && getvalue($this->ReadPropertyInteger('Door_ID')) === false){
                         $this->SetRolloDown();
                     }
                 }
