@@ -397,27 +397,28 @@ class MyRolloShutter extends IPSModule
         //prüfen ob über ein Event gesteuert wird
        //$_IPS['EVENT']
         if ($_IPS["SENDER"] === "TimerEvent"){
-            $this->MyLog("checkAutMode", "Timer Event wurde erkannt.", true, true);
+            //$this->MyLog("checkAutMode", "Timer Event wurde erkannt.", true, true);
             //falls Auto - Mode dann ausführen
             $mode = getvalue($this->GetIDForIdent("Mode"));
             if (true) {
-                $this->MyLog("checkAutMode", "Ralladen steht auf Automatikt.", true, true);
+                //$this->MyLog("checkAutMode", "Rolladen steht auf Automatik.", true, true);
                 if($direction === "down"){
                     //prüfen ob Türkontakt vorhanden und Tür zu
                     if($this->ReadPropertyInteger('Door_ID') > 0  && getvalue($this->ReadPropertyInteger('Door_ID')) === false){
+                        //$this->MyLog("checkAutMode", "Fahre Rolladen Runter.", true, true);
                         $this->SetRolloDown();
                     }
                     //kein Türkontakt vorhanden
                     elseif($this->ReadPropertyInteger('Door_ID') === 0){
                         $this->SetRolloDown();
-                        $this->MyLog("checkAutMode", "Kein Türkontakt vorhanden.", true, true);
+                        //$this->MyLog("checkAutMode", "Kein Türkontakt vorhanden.", true, true);
                     }
                     else{
-                        $this->MyLog("checkAutMode", "Türoffen. Rolladen wird nicht gefahren.", true, true);
+                        //$this->MyLog("checkAutMode", "Türoffen. Rolladen wird nicht gefahren.", true, true);
                     }
                 }
                 elseif ("up"){
-                    $this->MyLog("checkAutMode", "Fahre Rolladen Hoch.", true, true);
+                    //$this->MyLog("checkAutMode", "Fahre Rolladen Hoch.", true, true);
                     $this->SetRolloUp();
                 }
                 else {
