@@ -397,11 +397,11 @@ class MyRolloShutter extends IPSModule
         //prüfen ob über ein Event gesteuert wird
        //$_IPS['EVENT']
         if ($_IPS["SENDER"] === "TimerEvent"){
-            MyLog("checkAutMode", "Timer Event wurde erkannt.", true, true);
+            $this->MyLog("checkAutMode", "Timer Event wurde erkannt.", true, true);
             //falls Auto - Mode dann ausführen
             $mode = getvalue($this->GetIDForIdent("Mode"));
             if (true) {
-                MyLog("checkAutMode", "Ralladen steht auf Automatikt.", true, true);
+                $this->MyLog("checkAutMode", "Ralladen steht auf Automatikt.", true, true);
                 if($direction === "down"){
                     //prüfen ob Türkontakt vorhanden und Tür zu
                     if($this->ReadPropertyInteger('Door_ID') > 0  && getvalue($this->ReadPropertyInteger('Door_ID')) === false){
@@ -410,14 +410,14 @@ class MyRolloShutter extends IPSModule
                     //kein Türkontakt vorhanden
                     elseif($this->ReadPropertyInteger('Door_ID') === 0){
                         $this->SetRolloDown();
-                        MyLog("checkAutMode", "Kein Türkontakt vorhanden.", true, true);
+                        $this->MyLog("checkAutMode", "Kein Türkontakt vorhanden.", true, true);
                     }
                     else{
-                        MyLog("checkAutMode", "Türoffen. Rolladen wird nicht gefahren.", true, true);
+                        $this->MyLog("checkAutMode", "Türoffen. Rolladen wird nicht gefahren.", true, true);
                     }
                 }
                 elseif ("up"){
-                    MyLog("checkAutMode", "Fahre Rolladen Hoch.", true, true);
+                    $this->MyLog("checkAutMode", "Fahre Rolladen Hoch.", true, true);
                     $this->SetRolloUp();
                 }
                 else {
