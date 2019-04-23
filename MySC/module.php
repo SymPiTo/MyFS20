@@ -397,16 +397,27 @@ class MyRolloShutter extends IPSModule
         //prüfen ob über ein Event gesteuert wird
        //$_IPS['EVENT']
         if ($_IPS["SENDER"] === "TimerEvent"){
+            MyLog("checkAutMode", "Timer Event wurde erkannt.", true, true);
             //falls Auto - Mode dann ausführen
             $mode = getvalue($this->GetIDForIdent("Mode"));
             if (true) {
+                MyLog("checkAutMode", "Ralladen steht auf Automatikt.", true, true);
                 if($direction === "down"){
                     //prüfen ob Türkontakt vorhanden und Tür zu
                     if($this->ReadPropertyInteger('Door_ID') > 0  && getvalue($this->ReadPropertyInteger('Door_ID')) === false){
                         $this->SetRolloDown();
                     }
+                    //kein Türkontakt vorhanden
+                    elseif($this->ReadPropertyInteger('Door_ID') === 0){
+                        $this->SetRolloDown();
+                        MyLog("checkAutMode", "Kein Türkontakt vorhanden.", true, true);
+                    }
+                    else{
+                        MyLog("checkAutMode", "Türoffen. Rolladen wird nicht gefahren.", true, true);
+                    }
                 }
                 elseif ("up"){
+                    MyLog("checkAutMode", "Fahre Rolladen Hoch.", true, true);
                     $this->SetRolloUp();
                 }
                 else {
@@ -900,9 +911,50 @@ class MyRolloShutter extends IPSModule
                    
     }
     
-    
-    
-  
+    protected function MyLog($Titel, $data, bool $LogFile, bool $Debug) {
+        $Directory=""; 
+        $File="";
+	if($LogFile){
+            if ($File == ""){
+                $File = 'IPSLog.log';
+            }
+            if ($Directory == "") {
+                $Directory = "/home/pi/pi-share/";
+            }
+            if(($FileHandle = fopen($Directory.$File, "a")) === false) {
+                Exit;
+            }
+            if (is_array($data)){
+                //$comma_seperated=implode("\r\n",$array);
+                $comma_seperated=print_r($data, true);
+            }
+            else {
+                $comma_seperated = $data;
+            }
+
+            fwrite($FileHandle, $Text.": ");
+            fwrite($FileHandle, $comma_seperated."\r\n");
+            fclose($FileHandle);
+        }
+        if(Debug){
+            if (is_object($data)) {
+                foreach ($Data as $Key => $DebugData) {
+                    $this->SendDebug($Message . ":" . $Key, $DebugData, 0);
+                }
+            } elseif (is_array($data)) {
+                foreach ($Data as $Key => $DebugData) {
+                    $this->SendDebug($Message . ":" . $Key, $DebugData, 0);
+                }
+            } else {
+                if (is_bool($data)) {
+                    parent::SendDebug($Message, ($data ? 'true' : 'false'), 0);
+                } else {
+                    parent::SendDebug($Message, (string) $data, $Format);
+                }
+            }
+        }
+    }       
+        
     
     
 }
