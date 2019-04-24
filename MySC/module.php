@@ -466,8 +466,7 @@ class MyRolloShutter extends IPSModule
             $this->SetEventTime();   
         }
     }   
-
-            
+      
     
     //*****************************************************************************
     /* Function: SetRolloDown
