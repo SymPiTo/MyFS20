@@ -689,10 +689,19 @@ class MyRolloShutter extends IPSModule
         $this->SetTimerInterval("LaufzeitTimer", 0);       
         $direct = getvalue($this->GetIDForIdent("UpDown"));  
         if($direct){
-            SetValue($this->GetIDForIdent("FSSC_Position"), 100);
+            if($this->ReadPropertyBoolean("negate")){
+                SetValue($this->GetIDForIdent("FSSC_Position"), 0);
+            }else{
+                SetValue($this->GetIDForIdent("FSSC_Position"), 100);
+            }
+            
         }
         else{
-           SetValue($this->GetIDForIdent("FSSC_Position"), 0);
+            if($this->ReadPropertyBoolean("negate")){
+                 SetValue($this->GetIDForIdent("FSSC_Position"), 100);
+            }else{
+                SetValue($this->GetIDForIdent("FSSC_Position"), 0);
+            }
         } 
     }
     
