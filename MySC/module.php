@@ -193,10 +193,18 @@ class MyRolloShutter extends IPSModule
             case "UpDown":
                 //SetValue($this->GetIDForIdent($Ident), $Value);
                 if(getvalue($this->GetIDForIdent($Ident))){
-                    $this->SetRolloDown();  
+                    if($this->ReadPropertyBoolean("negate")){
+                        $this->SetRolloUp();
+                    }else{
+                        $this->SetRolloDown();  
+                    }
                 }
                 else{
-                   $this->SetRolloUp();
+                    if($this->ReadPropertyBoolean("negate")){
+                        $this->SetRolloDown(); 
+                    }else{
+                        $this->SetRolloUp();
+                    }
                 }
                 break;
              case "Mode":
@@ -406,11 +414,19 @@ class MyRolloShutter extends IPSModule
                     //prüfen ob Türkontakt vorhanden und Tür zu
                     if($this->ReadPropertyInteger('Door_ID') > 0  && getvalue($this->ReadPropertyInteger('Door_ID')) === false){
                         //$this->MyLog("checkAutMode", "Fahre Rolladen Runter.", true, true);
-                        $this->SetRolloDown();
+                        if($this->ReadPropertyBoolean("negate")){
+                            $this->SetRolloUp();
+                        }else{
+                            $this->SetRolloDown();
+                        }
                     }
                     //kein Türkontakt vorhanden
                     elseif($this->ReadPropertyInteger('Door_ID') === 0){
-                        $this->SetRolloDown();
+                        if($this->ReadPropertyBoolean("negate")){
+                            $this->SetRolloUp();
+                        }else{
+                            $this->SetRolloDown();
+                        }
                         //$this->MyLog("checkAutMode", "Kein Türkontakt vorhanden.", true, true);
                     }
                     else{
@@ -419,7 +435,11 @@ class MyRolloShutter extends IPSModule
                 }
                 elseif ("up"){
                     //$this->MyLog("checkAutMode", "Fahre Rolladen Hoch.", true, true);
-                    $this->SetRolloUp();
+                    if($this->ReadPropertyBoolean("negate")){
+                        $this->SetRolloDown();
+                    }else{
+                        $this->SetRolloUp();
+                    }
                 }
                 else {
                     //falscher Parameter
@@ -842,6 +862,7 @@ class MyRolloShutter extends IPSModule
         $this->RegisterPropertyFloat("Time_OM", 0.5);
         $this->RegisterPropertyInteger("Door_ID", 0);
         $this->RegisterPropertyBoolean("SunSet", true);
+        $this->RegisterPropertyBoolean("negate", false);
     }
     
     

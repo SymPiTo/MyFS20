@@ -95,6 +95,16 @@
 				"type" : "CheckBox",
 				"caption" : "Offset Sa-So"
     
+			},
+			{
+				"type" : "Label",
+				"label" : "Befehle negieren"
+			},
+			{ 
+				"name" : "negate",
+				"type" : "CheckBox",
+				"caption" : "Befehle negieren"
+    
 			}
                 
 	],
