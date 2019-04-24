@@ -772,11 +772,11 @@ class MyRolloShutter extends IPSModule
     Returns:    
         none
     ------------------------------------------------------------------------------ */
-    protected function SetSunSet($state){
+    public function SetSunSet($state){
         if($state){
-            
+            SetValue($this->GetIDForIdent("SS"), true);
         }else{
-            
+            SetValue($this->GetIDForIdent("SS"), false);
         }
     }
 
