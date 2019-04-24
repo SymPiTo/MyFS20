@@ -256,7 +256,7 @@ class MyRolloShutter extends IPSModule
             setvalue($this->GetIDForIdent("FSSC_Position"), $aktpos ); //Stellung um 5% verändern 
         }else{
             if ($this->ReadPropertyInteger("Door_ID")>0){
-                if(getvalue($this->GetIDForIdent("Door_ID")) === true){
+                if(getvalue($this->ReadPropertyInteger("Door_ID")) === true){
                     // keine Aktion asuführen, da Tür auf ist
                 }
             }
