@@ -556,56 +556,109 @@ class MyRolloShutter extends IPSModule
         none
     //////////////////////////////////////////////////////////////////////////////*/
     public function SetRollo(int $pos) {
-        $lastPos = getvalue($this->GetIDForIdent("FSSC_Position"));
-        //$this->SendDebug( "SetRollo", "Letzte Position: ".$lastPos , 0);
-        if($pos>$lastPos){
-            //runterfahren
-            //Abstand ermitteln
-            $dpos = $pos-$lastPos;
-            //Zeit ermitteln für dpos
-            
-            $Tdown = $this->ReadPropertyFloat('Time_OU');
-            $Tmid = $this->ReadPropertyFloat('Time_OM');
+        if($this->ReadPropertyBoolean("negate")){
+            $lastPos = getvalue($this->GetIDForIdent("FSSC_Position"));
+            //$this->SendDebug( "SetRollo", "Letzte Position: ".$lastPos , 0);
+            if($pos>$lastPos){
+                //hochfahren
+                //Abstand ermitteln
+                $dpos = $pos-$lastPos;
+                //Zeit ermitteln für dpos
 
-            if($dpos<51){
-                $time = $dpos * ($Tmid/50);
-                //$this->SendDebug( "SetRollo", "Errechnete Zeit für ".$pos."ist: ".$time, 0);
-                FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), false, $time); 
-                Setvalue($this->GetIDForIdent("UpDown"),true); 
+                $Tdown = $this->ReadPropertyFloat('Time_OU');
+                $Tmid = $this->ReadPropertyFloat('Time_OM');
+
+                if($dpos<51){
+                    $time = $dpos * ($Tmid/50);
+                    //$this->SendDebug( "SetRollo", "Errechnete Zeit für ".$pos."ist: ".$time, 0);
+                    FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), true, $time); 
+                    Setvalue($this->GetIDForIdent("UpDown"),false); 
+                }
+                else{
+                    $time = $dpos * ($Tdown/50);
+                    //$this->SendDebug( "SetRollo", "Errechnete Zeit für ".$pos."ist: ".$time, 0);
+                    FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), true, $time); 
+                    Setvalue($this->GetIDForIdent("UpDown"),false); 
+                }
+            }
+            elseif($pos<$lastPos){
+                //runterfahren
+                //Abstand ermitteln
+                $dpos = $lastPos-$pos;
+                //Zeit ermitteln für dpos
+
+                $Tup = $this->ReadPropertyFloat('Time_UO');
+                $Tmid = $this->ReadPropertyFloat('Time_UM');
+                if($dpos<51){
+                    $time = $dpos * ($Tmid/50);
+                    //$this->SendDebug( "SetRollo", "Errechnete Zeit für ".$pos."ist: ".$time, 0);
+                    FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), false, $time); 
+                    Setvalue($this->GetIDForIdent("UpDown"),true); 
+                }
+                else{
+                    $time = $dpos * ($Tup/50);
+                    //$this->SendDebug( "SetRollo", "Errechnete Zeit für ".$pos."ist: ".$time, 0);
+                    FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), false, $time); 
+                    Setvalue($this->GetIDForIdent("UpDown"),true);
+                } 
+
             }
             else{
-                $time = $dpos * ($Tdown/50);
-                //$this->SendDebug( "SetRollo", "Errechnete Zeit für ".$pos."ist: ".$time, 0);
-                FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), false, $time); 
-                Setvalue($this->GetIDForIdent("UpDown"),true); 
+                // do nothing
             }
-        }
-        elseif($pos<$lastPos){
-            //hochfahren
-            //Abstand ermitteln
-            $dpos = $lastPos-$pos;
-            //Zeit ermitteln für dpos
-            
-            $Tup = $this->ReadPropertyFloat('Time_UO');
-            $Tmid = $this->ReadPropertyFloat('Time_UM');
-            if($dpos<51){
-                $time = $dpos * ($Tmid/50);
-                //$this->SendDebug( "SetRollo", "Errechnete Zeit für ".$pos."ist: ".$time, 0);
-                FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), true, $time); 
-                Setvalue($this->GetIDForIdent("UpDown"),false); 
+            SetValue($this->GetIDForIdent("FSSC_Position"), $pos);     
+        }else{
+            $lastPos = getvalue($this->GetIDForIdent("FSSC_Position"));
+            //$this->SendDebug( "SetRollo", "Letzte Position: ".$lastPos , 0);
+            if($pos>$lastPos){
+                //runterfahren
+                //Abstand ermitteln
+                $dpos = $pos-$lastPos;
+                //Zeit ermitteln für dpos
+
+                $Tdown = $this->ReadPropertyFloat('Time_OU');
+                $Tmid = $this->ReadPropertyFloat('Time_OM');
+
+                if($dpos<51){
+                    $time = $dpos * ($Tmid/50);
+                    //$this->SendDebug( "SetRollo", "Errechnete Zeit für ".$pos."ist: ".$time, 0);
+                    FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), false, $time); 
+                    Setvalue($this->GetIDForIdent("UpDown"),true); 
+                }
+                else{
+                    $time = $dpos * ($Tdown/50);
+                    //$this->SendDebug( "SetRollo", "Errechnete Zeit für ".$pos."ist: ".$time, 0);
+                    FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), false, $time); 
+                    Setvalue($this->GetIDForIdent("UpDown"),true); 
+                }
+            }
+            elseif($pos<$lastPos){
+                //hochfahren
+                //Abstand ermitteln
+                $dpos = $lastPos-$pos;
+                //Zeit ermitteln für dpos
+
+                $Tup = $this->ReadPropertyFloat('Time_UO');
+                $Tmid = $this->ReadPropertyFloat('Time_UM');
+                if($dpos<51){
+                    $time = $dpos * ($Tmid/50);
+                    //$this->SendDebug( "SetRollo", "Errechnete Zeit für ".$pos."ist: ".$time, 0);
+                    FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), true, $time); 
+                    Setvalue($this->GetIDForIdent("UpDown"),false); 
+                }
+                else{
+                    $time = $dpos * ($Tup/50);
+                    //$this->SendDebug( "SetRollo", "Errechnete Zeit für ".$pos."ist: ".$time, 0);
+                    FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), true, $time); 
+                    Setvalue($this->GetIDForIdent("UpDown"),false);
+                } 
+
             }
             else{
-                $time = $dpos * ($Tup/50);
-                //$this->SendDebug( "SetRollo", "Errechnete Zeit für ".$pos."ist: ".$time, 0);
-                FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), true, $time); 
-                Setvalue($this->GetIDForIdent("UpDown"),false);
-            } 
-            
+                // do nothing
+            }
+            SetValue($this->GetIDForIdent("FSSC_Position"), $pos);
         }
-        else{
-            // do nothing
-        }
-        SetValue($this->GetIDForIdent("FSSC_Position"), $pos);
     }
 
  
