@@ -250,10 +250,10 @@ class MyRolloShutter extends IPSModule
     ------------------------------------------------------------------------------  */
     public function StepRolloDown(){
         if($this->ReadPropertyBoolean("negate")){
-             FS20_DimUp($this->ReadPropertyInteger("FS20RSU_ID"));
+            FS20_DimUp($this->ReadPropertyInteger("FS20RSU_ID"));
             $aktpos = getvalue($this->GetIDForIdent("FSSC_Position")) - 6; 
             if($aktpos < 0){$aktpos = 0;}
-            setvalue($this->GetIDForIdent("FSSC_Position"), $aktpos ); //Stellung um 5% verändern  
+            setvalue($this->GetIDForIdent("FSSC_Position"), $aktpos ); //Stellung um 5% verändern 
         }else{
             if ($this->ReadPropertyInteger("Door_ID")>0){
                 if(getvalue($this->GetIDForIdent("Door_ID")) === true){
