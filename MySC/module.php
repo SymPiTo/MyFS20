@@ -193,18 +193,10 @@ class MyRolloShutter extends IPSModule
             case "UpDown":
                 //SetValue($this->GetIDForIdent($Ident), $Value);
                 if(getvalue($this->GetIDForIdent($Ident))){
-                    if($this->ReadPropertyBoolean("negate")){
-                        $this->SetRolloUp();
-                    }else{
-                        $this->SetRolloDown();  
-                    }
+                    $this->SetRolloDown();  
                 }
                 else{
-                    if($this->ReadPropertyBoolean("negate")){
-                        $this->SetRolloDown(); 
-                    }else{
-                        $this->SetRolloUp();
-                    }
+                   $this->SetRolloUp();
                 }
                 break;
              case "Mode":
@@ -257,18 +249,21 @@ class MyRolloShutter extends IPSModule
         none
     ------------------------------------------------------------------------------  */
     public function StepRolloDown(){
-        if ($this->ReadPropertyInteger("Door_ID")>0){
-            if(getvalue($this->GetIDForIdent("Door_ID")) === true){
-                // keine Ation asuführen, da Tür auf ist
+        if($this->ReadPropertyBoolean("negate")){
+            $this->StepRolloUp();
+        }else{
+            if ($this->ReadPropertyInteger("Door_ID")>0){
+                if(getvalue($this->GetIDForIdent("Door_ID")) === true){
+                    // keine Ation asuführen, da Tür auf ist
+                }
+            }
+            else {
+                FS20_DimDown($this->ReadPropertyInteger("FS20RSU_ID"));
+                $aktpos = getvalue($this->GetIDForIdent("FSSC_Position")) + 6; 
+                if($aktpos > 100){$aktpos = 100;}
+                setvalue($this->GetIDForIdent("FSSC_Position"), $aktpos ); //Stellung um 5% verändern     
             }
         }
-        else {
-            FS20_DimDown($this->ReadPropertyInteger("FS20RSU_ID"));
-            $aktpos = getvalue($this->GetIDForIdent("FSSC_Position")) + 6; 
-            if($aktpos > 100){$aktpos = 100;}
-            setvalue($this->GetIDForIdent("FSSC_Position"), $aktpos ); //Stellung um 5% verändern     
-        }
-     
     }   
     //*****************************************************************************
     /* Function: StepRolloUp
@@ -282,10 +277,14 @@ class MyRolloShutter extends IPSModule
         none
     //////////////////////////////////////////////////////////////////////////////*/
     public function StepRolloUp(){
-        FS20_DimUp($this->ReadPropertyInteger("FS20RSU_ID"));
-        $aktpos = getvalue($this->GetIDForIdent("FSSC_Position")) - 6; 
-        if($aktpos < 0){$aktpos = 0;}
-        setvalue($this->GetIDForIdent("FSSC_Position"), $aktpos ); //Stellung um 5% verändern  
+        if($this->ReadPropertyBoolean("negate")){
+            $this->StepRolloDown();
+        }else{
+            FS20_DimUp($this->ReadPropertyInteger("FS20RSU_ID"));
+            $aktpos = getvalue($this->GetIDForIdent("FSSC_Position")) - 6; 
+            if($aktpos < 0){$aktpos = 0;}
+            setvalue($this->GetIDForIdent("FSSC_Position"), $aktpos ); //Stellung um 5% verändern  
+        }
     }
     //*****************************************************************************
     /* Function: SetMode
@@ -414,19 +413,11 @@ class MyRolloShutter extends IPSModule
                     //prüfen ob Türkontakt vorhanden und Tür zu
                     if($this->ReadPropertyInteger('Door_ID') > 0  && getvalue($this->ReadPropertyInteger('Door_ID')) === false){
                         //$this->MyLog("checkAutMode", "Fahre Rolladen Runter.", true, true);
-                        if($this->ReadPropertyBoolean("negate")){
-                            $this->SetRolloUp();
-                        }else{
-                            $this->SetRolloDown();
-                        }
+                        $this->SetRolloDown();
                     }
                     //kein Türkontakt vorhanden
                     elseif($this->ReadPropertyInteger('Door_ID') === 0){
-                        if($this->ReadPropertyBoolean("negate")){
-                            $this->SetRolloUp();
-                        }else{
-                            $this->SetRolloDown();
-                        }
+                        $this->SetRolloDown();
                         //$this->MyLog("checkAutMode", "Kein Türkontakt vorhanden.", true, true);
                     }
                     else{
@@ -435,11 +426,7 @@ class MyRolloShutter extends IPSModule
                 }
                 elseif ("up"){
                     //$this->MyLog("checkAutMode", "Fahre Rolladen Hoch.", true, true);
-                    if($this->ReadPropertyBoolean("negate")){
-                        $this->SetRolloDown();
-                    }else{
-                        $this->SetRolloUp();
-                    }
+                    $this->SetRolloUp();
                 }
                 else {
                     //falscher Parameter
@@ -466,7 +453,9 @@ class MyRolloShutter extends IPSModule
         none
     //////////////////////////////////////////////////////////////////////////////*/
     public function SetRolloUp() {
-
+        if($this->ReadPropertyBoolean("negate")){
+            $this->SetRolloDown();
+        }else{
             //$this->SendDebug( "SetRolloUp", "Fahre Rolladen hoch", 0); 
             $Tup = $this->ReadPropertyFloat('Time_UO'); 
             FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), true, $Tup); 
@@ -474,8 +463,8 @@ class MyRolloShutter extends IPSModule
             SetValue($this->GetIDForIdent("FSSC_Timer"),time());
             $this->SetTimerInterval("LaufzeitTimer", 35000);
             $this->updateSwitchTimes(); 
-            $this->SetEventTime();
-
+            $this->SetEventTime();   
+        }
     }   
 
             
@@ -492,7 +481,9 @@ class MyRolloShutter extends IPSModule
         none
     //////////////////////////////////////////////////////////////////////////////*/
      public function SetRolloDown() {
-
+        if($this->ReadPropertyBoolean("negate")){
+            $this->SetRolloUp();
+        }else{
             //$this->SendDebug( "SetRolloDown", "Fahre Rolladen runter", 0); 
             $Tdown = $this->ReadPropertyFloat('Time_OU'); 
             FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), false, $Tdown); 
@@ -501,6 +492,7 @@ class MyRolloShutter extends IPSModule
             $this->SetTimerInterval("LaufzeitTimer", 35000);
             $this->updateSwitchTimes();  // vorgabe Zeit schreiben
             $this->SetEventTime();  // neue Eventzeit setzten
+        }
     }   
     //*****************************************************************************
     /* Function: StepRolloStop
