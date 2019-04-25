@@ -704,7 +704,7 @@ class MyRolloShutter extends IPSModule
     public function running(){
         $currentPos = getvalue($this->GetIDForIdent("FSSC_Position"));
         //get direction
-        if(getvalue($this->GetIDForIdent("Status")) = "moving up"){
+        if(getvalue($this->GetIDForIdent("Status")) === "moving up"){
             //alle 2 Sekunden 2% von akt. Position abziehen bis 0%
             $currentPos = $currentPos - 2;
             if($currentPos>-1) {
