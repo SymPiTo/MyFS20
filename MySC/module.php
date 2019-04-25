@@ -736,7 +736,9 @@ class MyRolloShutter extends IPSModule
         none
     //////////////////////////////////////////////////////////////////////////////*/
     public function reset(){
-        IPS_SetEventActive($this->GetIDForIdent("Running".$this->InstanceID), false);  
+        IPS_SetEventActive($this->GetIDForIdent("Running".$this->InstanceID), false); 
+        // status setzen
+        setvalue($this->GetIDForIdent("Status"), "stopped");
         $this->SetTimerInterval("LaufzeitTimer", 0);       
         $direct = getvalue($this->GetIDForIdent("UpDown"));  
         if($direct){
