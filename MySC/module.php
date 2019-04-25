@@ -117,7 +117,10 @@ class MyRolloShutter extends IPSModule
     	// Anlegen des cyclic events Down mit ($Name, $Ident, $Typ, $Parent, $Position)
 	$Down_EventID = $this->RegisterEvent("Down", "Down".$this->InstanceID, 1, $this->InstanceID, 21); 
            
-
+    	// Anlegen des cyclic events Laufwert mit ($Name, $Ident, $Typ, $Parent, $Position)
+	$Bewegung_EventID = $this->RegisterEvent("Running", "Running".$this->InstanceID, 1, $this->InstanceID, 22); 
+        //alle 2 Sekunden ausführen
+        IPS_SetEventCyclic ($Bewegung_EventID, 0, 0, 0, 0, 1, 2);
     }
     
    /* ------------------------------------------------------------ 
