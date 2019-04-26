@@ -534,7 +534,7 @@ class MyRolloShutter extends IPSModule
             FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), false, $Tdown); 
             Setvalue($this->GetIDForIdent("UpDown"),true); 
             SetValue($this->GetIDForIdent("FSSC_Timer"),time());
-            $this->SetTimerInterval("LaufzeitTimer", $Tup + 5000);
+            $this->SetTimerInterval("LaufzeitTimer", $Tdown + 5000);
             $this->updateSwitchTimes();  // vorgabe Zeit schreiben
             $this->SetEventTime();  // neue Eventzeit setzten
         }
