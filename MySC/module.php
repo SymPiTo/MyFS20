@@ -711,8 +711,8 @@ class MyRolloShutter extends IPSModule
         $currentPos = getvalue($this->GetIDForIdent("FSSC_Position"));
         //get direction
         if(getvalue($this->GetIDForIdent("Status")) === "moving up"){
-            //alle 1 Sekunden 5% von akt. Position abziehen bis 0%
-            $currentPos = $currentPos - 2;
+            //alle 1 Sekunden 4% von akt. Position abziehen bis 0%
+            $currentPos = $currentPos - 4;
             if($currentPos>-1) {
                 setvalue($this->GetIDForIdent("FSSC_Position"), $currentPos);
             }else{
@@ -720,7 +720,7 @@ class MyRolloShutter extends IPSModule
             }
         }
         elseif (getvalue($this->GetIDForIdent("Status")) === "moving down") {
-            //alle 1 Sekunden 5% auf akt. Position addieren bis 100%
+            //alle 1 Sekunden 2% auf akt. Position addieren bis 100%
             $currentPos = $currentPos + 2;
             if($currentPos<100) {
                 setvalue($this->GetIDForIdent("FSSC_Position"), $currentPos);
