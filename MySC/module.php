@@ -61,7 +61,9 @@ class MyRolloShutter extends IPSModule
         //integer RegisterVariableInteger ( string $Ident, string $Name, string $Profil, integer $Position )
         // Aufruf dieser Variable mit "$this->GetIDForIdent("IDENTNAME")"
         $variablenID = $this->RegisterVariableInteger("FSSC_Position", "Position", "");
+        $this->RegisterVariableInteger("FSSC_Position", "Position", "");
         IPS_SetInfo ($variablenID, "WSS");
+        $this->RegisterVariableInteger("LastPosition", "Last Position", "");
         $this->RegisterVariableInteger("FSSC_Timer", "Timer", "");   
         IPS_SetHidden($this->GetIDForIdent("FSSC_Timer"), true); //Objekt verstecken
       
@@ -482,6 +484,8 @@ class MyRolloShutter extends IPSModule
             setvalue($this->GetIDForIdent("Status"), "moving up");
             //Laufzeit holen.
             $Tup = $this->ReadPropertyFloat('Time_UO'); 
+            // Letzte Position speichern
+            setvalue($this->GetIDForIdent("LastPosition"), $this->GetIDForIdent("FSSC_Position"));
             //Running Timer starten
             IPS_SetEventActive($this->GetIDForIdent("Running".$this->InstanceID), true);  
             //Aktor für Tup Sekunden einschalten
@@ -529,6 +533,8 @@ class MyRolloShutter extends IPSModule
             // status setzen
             setvalue($this->GetIDForIdent("Status"), "moving down");
             $Tdown = $this->ReadPropertyFloat('Time_OU'); 
+            //Letzte Start Position speichern
+            setvalue($this->GetIDForIdent("LastPosition"), $this->GetIDForIdent("FSSC_Position"));
              //Running Timer starten
             IPS_SetEventActive($this->GetIDForIdent("Running".$this->InstanceID), true); 
             FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), false, $Tdown); 
@@ -552,21 +558,23 @@ class MyRolloShutter extends IPSModule
     //////////////////////////////////////////////////////////////////////////////*/
      public function SetRolloStop() {
         //$this->SendDebug( "SetRolloStop", "Rolladen anhalten", 0);
+                    //running Timer stoppen
+        IPS_SetEventActive($this->GetIDForIdent("Running".$this->InstanceID), false);
         $this->SetTimerInterval("LaufzeitTimer", 0);  
         $jetzt = time();
         $StartTime = getvalue($this->GetIDForIdent("FSSC_Timer")); 
         $Laufzeit =  $jetzt - $StartTime;  
         //$this->SendDebug( "SetRolloStop", "Laufzeit: ".$Laufzeit, 0); 
-        $aktPos = getvalue($this->GetIDForIdent("FSSC_Position"));
+        $lastPos = getvalue($this->GetIDForIdent("LastPosition"));
         //if ($aktPos > 99){$aktPos = 0;}
         $direct = getvalue($this->GetIDForIdent("UpDown"));  
         if($direct){  
             FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), false, 0);
-            Setvalue($this->GetIDForIdent("FSSC_Position"), $aktPos + ($Laufzeit * (100/$this->ReadPropertyFloat('Time_OU'))));
+            Setvalue($this->GetIDForIdent("FSSC_Position"), $lastPos + ($Laufzeit * (100/$this->ReadPropertyFloat('Time_OU'))));
         }
         else{
            FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), true, 0); 
-           Setvalue($this->GetIDForIdent("FSSC_Position"), $aktPos - ($Laufzeit * (100/$this->ReadPropertyFloat('Time_UO'))));  
+           Setvalue($this->GetIDForIdent("FSSC_Position"), $lastPos - ($Laufzeit * (100/$this->ReadPropertyFloat('Time_UO'))));  
         }     
 
     }  
