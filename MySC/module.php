@@ -492,6 +492,7 @@ class MyRolloShutter extends IPSModule
             SetValue($this->GetIDForIdent("FSSC_Timer"),time());
             //ruft nach x Sekunden die Reset Funktion auf um einen definierten Zustand zu haben
             $this->SetTimerInterval("LaufzeitTimer", $Tup*1000 + 5000);
+            
             //holte die neuen Sunrise sundown Time und schreibt sie in die Variablen
             $this->updateSwitchTimes(); 
             //setzt den Event timer mit Zeit aus der gesetzten Varable abhängig vom Wochentag
@@ -737,6 +738,7 @@ class MyRolloShutter extends IPSModule
     //////////////////////////////////////////////////////////////////////////////*/
     public function reset(){
         IPS_SetEventActive($this->GetIDForIdent("Running".$this->InstanceID), false);  
+        setvalue($this->GetIDForIdent("Status"), "stopped");
         $this->SetTimerInterval("LaufzeitTimer", 0);       
         $direct = getvalue($this->GetIDForIdent("UpDown"));  
         if($direct){
