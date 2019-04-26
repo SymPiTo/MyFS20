@@ -122,7 +122,7 @@ class MyRolloShutter extends IPSModule
     	// Anlegen des cyclic events Laufwert mit ($Name, $Ident, $Typ, $Parent, $Position)
 	$Bewegung_EventID = $this->RegisterEvent("Running", "Running".$this->InstanceID, 1, $this->InstanceID, 22); 
         //alle 2 Sekunden ausführen
-        IPS_SetEventCyclic ($Bewegung_EventID, 0, 0, 0, 0, 1, 2);
+        IPS_SetEventCyclic ($Bewegung_EventID, 0, 0, 0, 0, 1, 1);
         IPS_SetEventScript($Bewegung_EventID, "FSS_running(\$_IPS['TARGET']);");  
     }
     
@@ -707,7 +707,7 @@ class MyRolloShutter extends IPSModule
         //get direction
         if(getvalue($this->GetIDForIdent("Status")) === "moving up"){
             //alle 2 Sekunden 2% von akt. Position abziehen bis 0%
-            $currentPos = $currentPos - 2;
+            $currentPos = $currentPos - 5;
             if($currentPos>-1) {
                 setvalue($this->GetIDForIdent("FSSC_Position"), $currentPos);
             }else{
