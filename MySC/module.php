@@ -517,19 +517,24 @@ class MyRolloShutter extends IPSModule
         if($this->ReadPropertyBoolean("negate")){
             //$this->SendDebug( "SetRolloUp", "Fahre Rolladen hoch", 0); 
             $Tup = $this->ReadPropertyFloat('Time_UO'); 
+
             FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), true, $Tup); 
             Setvalue($this->GetIDForIdent("UpDown"),false);
             SetValue($this->GetIDForIdent("FSSC_Timer"),time());
-            $this->SetTimerInterval("LaufzeitTimer", 35000);
+            $this->SetTimerInterval("LaufzeitTimer", $Tup + 5000);
             $this->updateSwitchTimes(); 
             $this->SetEventTime(); 
         }else{
             //$this->SendDebug( "SetRolloDown", "Fahre Rolladen runter", 0); 
+            // status setzen
+            setvalue($this->GetIDForIdent("Status"), "moving down");
             $Tdown = $this->ReadPropertyFloat('Time_OU'); 
+             //Running Timer starten
+            IPS_SetEventActive($this->GetIDForIdent("Running".$this->InstanceID), true); 
             FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), false, $Tdown); 
             Setvalue($this->GetIDForIdent("UpDown"),true); 
             SetValue($this->GetIDForIdent("FSSC_Timer"),time());
-            $this->SetTimerInterval("LaufzeitTimer", 35000);
+            $this->SetTimerInterval("LaufzeitTimer", $Tup + 5000);
             $this->updateSwitchTimes();  // vorgabe Zeit schreiben
             $this->SetEventTime();  // neue Eventzeit setzten
         }
@@ -706,13 +711,22 @@ class MyRolloShutter extends IPSModule
         $currentPos = getvalue($this->GetIDForIdent("FSSC_Position"));
         //get direction
         if(getvalue($this->GetIDForIdent("Status")) === "moving up"){
-            //alle 2 Sekunden 2% von akt. Position abziehen bis 0%
+            //alle 1 Sekunden 5% von akt. Position abziehen bis 0%
             $currentPos = $currentPos - 5;
             if($currentPos>-1) {
                 setvalue($this->GetIDForIdent("FSSC_Position"), $currentPos);
             }else{
                 setvalue($this->GetIDForIdent("FSSC_Position"), 0);
             }
+        }
+        elseif (getvalue($this->GetIDForIdent("Status")) === "moving down") {
+            //alle 1 Sekunden 5% auf akt. Position addieren bis 100%
+            $currentPos = $currentPos + 5;
+            if($currentPos<100) {
+                setvalue($this->GetIDForIdent("FSSC_Position"), $currentPos);
+            }else{
+                setvalue($this->GetIDForIdent("FSSC_Position"), 100);
+            }  
         }
     }         
          
