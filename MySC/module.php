@@ -263,10 +263,9 @@ class MyRolloShutter extends IPSModule
             if($aktpos < 0){$aktpos = 0;}
             setvalue($this->GetIDForIdent("FSSC_Position"), $aktpos ); //Stellung um 5% verändern 
         }else{
-            if ($this->ReadPropertyInteger("Door_ID")>0){
-                if(getvalue($this->ReadPropertyInteger("Door_ID")) === true){
+            //wenn Tür Kontakt vorhanden und Tür auf (TRUE) dann keinen Aktion
+            if (($this->ReadPropertyInteger("Door_ID")>0) and (getvalue($this->ReadPropertyInteger("Door_ID")) === true) ){
                     // keine Aktion asuführen, da Tür auf ist
-                }
             }
             else {
                 FS20_DimDown($this->ReadPropertyInteger("FS20RSU_ID"));
@@ -519,30 +518,42 @@ class MyRolloShutter extends IPSModule
     //////////////////////////////////////////////////////////////////////////////*/
      public function SetRolloDown() {
         if($this->ReadPropertyBoolean("negate")){
-            //$this->SendDebug( "SetRolloUp", "Fahre Rolladen hoch", 0); 
-            $Tup = $this->ReadPropertyFloat('Time_UO'); 
+            //wenn Tür Kontakt vorhanden und Tür auf (TRUE) dann keinen Aktion
+            if (($this->ReadPropertyInteger("Door_ID")>0) and (getvalue($this->ReadPropertyInteger("Door_ID")) === true) ){
+                    // keine Aktion asuführen, da Tür auf ist
+            }
+            else {
+                //$this->SendDebug( "SetRolloUp", "Fahre Rolladen hoch", 0); 
+                $Tup = $this->ReadPropertyFloat('Time_UO'); 
 
-            FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), true, $Tup); 
-            Setvalue($this->GetIDForIdent("UpDown"),false);
-            SetValue($this->GetIDForIdent("FSSC_Timer"),time());
-            $this->SetTimerInterval("LaufzeitTimer", $Tup*1000 + 5000);
-            $this->updateSwitchTimes(); 
-            $this->SetEventTime(); 
+                FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), true, $Tup); 
+                Setvalue($this->GetIDForIdent("UpDown"),false);
+                SetValue($this->GetIDForIdent("FSSC_Timer"),time());
+                $this->SetTimerInterval("LaufzeitTimer", $Tup*1000 + 5000);
+                $this->updateSwitchTimes(); 
+                $this->SetEventTime(); 
+            }
         }else{
-            //$this->SendDebug( "SetRolloDown", "Fahre Rolladen runter", 0); 
-            // status setzen
-            setvalue($this->GetIDForIdent("Status"), "moving down");
-            $Tdown = $this->ReadPropertyFloat('Time_OU'); 
-            //Letzte Start Position speichern
-            setvalue($this->GetIDForIdent("LastPosition"), $this->GetIDForIdent("FSSC_Position"));
-             //Running Timer starten
-            IPS_SetEventActive($this->GetIDForIdent("Running".$this->InstanceID), true); 
-            FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), false, $Tdown); 
-            Setvalue($this->GetIDForIdent("UpDown"),true); 
-            SetValue($this->GetIDForIdent("FSSC_Timer"),time());
-            $this->SetTimerInterval("LaufzeitTimer", $Tdown*1000 + 5000);
-            $this->updateSwitchTimes();  // vorgabe Zeit schreiben
-            $this->SetEventTime();  // neue Eventzeit setzten
+            //wenn Tür Kontakt vorhanden und Tür auf (TRUE) dann keinen Aktion
+            if (($this->ReadPropertyInteger("Door_ID")>0) and (getvalue($this->ReadPropertyInteger("Door_ID")) === true) ){
+                    // keine Aktion asuführen, da Tür auf ist
+            }
+            else {
+                //$this->SendDebug( "SetRolloDown", "Fahre Rolladen runter", 0); 
+                // status setzen
+                setvalue($this->GetIDForIdent("Status"), "moving down");
+                $Tdown = $this->ReadPropertyFloat('Time_OU'); 
+                //Letzte Start Position speichern
+                setvalue($this->GetIDForIdent("LastPosition"), $this->GetIDForIdent("FSSC_Position"));
+                 //Running Timer starten
+                IPS_SetEventActive($this->GetIDForIdent("Running".$this->InstanceID), true); 
+                FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), false, $Tdown); 
+                Setvalue($this->GetIDForIdent("UpDown"),true); 
+                SetValue($this->GetIDForIdent("FSSC_Timer"),time());
+                $this->SetTimerInterval("LaufzeitTimer", $Tdown*1000 + 5000);
+                $this->updateSwitchTimes();  // vorgabe Zeit schreiben
+                $this->SetEventTime();  // neue Eventzeit setzten
+            }
         }
     }   
     //*****************************************************************************
@@ -849,7 +860,7 @@ class MyRolloShutter extends IPSModule
     Returns:    
         none
     ------------------------------------------------------------------------------ */
-    public function SetSunSet($state){
+    public function SetSunSet(bool $state){
             
             SetValue($this->GetIDForIdent("SS"), $state);
             
