@@ -420,7 +420,7 @@ class MyRolloShutter extends IPSModule
             //$this->MyLog("checkAutMode", "Timer Event wurde erkannt.", true, true);
             //falls Auto - Mode dann ausführen
             $mode = getvalue($this->GetIDForIdent("Mode"));
-            if (true) {
+            if ($mode) {
                 //$this->MyLog("checkAutMode", "Rolladen steht auf Automatik.", true, true);
                 if($direction === "down"){
                     //prüfen ob Türkontakt vorhanden und Tür zu
@@ -974,7 +974,7 @@ class MyRolloShutter extends IPSModule
                 if ($profile['ProfileType'] != $Vartype){
                        // $this->SendDebug("Alarm.Reset:", "Variable profile type does not match for profile " . $Name, 0);
                 }
-             }
+            }
     }		
 
     /* ----------------------------------------------------------------------------
