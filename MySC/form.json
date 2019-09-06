@@ -91,7 +91,8 @@
 		{
 			"name": "OffSetTimeMoFr",
 			"type": "NumberSpinner",
-			"caption": "Zeit in Minuten"
+			"caption": "Zeit in Minuten",
+			"suffix": "minutes"
 		},
 		{
 			"type": "Label",
@@ -110,7 +111,8 @@
 		{
 			"name": "OffSetTimeSaSo",
 			"type": "NumberSpinner",
-			"caption": "Zeit in Minuten"
+			"caption": "Zeit in Minuten",
+			"suffix": "minutes"
 		},
 		{
 			"type": "Label",
