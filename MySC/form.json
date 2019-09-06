@@ -76,16 +76,6 @@
 		},
 		{
 			"type": "Label",
-			"label": "Offest Mo-Fr aktivieren."
-		},
-		{
-			"name": "OffSetMoFr",
-			"type": "CheckBox",
-			"caption": "Offset Mo-Fr"
-
-		},
-		{
-			"type": "Label",
 			"label": "Offest Mo-Fr eingeben."
 		},
 		{
@@ -93,16 +83,6 @@
 			"type": "NumberSpinner",
 			"caption": "Zeit in Minuten",
 			"suffix": "minutes"
-		},
-		{
-			"type": "Label",
-			"label": "Offest Sa-So aktivieren."
-		},
-		{
-			"name": "OffSetSaSo",
-			"type": "CheckBox",
-			"caption": "Offset Sa-So"
-
 		},
 		{
 			"type": "Label",
