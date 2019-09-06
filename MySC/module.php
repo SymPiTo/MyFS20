@@ -795,6 +795,7 @@ class MyRolloShutter extends IPSModule
         if($direct){
             if($this->ReadPropertyBoolean("negate")){
                 SetValue($this->GetIDForIdent("FSSC_Position"), 0);
+                
             }else{
                 SetValue($this->GetIDForIdent("FSSC_Position"), 100);
             }
@@ -807,6 +808,7 @@ class MyRolloShutter extends IPSModule
                 SetValue($this->GetIDForIdent("FSSC_Position"), 0);
             }
         } 
+        setvalue($this->GetIDForIdent("LastPosition"), $this->GetIDForIdent("FSSC_Position"));
     }
     
     /* ---------------------------------------------------------------------------
