@@ -1046,6 +1046,8 @@ class MyRolloShutter extends IPSModule
         $this->RegisterPropertyInteger("Door_ID", 0);
         $this->RegisterPropertyBoolean("SunSet", true);
         $this->RegisterPropertyBoolean("negate", false);
+        $this->RegisterPropertyInteger("OffSetTimeMoFr", 60);
+        $this->RegisterPropertyInteger("OffSetTimeSaSo", 60);
     }
     
     
