@@ -594,7 +594,7 @@ class MyRolloShutter extends IPSModule
         if($direct){  
             FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), false, 0);
             $newPos = $lastPos + ($Laufzeit * (100/$this->ReadPropertyFloat('Time_OU')));
-            Setvalue($this->GetIDForIdent("FSSC_Position"), $newPos));
+            Setvalue($this->GetIDForIdent("FSSC_Position"), $newPos);
             $this->SendDebug( "SetRolloStop", "neue Positiom: ".$newPos, 0); 
         }
         else{
