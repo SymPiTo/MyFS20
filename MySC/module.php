@@ -568,7 +568,7 @@ class MyRolloShutter extends IPSModule
     //*****************************************************************************
     /* Function: StepRolloStop
     ...............................................................................
-    Stopt die fahrt
+    Stopt die fahrt des Rolladen und bestimmt die Position
     ...............................................................................
     Parameters: 
         none
