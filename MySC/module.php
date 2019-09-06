@@ -789,24 +789,27 @@ class MyRolloShutter extends IPSModule
         //Animations Timer stoppen und Status STopped setzen
         IPS_SetEventActive($this->GetIDForIdent("Running".$this->InstanceID), false);  
         setvalue($this->GetIDForIdent("Status"), "stopped");
-        $this->SendDebug( "reset", "Lauf gestppt: " , 0); 
+        $this->SendDebug( "reset", "Lauf gestoppt: " , 0); 
         // Laufzeittimer stoppen
         $this->SetTimerInterval("LaufzeitTimer", 0);       
         $direct = getvalue($this->GetIDForIdent("UpDown"));  
         if($direct){
             if($this->ReadPropertyBoolean("negate")){
                 SetValue($this->GetIDForIdent("FSSC_Position"), 0);
-                
+                $this->SendDebug( "reset", "1 neue Position: ".$this->GetIDForIdent("FSSC_Position") , 0); 
             }else{
                 SetValue($this->GetIDForIdent("FSSC_Position"), 100);
+                $this->SendDebug( "reset", "2 neue Position: ".$this->GetIDForIdent("FSSC_Position") , 0); 
             }
             
         }
         else{
             if($this->ReadPropertyBoolean("negate")){
                  SetValue($this->GetIDForIdent("FSSC_Position"), 100);
+                 $this->SendDebug( "reset", "3 neue Position: ".$this->GetIDForIdent("FSSC_Position") , 0); 
             }else{
                 SetValue($this->GetIDForIdent("FSSC_Position"), 0);
+                $this->SendDebug( "reset", "4 neue Position: ".$this->GetIDForIdent("FSSC_Position") , 0); 
             }
         } 
         
