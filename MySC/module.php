@@ -148,7 +148,7 @@ class MyRolloShutter extends IPSModule
         
        // $this->RegisterMessage(0, IPS_KERNELMESSAGE);    
        // $this->RegisterMessage($this->InstanceID, KL_MESSAGE);
-        
+
          
         if($this->ReadPropertyInteger("FS20RSU_ID") === 0){
             $this->SetStatus(204);
@@ -167,7 +167,14 @@ class MyRolloShutter extends IPSModule
         else {
             $this->switchEvent(false);
         }
-            
+
+        $offSetA = $this->ReadPropertyInteger("OffSetSaSo");
+        $offSetB = $this->ReadPropertyInteger("OffSetMoFr");
+        
+        setvalue($this->GetIDForIdent("OffSetSR_MoFr"), $offSetA);
+        setvalue($this->GetIDForIdent("OffSetSR_SaSo"), §offSetB); 
+        setvalue($this->GetIDForIdent("OffSetSS_MoFr"), §offSetA);
+        setvalue($this->GetIDForIdent("OffSetSS_SaSo"), §offSetB);
     }
     
    
