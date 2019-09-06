@@ -158,6 +158,14 @@ class MyRolloShutter extends IPSModule
         }
         setvalue($this->GetIDForIdent("SS" ), $this->ReadPropertyBoolean('SunSet'));
         
+        $offSetA = $this->ReadPropertyInteger("OffSetTimeMoFr");
+        $offSetB = $this->ReadPropertyInteger("OffSetTimeSaSo");
+        // geänderte Offset Werte in Variable schreiben.
+        setvalue($this->GetIDForIdent("OffSetSR_MoFr"), $offSetA);
+        setvalue($this->GetIDForIdent("OffSetSR_SaSo"), $offSetB); 
+        setvalue($this->GetIDForIdent("OffSetSS_MoFr"), $offSetA);
+        setvalue($this->GetIDForIdent("OffSetSS_SaSo"), $offSetB);
+
         $state = $this->ReadPropertyBoolean('aktiv');
         if ($state){
             $this->switchEvent(true);
@@ -168,13 +176,7 @@ class MyRolloShutter extends IPSModule
             $this->switchEvent(false);
         }
 
-        $offSetA = $this->ReadPropertyInteger("OffSetTimeMoFr");
-        $offSetB = $this->ReadPropertyInteger("OffSetTimeSaSo");
-        // geänderte Offset Werte in Variable schreiben.
-        setvalue($this->GetIDForIdent("OffSetSR_MoFr"), $offSetA);
-        setvalue($this->GetIDForIdent("OffSetSR_SaSo"), $offSetB); 
-        setvalue($this->GetIDForIdent("OffSetSS_MoFr"), $offSetA);
-        setvalue($this->GetIDForIdent("OffSetSS_SaSo"), $offSetB);
+
     }
     
    
