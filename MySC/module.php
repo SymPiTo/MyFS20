@@ -844,11 +844,12 @@ class MyRolloShutter extends IPSModule
             $UpTimeSaSo = date('H:i', strtotime($sunriseA) + $OffSetSR_SaSo *60);  
             $DownTimeSaSo = date('H:i',  strtotime($sunsetA) + $OffSetSS_SaSo *60); 
         }
-        
-        
-        // falls Wochenplan aktiv dann nächste Werte aus Wochenplan eintragen
+        // falls sunset nicht aktiv dann werden feste Uhrzeiten geschrieben
         else{
-            
+            $UpTimeMoFr = date('H:i', strtotime($sunriseA));  
+            $DownTimeMoFr = date('H:i',  strtotime($sunsetA));   
+            $UpTimeSaSo = date('H:i', strtotime($sunriseA));  
+            $DownTimeSaSo = date('H:i',  strtotime($sunsetA)); 
         }
         
         
@@ -1034,7 +1035,7 @@ class MyRolloShutter extends IPSModule
         none
     ..............................................................................
     Returns:   
-        $ipsversion
+         
     ------------------------------------------------------------------------------- */
     protected function RegisterProperties(){
         $this->RegisterPropertyBoolean("aktiv", false);
@@ -1048,8 +1049,13 @@ class MyRolloShutter extends IPSModule
         $this->RegisterPropertyInteger("Door_ID", 0);
         $this->RegisterPropertyBoolean("SunSet", true);
         $this->RegisterPropertyBoolean("negate", false);
-        $this->RegisterPropertyInteger("OffSetTimeMoFr", 60);
-        $this->RegisterPropertyInteger("OffSetTimeSaSo", 60);
+        $this->RegisterPropertyInteger("OffSetTimeMoFr", 0);
+        $this->RegisterPropertyInteger("OffSetTimeSaSo", 0);
+
+        $this->RegisterPropertyString("UpTMoFr", "07:00:00");
+        $this->RegisterPropertyString("DownTMoFr", "22:00:00");
+        $this->RegisterPropertyString("UpTSaSo", "08:00:00");
+        $this->RegisterPropertyString("DownTSaSo", "22:00:00");
     }
     
     

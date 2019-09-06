@@ -96,6 +96,42 @@
 		},
 		{
 			"type": "Label",
+			"label": "UpTime für Mo-Fr eingeben."
+		},
+		{
+			"name": "UpTMoFr",
+			"type": "SelectTime",
+			"caption": "Auffahrzeit Mo-Fr"
+		},
+		{
+			"type": "Label",
+			"label": "DownTime für Mo-Fr eingeben."
+		},
+		{
+			"name": "DownTMoFr",
+			"type": "SelectTime",
+			"caption": "Zufahrzeit Mo-Fr"
+		},
+		{
+			"type": "Label",
+			"label": "UpTime für Sa-so eingeben."
+		},
+		{
+			"name": "UpTSaSo",
+			"type": "SelectTime",
+			"caption": "Auffahrzeit Sa-So"
+		},
+		{
+			"type": "Label",
+			"label": "DownTime für Sa-So eingeben."
+		},
+		{
+			"name": "DownTSaSo",
+			"type": "SelectTime",
+			"caption": "Zufahrzeit Sa-So"
+		},
+		{
+			"type": "Label",
 			"label": "Befehle negieren"
 		},
 		{
