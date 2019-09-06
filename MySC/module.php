@@ -547,7 +547,7 @@ class MyRolloShutter extends IPSModule
                     // keine Aktion asuführen, da Tür auf ist
             }
             else {
-                //$this->SendDebug( "SetRolloDown", "Fahre Rolladen runter", 0); 
+                $this->SendDebug( "SetRolloDown", "Fahre Rolladen runter", 0); 
                 // status setzen
                 setvalue($this->GetIDForIdent("Status"), "moving down");
                 $Tdown = $this->ReadPropertyFloat('Time_OU'); 
@@ -789,6 +789,7 @@ class MyRolloShutter extends IPSModule
         //Animations Timer stoppen und Status STopped setzen
         IPS_SetEventActive($this->GetIDForIdent("Running".$this->InstanceID), false);  
         setvalue($this->GetIDForIdent("Status"), "stopped");
+        $this->SendDebug( "reset", "Lauf gestppt: " , 0); 
         // Laufzeittimer stoppen
         $this->SetTimerInterval("LaufzeitTimer", 0);       
         $direct = getvalue($this->GetIDForIdent("UpDown"));  
@@ -808,7 +809,9 @@ class MyRolloShutter extends IPSModule
                 SetValue($this->GetIDForIdent("FSSC_Position"), 0);
             }
         } 
+        
         setvalue($this->GetIDForIdent("LastPosition"), $this->GetIDForIdent("FSSC_Position"));
+        $this->SendDebug( "reset", "schreibe Position in Letze Positiont: ".$this->GetIDForIdent("FSSC_Position")." - ".$this->GetIDForIdent("LastPosition"), 0); 
     }
     
     /* ---------------------------------------------------------------------------
