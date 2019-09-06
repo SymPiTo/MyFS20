@@ -585,23 +585,23 @@ class MyRolloShutter extends IPSModule
         $StartTime = getvalue($this->GetIDForIdent("FSSC_Timer")); 
         $this->SendDebug("SetRolloStop", "Start Zeit: ".$StartTime, 0);
         $Laufzeit =  $jetzt - $StartTime;  
-        this->SendDebug( "SetRolloStop", "Laufzeit: ".$Laufzeit, 0); 
+        $this->SendDebug( "SetRolloStop", "Laufzeit: ".$Laufzeit, 0); 
         $lastPos = getvalue($this->GetIDForIdent("LastPosition"));
-        this->SendDebug( "SetRolloStop", "letzte Position: ".$lastPos, 0); 
+        $this->SendDebug( "SetRolloStop", "letzte Position: ".$lastPos, 0); 
         //if ($aktPos > 99){$aktPos = 0;}
         $direct = getvalue($this->GetIDForIdent("UpDown"));  
-        this->SendDebug( "SetRolloStop", "Fahrrichtung: ".$direct, 0); 
+        $this->SendDebug( "SetRolloStop", "Fahrrichtung: ".$direct, 0); 
         if($direct){  
             FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), false, 0);
             $newPos = $lastPos + ($Laufzeit * (100/$this->ReadPropertyFloat('Time_OU')));
             Setvalue($this->GetIDForIdent("FSSC_Position"), $newPos));
-            this->SendDebug( "SetRolloStop", "neue Positiom: ".$newPos, 0); 
+            $this->SendDebug( "SetRolloStop", "neue Positiom: ".$newPos, 0); 
         }
         else{
            FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), true, 0); 
            $newPos = $lastPos + ($Laufzeit * (100/$this->ReadPropertyFloat('Time_UO')));
            Setvalue($this->GetIDForIdent("FSSC_Position"), $newPos);  
-           this->SendDebug( "SetRolloStop", "neue Positiom: ".$newPos, 0); 
+           $this->SendDebug( "SetRolloStop", "neue Positiom: ".$newPos, 0); 
         }     
 
     }  
