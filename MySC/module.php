@@ -1052,10 +1052,10 @@ class MyRolloShutter extends IPSModule
         $this->RegisterPropertyInteger("OffSetTimeMoFr", 0);
         $this->RegisterPropertyInteger("OffSetTimeSaSo", 0);
 
-        $this->RegisterPropertyString("UpTMoFr", "");
-        $this->RegisterPropertyString("DownTMoFr", "");
-        $this->RegisterPropertyString("UpTSaSo", "");
-        $this->RegisterPropertyString("DownTSaSo", "");
+        $this->RegisterPropertyInteger("UpTMoFr", 0);
+        $this->RegisterPropertyInteger("DownTMoFr", 0);
+        $this->RegisterPropertyInteger("UpTSaSo", 0);
+        $this->RegisterPropertyInteger("DownTSaSo", 0);
     }
     
     
