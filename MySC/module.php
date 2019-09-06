@@ -799,6 +799,7 @@ class MyRolloShutter extends IPSModule
                 $this->SendDebug( "reset", "1 neue Position: ".$this->GetIDForIdent("FSSC_Position") , 0); 
             }else{
                 SetValue($this->GetIDForIdent("FSSC_Position"), 100);
+                IPS_Sleep(2000);
                 $this->SendDebug( "reset", "2 neue Position: ".$this->GetIDForIdent("FSSC_Position") , 0); 
             }
             
@@ -809,6 +810,7 @@ class MyRolloShutter extends IPSModule
                  $this->SendDebug( "reset", "3 neue Position: ".$this->GetIDForIdent("FSSC_Position") , 0); 
             }else{
                 SetValue($this->GetIDForIdent("FSSC_Position"), 0);
+                IPS_Sleep(2000);
                 $this->SendDebug( "reset", "4 neue Position: ".$this->GetIDForIdent("FSSC_Position") , 0); 
             }
         } 
