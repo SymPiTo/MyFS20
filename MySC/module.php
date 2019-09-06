@@ -168,8 +168,8 @@ class MyRolloShutter extends IPSModule
             $this->switchEvent(false);
         }
 
-        $offSetA = $this->ReadPropertyInteger("OffSetTimeSaSo");
-        $offSetB = $this->ReadPropertyInteger("OffSetTimeMoFr");
+        $offSetA = $this->ReadPropertyInteger("OffSetTimeMoFr");
+        $offSetB = $this->ReadPropertyInteger("OffSetTimeSaSo");
         
         setvalue($this->GetIDForIdent("OffSetSR_MoFr"), $offSetA);
         setvalue($this->GetIDForIdent("OffSetSR_SaSo"), §offSetB); 
