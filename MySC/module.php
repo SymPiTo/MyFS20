@@ -838,14 +838,13 @@ class MyRolloShutter extends IPSModule
         }
         
         // falls SunSet aktiv dann nächste SunSet SunRise Werte mit Offset eintragen
-        if($this->ReadPropertyBoolean('SunSet')){
+        if ($this->ReadPropertyBoolean('SunSet')){
             $UpTimeMoFr = date('H:i', strtotime($sunriseA) + $OffSetSR_MoFr *60);  
             $DownTimeMoFr = date('H:i',  strtotime($sunsetA) + $OffSetSS_MoFr *60);   
             $UpTimeSaSo = date('H:i', strtotime($sunriseA) + $OffSetSR_SaSo *60);  
             $DownTimeSaSo = date('H:i',  strtotime($sunsetA) + $OffSetSS_SaSo *60); 
         }
-        // falls sunset nicht aktiv dann werden feste Uhrzeiten geschrieben
-        else{
+        else {
             $t1 = json_decode($this->ReadPropertyString("UpTMoFr"), true);
             $t2 = json_decode($this->ReadPropertyString("DownTMoFr"), true);
             $t3 = json_decode($this->ReadPropertyString("UpTSaSo"), true);
