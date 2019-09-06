@@ -855,7 +855,7 @@ class MyRolloShutter extends IPSModule
             $UpTimeMoFr = date('H:i', strtotime($t1['hour'].':'.$t1['minute'].':'.$t1['second']));   
 
             $DownTimeMoFr = date('H:i', strtotime($t2['hour'].':'.$t2['minute'].':'.$t2['second']));   
-            $UpTimeSaSo = date('H:i', strtotime($t3['hour'].':'.$t3['minute']-':'.$t3['second']));  
+            $UpTimeSaSo = date('H:i', strtotime($t3['hour'].':'.$t3['minute'].':'.$t3['second']));  
             $DownTimeSaSo = date('H:i',  strtotime($t4['hour'].':'.$t4['minute'].':'.$t4['second'])); 
         }
         
