@@ -851,7 +851,8 @@ class MyRolloShutter extends IPSModule
             $t3 = json_decode($this->ReadPropertyString("UpTSaSo"), true);
             $t4 = json_decode($this->ReadPropertyString("DownSaSo"), true);
 
-            $UpTimeMoFr = date('H:i', strtotime($this->ReadPropertyString("UpTMoFr"));  
+          
+            $UpTimeMoFr = date('H:i',$this->ReadPropertyString("UpTMoFr"));   
             $DownTimeMoFr = date('H:i',$this->ReadPropertyString("DownTMoFr"));   
             $UpTimeSaSo = date('H:i', $this->ReadPropertyString("UpTSaSo"));  
             $DownTimeSaSo = date('H:i',  $this->ReadPropertyString("DownSaSo")); 
