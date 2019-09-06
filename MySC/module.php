@@ -492,7 +492,7 @@ class MyRolloShutter extends IPSModule
             //Laufzeit holen.
             $Tup = $this->ReadPropertyFloat('Time_UO'); 
             // Letzte Position speichern
-            setvalue($this->GetIDForIdent("LastPosition"), $this->GetIDForIdent("FSSC_Position"));
+            setvalue($this->GetIDForIdent("LastPosition"), getvalue($this->GetIDForIdent("FSSC_Position")));
             //Running Timer starten
             IPS_SetEventActive($this->GetIDForIdent("Running".$this->InstanceID), true);  
             //Aktor für Tup Sekunden einschalten
@@ -552,7 +552,7 @@ class MyRolloShutter extends IPSModule
                 setvalue($this->GetIDForIdent("Status"), "moving down");
                 $Tdown = $this->ReadPropertyFloat('Time_OU'); 
                 //Letzte Start Position speichern
-                setvalue($this->GetIDForIdent("LastPosition"), $this->GetIDForIdent("FSSC_Position"));
+                setvalue($this->GetIDForIdent("LastPosition"), getvalue($this->GetIDForIdent("FSSC_Position")));
                  //Running Timer starten
                 IPS_SetEventActive($this->GetIDForIdent("Running".$this->InstanceID), true); 
                 FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), false, $Tdown); 
@@ -795,25 +795,25 @@ class MyRolloShutter extends IPSModule
         $direct = getvalue($this->GetIDForIdent("UpDown"));  
         if($direct){
             if($this->ReadPropertyBoolean("negate")){
-                SetValue(getvalue($this->GetIDForIdent("FSSC_Position")), 0);
+                SetValue($this->GetIDForIdent("FSSC_Position"), 0);
                  
             }else{
-                SetValue(getvalue($this->GetIDForIdent("FSSC_Position")), 100);
+                SetValue($this->GetIDForIdent("FSSC_Position"), 100);
                 
             }
             
         }
         else{
             if($this->ReadPropertyBoolean("negate")){
-                 SetValue(getvalue($this->GetIDForIdent("FSSC_Position")), 100);
+                 SetValue($this->GetIDForIdent("FSSC_Position"), 100);
                   
             }else{
-                SetValue(getvalue($this->GetIDForIdent("FSSC_Position")), 0);
+                SetValue($this->GetIDForIdent("FSSC_Position"), 0);
                  
             }
         } 
         
-        setvalue(getvalue($this->GetIDForIdent("LastPosition")), getvalue($this->GetIDForIdent("FSSC_Position")));
+        setvalue($this->GetIDForIdent("LastPosition"), getvalue($this->GetIDForIdent("FSSC_Position")));
         $this->SendDebug( "reset", "schreibe Position in Letze Positiont: ".getvalue($this->GetIDForIdent("FSSC_Position"))." - ".getvalue($this->GetIDForIdent("LastPosition")), 0); 
     }
     
