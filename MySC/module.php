@@ -846,10 +846,15 @@ class MyRolloShutter extends IPSModule
         }
         // falls sunset nicht aktiv dann werden feste Uhrzeiten geschrieben
         else{
-            $UpTimeMoFr = date('H:i', strtotime($sunriseA));  
-            $DownTimeMoFr = date('H:i',  strtotime($sunsetA));   
-            $UpTimeSaSo = date('H:i', strtotime($sunriseA));  
-            $DownTimeSaSo = date('H:i',  strtotime($sunsetA)); 
+            $t1 = json_decode($this->ReadPropertyString("UpTMoFr"), true);
+            $t2 = json_decode($this->ReadPropertyString("DownTMoFr"), true);
+            $t3 = json_decode($this->ReadPropertyString("UpTSaSo"), true);
+            $t4 = json_decode($this->ReadPropertyString("DownSaSo"), true);
+
+            $UpTimeMoFr = date('H:i', strtotime($this->ReadPropertyString("UpTMoFr"));  
+            $DownTimeMoFr = date('H:i',$this->ReadPropertyString("DownTMoFr"));   
+            $UpTimeSaSo = date('H:i', $this->ReadPropertyString("UpTSaSo"));  
+            $DownTimeSaSo = date('H:i',  $this->ReadPropertyString("DownSaSo")); 
         }
         
         
@@ -1052,10 +1057,10 @@ class MyRolloShutter extends IPSModule
         $this->RegisterPropertyInteger("OffSetTimeMoFr", 0);
         $this->RegisterPropertyInteger("OffSetTimeSaSo", 0);
 
-        $this->RegisterPropertyString("UpTMoFr", '{"hour":8,"minute":0,"second":0}');
-        $this->RegisterPropertyString("DownTMoFr", '{"hour":8,"minute":0,"second":0}');
+        $this->RegisterPropertyString("UpTMoFr", '{"hour":7,"minute":0,"second":0}');
+        $this->RegisterPropertyString("DownTMoFr", '{"hour":22,"minute":0,"second":0}');
         $this->RegisterPropertyString("UpTSaSo", '{"hour":8,"minute":0,"second":0}');
-        $this->RegisterPropertyString("DownTSaSo", '{"hour":8,"minute":0,"second":0}');
+        $this->RegisterPropertyString("DownTSaSo", '{"hour":22,"minute":0,"second":0}');
     }
     
     
