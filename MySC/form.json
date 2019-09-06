@@ -89,7 +89,7 @@
 			"label": "Offest Mo-Fr eingeben."
 		},
 		{
-			"name": "OffSetMoFr",
+			"name": "OffSetTimeMoFr",
 			"type": "NumberSpinner",
 			"caption": "Zeit in Minuten",
 			"digits": 1
@@ -109,7 +109,7 @@
 			"label": "Offest Sa-So eingeben."
 		},
 		{
-			"name": "OffSetSaSo",
+			"name": "OffSetTimeSaSo",
 			"type": "NumberSpinner",
 			"caption": "Zeit in Minuten",
 			"digits": 1
