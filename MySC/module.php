@@ -61,7 +61,6 @@ class MyRolloShutter extends IPSModule
         //integer RegisterVariableInteger ( string $Ident, string $Name, string $Profil, integer $Position )
         // Aufruf dieser Variable mit "$this->GetIDForIdent("IDENTNAME")"
         $variablenID = $this->RegisterVariableInteger("FSSC_Position", "Position", "");
-        $this->RegisterVariableInteger("FSSC_Position", "Position", "");
         IPS_SetInfo ($variablenID, "WSS");
         $this->RegisterVariableInteger("LastPosition", "Last Position", "");
         $this->RegisterVariableInteger("FSSC_Timer", "Timer", "");   
@@ -582,6 +581,7 @@ class MyRolloShutter extends IPSModule
         IPS_SetEventActive($this->GetIDForIdent("Running".$this->InstanceID), false);
         $this->SetTimerInterval("LaufzeitTimer", 0);  
         $jetzt = time();
+        $this->SendDebug("SetRolloStop", "Stop Zeit: ".$jetzt, 0);
         $StartTime = getvalue($this->GetIDForIdent("FSSC_Timer")); 
         $this->SendDebug("SetRolloStop", "Start Zeit: ".$StartTime, 0);
         $Laufzeit =  $jetzt - $StartTime;  
