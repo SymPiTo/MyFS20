@@ -880,7 +880,8 @@ class MyRolloShutter extends IPSModule
     public function SetSunSet(bool $state){
             
             SetValue($this->GetIDForIdent("SS"), $state);
-            
+            $this->updateSwitchTimes();
+            $this->SetEventTime();
     }
 
  
