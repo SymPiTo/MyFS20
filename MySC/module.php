@@ -795,28 +795,26 @@ class MyRolloShutter extends IPSModule
         $direct = getvalue($this->GetIDForIdent("UpDown"));  
         if($direct){
             if($this->ReadPropertyBoolean("negate")){
-                SetValue($this->GetIDForIdent("FSSC_Position"), 0);
-                $this->SendDebug( "reset", "1 neue Position: ".$this->GetIDForIdent("FSSC_Position") , 0); 
+                SetValue(getvalue($this->GetIDForIdent("FSSC_Position")), 0);
+                 
             }else{
-                SetValue($this->GetIDForIdent("FSSC_Position"), 100);
-                IPS_Sleep(2000);
-                $this->SendDebug( "reset", "2 neue Position: ".$this->GetIDForIdent("FSSC_Position") , 0); 
+                SetValue(getvalue($this->GetIDForIdent("FSSC_Position")), 100);
+                
             }
             
         }
         else{
             if($this->ReadPropertyBoolean("negate")){
-                 SetValue($this->GetIDForIdent("FSSC_Position"), 100);
-                 $this->SendDebug( "reset", "3 neue Position: ".$this->GetIDForIdent("FSSC_Position") , 0); 
+                 SetValue(getvalue($this->GetIDForIdent("FSSC_Position")), 100);
+                  
             }else{
-                SetValue($this->GetIDForIdent("FSSC_Position"), 0);
-                IPS_Sleep(2000);
-                $this->SendDebug( "reset", "4 neue Position: ".$this->GetIDForIdent("FSSC_Position") , 0); 
+                SetValue(getvalue($this->GetIDForIdent("FSSC_Position")), 0);
+                 
             }
         } 
         
-        setvalue($this->GetIDForIdent("LastPosition"), $this->GetIDForIdent("FSSC_Position"));
-        $this->SendDebug( "reset", "schreibe Position in Letze Positiont: ".$this->GetIDForIdent("FSSC_Position")." - ".$this->GetIDForIdent("LastPosition"), 0); 
+        setvalue(getvalue($this->GetIDForIdent("LastPosition")), getvalue($this->GetIDForIdent("FSSC_Position")));
+        $this->SendDebug( "reset", "schreibe Position in Letze Positiont: ".getvalue($this->GetIDForIdent("FSSC_Position"))." - ".getvalue($this->GetIDForIdent("LastPosition")), 0); 
     }
     
     /* ---------------------------------------------------------------------------
