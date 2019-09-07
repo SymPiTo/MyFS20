@@ -547,7 +547,7 @@ class MyRolloShutter extends IPSModule
                     // keine Aktion asuführen, da Tür auf ist
             }
             else {
-                $this->SendDebug( "SetRolloDown", "Fahre Rolladen runter", 0); 
+                //$this->SendDebug( "SetRolloDown", "Fahre Rolladen runter", 0); 
                 // status setzen
                 setvalue($this->GetIDForIdent("Status"), "moving down");
                 $Tdown = $this->ReadPropertyFloat('Time_OU'); 
@@ -581,21 +581,21 @@ class MyRolloShutter extends IPSModule
         IPS_SetEventActive($this->GetIDForIdent("Running".$this->InstanceID), false);
         $this->SetTimerInterval("LaufzeitTimer", 0);  
         $jetzt = time();
-        $this->SendDebug("SetRolloStop", "Stop Zeit: ".$jetzt, 0);
+        //$this->SendDebug("SetRolloStop", "Stop Zeit: ".$jetzt, 0);
         $StartTime = getvalue($this->GetIDForIdent("FSSC_Timer")); 
-        $this->SendDebug("SetRolloStop", "Start Zeit: ".$StartTime, 0);
+        //$this->SendDebug("SetRolloStop", "Start Zeit: ".$StartTime, 0);
         $Laufzeit =  $jetzt - $StartTime;  
-        $this->SendDebug( "SetRolloStop", "Laufzeit: ".$Laufzeit, 0); 
+        //$this->SendDebug( "SetRolloStop", "Laufzeit: ".$Laufzeit, 0); 
         $lastPos = getvalue($this->GetIDForIdent("LastPosition"));
-        $this->SendDebug( "SetRolloStop", "letzte Position: ".$lastPos, 0); 
+        //$this->SendDebug( "SetRolloStop", "letzte Position: ".$lastPos, 0); 
         //if ($aktPos > 99){$aktPos = 0;}
         $direct = getvalue($this->GetIDForIdent("UpDown"));  
-        $this->SendDebug( "SetRolloStop", "Fahrrichtung: ".$direct, 0); 
+        //$this->SendDebug( "SetRolloStop", "Fahrrichtung: ".$direct, 0); 
         if($direct){  
             FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), false, 0);
             $newPos = $lastPos + ($Laufzeit * (100/$this->ReadPropertyFloat('Time_OU')));
             Setvalue($this->GetIDForIdent("FSSC_Position"), $newPos);
-            $this->SendDebug( "SetRolloStop", "neue Positiom: ".$newPos, 0); 
+           //$this->SendDebug( "SetRolloStop", "neue Positiom: ".$newPos, 0); 
         }
         else{
            FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), true, 0); 
