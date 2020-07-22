@@ -216,6 +216,7 @@ class MyRolloShutter extends IPSModule
                 }
                 break;
              case "Mode":
+               SetValue($this->GetIDForIdent($Ident), $Value); 
                $this->SetMode($Value);  
                 break;
             default:
