@@ -201,6 +201,9 @@ class MyRolloShutter extends IPSModule
             case "FSSC_Position":
                 //Hier würde normalerweise eine Aktion z.B. das Schalten ausgeführt werden
                 //Ausgaben über 'echo' werden an die Visualisierung zurückgeleitet
+                if($this->ReadPropertyBoolean("negate")){
+                    $Value=100-$value;
+                }
                 $this->setRollo($Value);
 
                 //Neuen Wert in die Statusvariable schreiben
