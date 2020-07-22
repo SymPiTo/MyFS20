@@ -207,6 +207,9 @@ class MyRolloShutter extends IPSModule
                 SetValue($this->GetIDForIdent($Ident), $Value);
                 break;
             case "UpDown":
+                if($this->ReadPropertyBoolean("negate")){
+                    $Value=!$value;
+                }
                 SetValue($this->GetIDForIdent($Ident), $Value);
                 if(getvalue($this->GetIDForIdent($Ident))){
                     $this->SetRolloDown();  
