@@ -95,7 +95,7 @@ class MyRolloShutter extends IPSModule
         setvalue($variablenID, "stopped");
         
         // Profile den Variablen zuordnen   
-        IPS_SetVariableCustomProfile($this->GetIDForIdent("FSSC_Position"), "Rollo.Position");
+        IPS_SetVariableCustomProfile($this->GetIDForIdent("FSSC_Position"), "~Shutter");
         IPS_SetVariableCustomProfile($this->GetIDForIdent("UpDown"), "Rollo.UpDown");
         IPS_SetVariableCustomProfile($this->GetIDForIdent("Mode"), "Rollo.Mode");
         
