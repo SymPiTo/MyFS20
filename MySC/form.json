@@ -5,6 +5,16 @@
 			"caption": "aktiv"
 		},
 		{
+			"name": "FS20RSU",
+			"type": "CheckBox",
+			"caption": "FS20 RSU"
+		},
+		{
+			"name": "FS20RSU2",
+			"type": "CheckBox",
+			"caption": "FS20 RSU-2"
+		},
+		{
 			"name": "FS20RSU_ID",
 			"type": "SelectObject",
 			"caption": "FS20_RSU Objekt selektieren."

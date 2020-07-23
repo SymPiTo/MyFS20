@@ -695,6 +695,9 @@ class MyRolloShutter extends IPSModule
                     $time = $dpos * ($Tmid/50);
                     //$this->SendDebug( "SetRollo", "Errechnete Zeit für ".$pos."ist: ".$time, 0);
                     FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), false, $time); 
+                    if($this->ReadPropertyBoolean(FS20RSU2)){
+                        FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), true, $time);
+                    }
                     Setvalue($this->GetIDForIdent("UpDown"),true); 
                 }
                 else{
@@ -1073,6 +1076,8 @@ class MyRolloShutter extends IPSModule
    ------------------------------------------------------------------------------- */
     protected function RegisterProperties(){
         $this->RegisterPropertyBoolean("aktiv", false);
+        $this->RegisterPropertyBoolean("FS20RSU", true);
+        $this->RegisterPropertyBoolean("FS20RSU2", false);
         $this->RegisterPropertyInteger("FS20RSU_ID", 0);
         $this->RegisterPropertyInteger ("SunSet_ID", 57942);
         $this->RegisterPropertyInteger ("SunRise_ID", 11938);
