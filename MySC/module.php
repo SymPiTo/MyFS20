@@ -627,6 +627,7 @@ class MyRolloShutter extends IPSModule
         none
     //////////////////////////////////////////////////////////////////////////////*/
     public function SetRollo(int $pos) {
+        $this->SendDebug( "SetRollo:Soll-Position",  $pos , 0);
         if($this->ReadPropertyBoolean("negate")){
             $lastPos = getvalue($this->GetIDForIdent("FSSC_Position"));
             //$this->SendDebug( "SetRollo", "Letzte Position: ".$lastPos , 0);
@@ -657,7 +658,7 @@ class MyRolloShutter extends IPSModule
                 //Abstand ermitteln
                 $dpos = $lastPos-$pos;
                 //Zeit ermitteln für dpos
-
+                $this->SendDebug( "SetRollo:Delta-Position",  $dpos , 0);
                 $Tup = $this->ReadPropertyFloat('Time_UO');
                 $Tmid = $this->ReadPropertyFloat('Time_UM');
                 if($dpos<51){
@@ -680,13 +681,13 @@ class MyRolloShutter extends IPSModule
             SetValue($this->GetIDForIdent("FSSC_Position"), $pos);     
         }else{
             $lastPos = getvalue($this->GetIDForIdent("FSSC_Position"));
-            //$this->SendDebug( "SetRollo", "Letzte Position: ".$lastPos , 0);
+            $this->SendDebug( "SetRollo", "Letzte Position: ".$lastPos , 0);
             if($pos>$lastPos){
                 //runterfahren
                 //Abstand ermitteln
                 $dpos = $pos-$lastPos;
                 //Zeit ermitteln für dpos
-
+                $this->SendDebug( "SetRollo:Delta-Position",  $dpos , 0);
                 $Tdown = $this->ReadPropertyFloat('Time_OU');
                 $Tmid = $this->ReadPropertyFloat('Time_OM');
 
@@ -708,7 +709,7 @@ class MyRolloShutter extends IPSModule
                 //Abstand ermitteln
                 $dpos = $lastPos-$pos;
                 //Zeit ermitteln für dpos
-
+                $this->SendDebug( "SetRollo:Delta-Position",  $dpos , 0);
                 $Tup = $this->ReadPropertyFloat('Time_UO');
                 $Tmid = $this->ReadPropertyFloat('Time_UM');
                 if($dpos<51){
