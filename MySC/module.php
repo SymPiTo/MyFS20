@@ -534,6 +534,7 @@ class MyRolloShutter extends IPSModule
         none
     //////////////////////////////////////////////////////////////////////////////*/
      public function SetRolloDown() {
+        $this->SendDebug( "SetRolloDown:Türkontakt:", getvalue($this->ReadPropertyInteger("Door_ID")), 0);  
         if($this->ReadPropertyBoolean("negate")){
             //wenn Tür Kontakt vorhanden und Tür auf (TRUE) dann keinen Aktion
             if (($this->ReadPropertyInteger("Door_ID")>0) and (getvalue($this->ReadPropertyInteger("Door_ID")) === true) ){
