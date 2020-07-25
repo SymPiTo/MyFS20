@@ -197,7 +197,8 @@ class MyRolloShutter extends IPSModule
       Mode             -   Switch für Automatik/Manual
      ------------------------------------------------------------- */
     public function RequestAction($Ident, $Value) {
-         switch($Ident) {
+        $this->SendDebug( "IPS_SENDER",$IPS_SENDER, 0);  
+        switch($Ident) {
             case "FSSC_Position":
                 //Hier würde normalerweise eine Aktion z.B. das Schalten ausgeführt werden
                 //Ausgaben über 'echo' werden an die Visualisierung zurückgeleitet
@@ -631,10 +632,7 @@ class MyRolloShutter extends IPSModule
     //////////////////////////////////////////////////////////////////////////////*/
     public function SetRollo(int $pos) {
         $this->SendDebug( "SetRollo:Soll-Position",  $pos , 0);
-        if ($IPS_SENDER == "VoiceControl") {
-            $this->SendDebug( "VoiceControl", $_IPS['VALUE'], 0);  
-             
-        }
+
         if($this->ReadPropertyBoolean("negate")){
             $lastPos = getvalue($this->GetIDForIdent("FSSC_Position"));
             //$this->SendDebug( "SetRollo", "Letzte Position: ".$lastPos , 0);
