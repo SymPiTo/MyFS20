@@ -197,7 +197,7 @@ class MyRolloShutter extends IPSModule
       Mode             -   Switch für Automatik/Manual
      ------------------------------------------------------------- */
     public function RequestAction($Ident, $Value) {
-        $this->SendDebug( "IPS_SENDER",$IPS_SENDER, 0);  
+        $this->SendDebug( "IPS_SENDER",$_IPS['SENDER'], 0);  
         switch($Ident) {
             case "FSSC_Position":
                 //Hier würde normalerweise eine Aktion z.B. das Schalten ausgeführt werden
