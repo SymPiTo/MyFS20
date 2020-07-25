@@ -201,7 +201,10 @@ class MyRolloShutter extends IPSModule
             case "FSSC_Position":
                 //Hier würde normalerweise eine Aktion z.B. das Schalten ausgeführt werden
                 //Ausgaben über 'echo' werden an die Visualisierung zurückgeleitet
-
+                if ($IPS_SENDER=="VoiceControl") {
+                    $this->SendDebug( "VoiceControl", $_IPS['VALUE'], 0);  
+                    $this->SendDebug( "VoiceControl", $Value, 0);     
+                }
                 if($this->ReadPropertyBoolean("negate")){
                     $Value=100-$Value;
                 }
