@@ -65,7 +65,9 @@ class MyRolloShutter extends IPSModule
         $this->RegisterVariableInteger("LastPosition", "Last Position", "");
         $this->RegisterVariableInteger("FSSC_Timer", "Timer", "");   
         IPS_SetHidden($this->GetIDForIdent("FSSC_Timer"), true); //Objekt verstecken
-      
+        $variablenID = $this->RegisterVariableInteger("Alexa_Position", "Alexa Position", "");
+        IPS_SetHidden($variablenID, true); //Objekt verstecken
+
         //Boolean Variable anlegen
         //integer RegisterVariableBoolean ( string $Ident, string $Name, string $Profil, integer $Position )
         // Aufruf dieser Variable mit "$this->GetIDForIdent("IDENTNAME")"
@@ -95,17 +97,17 @@ class MyRolloShutter extends IPSModule
         setvalue($variablenID, "stopped");
         
         // Profile den Variablen zuordnen   
-        IPS_SetVariableCustomProfile($this->GetIDForIdent("FSSC_Position"), "~Shutter");
+        IPS_SetVariableCustomProfile($this->GetIDForIdent("FSSC_Position"), "Rollo.Position");
         IPS_SetVariableCustomProfile($this->GetIDForIdent("UpDown"), "Rollo.UpDown");
         IPS_SetVariableCustomProfile($this->GetIDForIdent("Mode"), "Rollo.Mode");
-        
+        IPS_SetVariableCustomProfile($this->GetIDForIdent("Alexa_Position"), "Rollo.Position");
 
      
         // Aktiviert die Standardaktion der Statusvariable zur Bedienbarkeit im Webfront
         $this->EnableAction("FSSC_Position");
         $this->EnableAction("UpDown");
         $this->EnableAction("Mode");
-            
+        $this->EnableAction("Alexa_Position");   
         
         //anlegen eines Timers
         $this->RegisterTimer("LaufzeitTimer", 0, "FSS_reset(\$_IPS['TARGET']);");
@@ -199,6 +201,17 @@ class MyRolloShutter extends IPSModule
     public function RequestAction($Ident, $Value) {
         $this->SendDebug( "IPS_SENDER",$_IPS['SENDER'], 0);  
         switch($Ident) {
+            case "Alexa_Position":
+                if($this->ReadPropertyBoolean("negate")){
+                    $Value = $Value;
+                }
+                else{
+                    $Value = 100-$Value; 
+                }
+                $this->SendDebug( "Value Position", $Value, 0); 
+                $this->setvalue("FSSC_Position", $value);
+                $this->setRollo($Value);
+            break;
             case "FSSC_Position":
                 //Hier würde normalerweise eine Aktion z.B. das Schalten ausgeführt werden
                 //Ausgaben über 'echo' werden an die Visualisierung zurückgeleitet
@@ -629,7 +642,7 @@ class MyRolloShutter extends IPSModule
     //////////////////////////////////////////////////////////////////////////////*/
     public function SetRollo(int $pos) {
         $this->SendDebug( "SetRollo:Soll-Position",  $pos , 0);
-        $this->SendDebug( "IPS_SENDER",$_IPS['SENDER'], 0);
+        
         if($this->ReadPropertyBoolean("negate")){
             $lastPos = getvalue($this->GetIDForIdent("FSSC_Position"));
             //$this->SendDebug( "SetRollo", "Letzte Position: ".$lastPos , 0);
