@@ -199,24 +199,27 @@ class MyRolloShutter extends IPSModule
       Mode             -   Switch für Automatik/Manual
      ------------------------------------------------------------- */
     public function RequestAction($Ident, $Value) {
-        $this->SendDebug( "IPS_SENDER",$_IPS['SENDER'], 0);  
+        //$this->SendDebug( "IPS_SENDER",$_IPS['SENDER'], 0);  
         switch($Ident) {
             case "Alexa_Position":
-                $this->SendDebug( "Alexa Position", $Value, 0); 
-            if($_IPS['SENDER']=="VoiceConrol"){
-                $this->SendDebug( "Alexa hat gesprochen", $Value, 0); 
-             }  
-        /*  
+                //$this->SendDebug( "Alexa Position", $Value, 0); 
+  
+ 
                 if($this->ReadPropertyBoolean("negate")){
                     $Value = $Value;
                 }
                 else{
                     $Value = 100-$Value; 
                 }
+                if($Value == 25){
+                   // 'fahre Rollo runter'
+                   $Value = 100;
+                }
                 $this->SendDebug( "Alexa Value Position", $Value, 0); 
-                $this->setvalue("FSSC_Position", $Value);
-                $this->setRollo($Value);
-        */
+
+                //$this->setvalue("FSSC_Position", $Value);
+                //$this->setRollo($Value);
+ 
             break;
             case "FSSC_Position":
                 //Hier würde normalerweise eine Aktion z.B. das Schalten ausgeführt werden
