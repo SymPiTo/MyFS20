@@ -205,7 +205,7 @@ class MyRolloShutter extends IPSModule
                 $this->SendDebug( "Alexa Position", $Value, 0); 
                 if($Value == 25){
                     // 'fahre Rollo runter'
-                    $Value = 100;
+                    $Value = 0;
                  }
  
                 if($this->ReadPropertyBoolean("negate")){
