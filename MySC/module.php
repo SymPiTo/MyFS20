@@ -207,7 +207,7 @@ class MyRolloShutter extends IPSModule
                     // 'fahre Rollo runter'
                     $Value = 0;
                 }
-                else if($Value == 100){
+                elseif($Value == 0){
                     // 'fahre Rollo runter'
                     $Value = 100;
                 }
