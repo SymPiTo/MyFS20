@@ -217,7 +217,7 @@ class MyRolloShutter extends IPSModule
 
                 $this->SendDebug( "Alexa Value Position", $Value, 0); 
 
-                $this->setvalue("FSSC_Position", $Value);
+               // $this->setvalue("FSSC_Position", $Value);
                 $this->setRollo($Value);
  
             break;
