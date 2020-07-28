@@ -202,7 +202,7 @@ class MyRolloShutter extends IPSModule
         //$this->SendDebug( "IPS_SENDER",$_IPS['SENDER'], 0);  
         switch($Ident) {
             case "Alexa_Position":
-                //$this->SendDebug( "Alexa Position", $Value, 0); 
+                $this->SendDebug( "Alexa Position", $Value, 0); 
   
  
                 if($this->ReadPropertyBoolean("negate")){
