@@ -209,10 +209,11 @@ class MyRolloShutter extends IPSModule
                  }
  
                 if($this->ReadPropertyBoolean("negate")){
-                    $Value = $Value;
+                    
+                    $Value = 100-$Value;
                 }
                 else{
-                    $Value = 100-$Value; 
+                    $Value = $Value;
                 }
 
                 $this->SendDebug( "Alexa Value Position", $Value, 0); 
@@ -645,6 +646,8 @@ class MyRolloShutter extends IPSModule
     ...............................................................................
     Parameters: 
      $pos -   Position des Rolladens in 0-100%
+     0% = auf Rolladen ist obern
+     100% = zu Rolladen ist unten
     --------------------------------------------------------------------------------
     Returns:    
         none
