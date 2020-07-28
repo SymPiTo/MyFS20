@@ -203,7 +203,10 @@ class MyRolloShutter extends IPSModule
         switch($Ident) {
             case "Alexa_Position":
                 $this->SendDebug( "Alexa Position", $Value, 0); 
-        /*        
+            if($_IPS['SENDER']=="VoiceConrol"){
+                $this->SendDebug( "Alexa hat gesprochen", $Value, 0); 
+             }  
+        /*  
                 if($this->ReadPropertyBoolean("negate")){
                     $Value = $Value;
                 }
