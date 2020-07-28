@@ -203,7 +203,10 @@ class MyRolloShutter extends IPSModule
         switch($Ident) {
             case "Alexa_Position":
                 $this->SendDebug( "Alexa Position", $Value, 0); 
-  
+                if($Value == 25){
+                    // 'fahre Rollo runter'
+                    $Value = 100;
+                 }
  
                 if($this->ReadPropertyBoolean("negate")){
                     $Value = $Value;
@@ -211,10 +214,7 @@ class MyRolloShutter extends IPSModule
                 else{
                     $Value = 100-$Value; 
                 }
-                if($Value == 25){
-                   // 'fahre Rollo runter'
-                   $Value = 100;
-                }
+
                 $this->SendDebug( "Alexa Value Position", $Value, 0); 
 
                 //$this->setvalue("FSSC_Position", $Value);
