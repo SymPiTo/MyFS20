@@ -210,10 +210,10 @@ class MyRolloShutter extends IPSModule
  
                 if($this->ReadPropertyBoolean("negate")){
                     
-                    $Value = 100-$Value;
+                    $Value = $Value;
                 }
                 else{
-                    $Value = $Value;
+                    $Value = 100-$Value;
                 }
 
                 $this->SendDebug( "Alexa Value Position", $Value, 0); 
