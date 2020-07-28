@@ -206,8 +206,11 @@ class MyRolloShutter extends IPSModule
                 if($Value == 25){
                     // 'fahre Rollo runter'
                     $Value = 0;
-                 }
- 
+                }
+                else if($Value == 100){
+                    // 'fahre Rollo runter'
+                    $Value = 100;
+                }
                 if($this->ReadPropertyBoolean("negate")){
                     
                     $Value = $Value;
