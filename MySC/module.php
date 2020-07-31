@@ -204,15 +204,19 @@ class MyRolloShutter extends IPSModule
             case "Alexa_Position":
                 $this->SendDebug( "Alexa Position", $Value, 0); 
                 if($Value == 25){
-                    // 'fahre Rollo runter'
+                    // 'fahre Rollo hoch'
+                    $this->setvalue("FSSC_Position", 100);
                     $Value = 0;
                 }
                 elseif($Value == 0){
                     // 'fahre Rollo runter'
+                    $this->setvalue("FSSC_Position", 0);
                     $Value = 100;
                 }
                 elseif($Value == 100){
-                    // 'fahre Rollo zu'
+                    // 'fahre Rollo auf'
+                    //Positiom auf 0 (auf) setzen damit Rolladen auf jeden Fall hoch fährt
+                    $this->setvalue("FSSC_Position", 100);
                     $Value = 0;
                 }
                 if($this->ReadPropertyBoolean("negate")){
