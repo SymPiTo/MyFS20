@@ -209,14 +209,14 @@ class MyRolloShutter extends IPSModule
                     $Value = 0;
                 }
                 elseif($Value == 0){
-                    // 'fahre Rollo runter'
-                    $this->setvalue("FSSC_Position", 0);
+                    // 'fahre Rollo hoch'
+                    $this->setvalue("FSSC_Position", 100);
                     $Value = 100;
                 }
                 elseif($Value == 100){
-                    // 'fahre Rollo auf'
+                    // 'fahre Rollo runter'
                     //Positiom auf 0 (auf) setzen damit Rolladen auf jeden Fall hoch fährt
-                    $this->setvalue("FSSC_Position", 100);
+                    $this->setvalue("FSSC_Position", 0);
                     $Value = 0;
                 }
                 if($this->ReadPropertyBoolean("negate")){
