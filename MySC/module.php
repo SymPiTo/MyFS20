@@ -602,6 +602,7 @@ class MyRolloShutter extends IPSModule
                 // status setzen
                 setvalue($this->GetIDForIdent("Status"), "moving down");
                 $Tdown = $this->ReadPropertyFloat('Time_OU'); 
+                $this->SendDebug("SetRolloDown", "TDown Zeit:".$Tdown, 0);
                 //Letzte Start Position speichern
                 setvalue($this->GetIDForIdent("LastPosition"), getvalue($this->GetIDForIdent("FSSC_Position")));
                  //Running Timer starten
