@@ -583,7 +583,7 @@ class MyRolloShutter extends IPSModule
             else {
                 $this->SendDebug( "SetRolloUp", "Fahre Rolladen hoch", 0); 
                 $Tup = $this->ReadPropertyFloat('Time_UO'); 
-
+                //Schaltet das Gerät mit der ID InstanzID auf Wert Status für Dauer Sekunden.
                 FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), true, $Tup); 
                 Setvalue($this->GetIDForIdent("UpDown"),false);
                 SetValue($this->GetIDForIdent("FSSC_Timer"),time());
@@ -607,11 +607,22 @@ class MyRolloShutter extends IPSModule
                 setvalue($this->GetIDForIdent("LastPosition"), getvalue($this->GetIDForIdent("FSSC_Position")));
                  //Running Timer starten
                 IPS_SetEventActive($this->GetIDForIdent("Running".$this->InstanceID), true); 
+                //Schaltet das Gerät mit der ID InstanzID auf Wert Status für Dauer Sekunden.
                 FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), false, $Tdown); 
+
+                //Fahrtrichtung-Position eintragen
                 Setvalue($this->GetIDForIdent("UpDown"),true); 
+                //Start Zeit wann Rolladen gestrtet wurde eintragen
                 SetValue($this->GetIDForIdent("FSSC_Timer"),time());
+                // Setzt den Intervall des Timers "LaufzeitTimer" auf x Sekunden
+                // Animation des Rolladens Positionswert
                 $this->SetTimerInterval("LaufzeitTimer", $Tdown*1000 + 5000);
+
+                // SunRise/set neue Werte ermitteln und schreiben
                 $this->updateSwitchTimes();  // vorgabe Zeit schreiben
+                  
+                /* Wert aus den Variablen SZ_SaSo und SZ_MoFr holen abhängig vom Wochentag und
+                in die Timer Events übertrgagen Schaltzeit setzen */
                 $this->SetEventTime();  // neue Eventzeit setzten
             }
         }
@@ -776,6 +787,7 @@ class MyRolloShutter extends IPSModule
                 // do nothing
                 $this->SendDebug( "SetRollo", "nix machen:".$pos."-".$lastPos, 0);
             }
+            $this->SendDebug( "SetRollo", "schreibe neue Position:".$pos, 0);
             SetValue($this->GetIDForIdent("FSSC_Position"), $pos);
         }
     }
@@ -844,7 +856,7 @@ class MyRolloShutter extends IPSModule
         none
     //////////////////////////////////////////////////////////////////////////////*/
     public function reset(){
-        //Animations Timer stoppen und Status STopped setzen
+        //Animations Timer stoppen und Status Stopped setzen
         IPS_SetEventActive($this->GetIDForIdent("Running".$this->InstanceID), false);  
         setvalue($this->GetIDForIdent("Status"), "stopped");
         $this->SendDebug( "reset", "Lauf gestoppt: " , 0); 
