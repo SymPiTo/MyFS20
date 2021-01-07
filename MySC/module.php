@@ -574,12 +574,14 @@ class MyRolloShutter extends IPSModule
      public function SetRolloDown() {
          
         if($this->ReadPropertyBoolean("negate")){
+            $this->SendDebug("SetRolloDown", "Befehle sind negiert.", 0);
             //wenn Tür Kontakt vorhanden und Tür auf (TRUE) dann keinen Aktion
             if (($this->ReadPropertyInteger("Door_ID")>0) and (getvalue($this->ReadPropertyInteger("Door_ID")) === true) ){
-                    // keine Aktion asuführen, da Tür auf ist
+                // keine Aktion asuführen, da Tür auf ist
+                $this->SendDebug("SetRolloDown", "Fenster ist auf, es wird kein Befehl abgesetzt", 0);
             }
             else {
-                //$this->SendDebug( "SetRolloUp", "Fahre Rolladen hoch", 0); 
+                $this->SendDebug( "SetRolloUp", "Fahre Rolladen hoch", 0); 
                 $Tup = $this->ReadPropertyFloat('Time_UO'); 
 
                 FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), true, $Tup); 
@@ -592,10 +594,11 @@ class MyRolloShutter extends IPSModule
         }else{
             //wenn Tür Kontakt vorhanden und Tür auf (TRUE) dann keinen Aktion
             if (($this->ReadPropertyInteger("Door_ID")>0) and (getvalue($this->ReadPropertyInteger("Door_ID")) === true) ){
-                    // keine Aktion asuführen, da Tür auf ist
+                // keine Aktion asuführen, da Tür auf ist
+                $this->SendDebug("SetRolloDown", "Fenster ist auf, es wird kein Befehl abgesetzt", 0);
             }
             else {
-                //$this->SendDebug( "SetRolloDown", "Fahre Rolladen runter", 0); 
+                $this->SendDebug( "SetRolloDown", "Fahre Rolladen runter", 0); 
                 // status setzen
                 setvalue($this->GetIDForIdent("Status"), "moving down");
                 $Tdown = $this->ReadPropertyFloat('Time_OU'); 
