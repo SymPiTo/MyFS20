@@ -211,44 +211,44 @@ class MyRolloShutter extends IPSModule
                 }
                 else{
                     switch ($Value) {
-                        case '0':
+                        case '100':
                             // 'fahre Rollo runter wenn letzte Position = 0'
-                            $this->setvalue("LastPosition", 0);
+                            //$this->setvalue("LastPosition", 0);
                             $this->SetRolloDown();
                             break;
                         case '25':
                             if($this->GetValue("LastPosition") == "0"){
-                                $this->setvalue("LastPosition", 100);
+                                //$this->setvalue("LastPosition", 100);
                                 $this->SetRolloDown();
                             }
                             else{
-                                $this->setvalue("LastPosition", 100);
+                                //$this->setvalue("LastPosition", 100);
                                 $this->SetRolloUp();
                             }
                             break;
                         case '50':
                             if($this->GetValue("LastPosition") == "0"){
-                                $this->setvalue("LastPosition", 100);
+                                //$this->setvalue("LastPosition", 100);
                                 $this->SetRolloDown();
                             }
                             else{
-                                $this->setvalue("LastPosition", 100);
+                                //$this->setvalue("LastPosition", 100);
                                 $this->SetRolloUp();
                             }  
                             break;
                         case '75':
                             if($this->GetValue("LastPosition") == "0"){
-                                $this->setvalue("LastPosition", 100);
+                                //$this->setvalue("LastPosition", 100);
                                 $this->SetRolloDown();
                             }
                             else{
-                                $this->setvalue("LastPosition", 100);
+                                //$this->setvalue("LastPosition", 100);
                                 $this->SetRolloUp();
                             } 
                             break;      
-                        case '100':
+                        case '0':
                             // 'fahre Rollo hoch wenn letzte Position = 100'
-                            $this->setvalue("LastPosition", 100);
+                            //$this->setvalue("LastPosition", 100);
                             $this->SetRolloUp();             
                             break;  
                         default:
