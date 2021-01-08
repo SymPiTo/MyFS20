@@ -210,38 +210,52 @@ class MyRolloShutter extends IPSModule
                     $this->setRollo($Value);
                 }
                 else{
-                    if($Value == 25){
-                        if($this->GetValue("LastPosition") == 0){
-                            // 'fahre Rollo hoch wenn letzte Position = 100'
+                    switch ($Value) {
+                        case '0':
+                            // 'fahre Rollo runter wenn letzte Position = 0'
                             $this->setvalue("LastPosition", 0);
-                            
                             $this->SetRolloDown();
-                        }
-                        elseif($this->GetValue("LastPosition") == 100){
-                            // 'fahre Rollo hoch wenn letzte Position = 0'
+                            break;
+                        case '25':
+                            if($this->GetValue("LastPosition") == "0"){
+                                $this->setvalue("LastPosition", 100);
+                                $this->SetRolloDown();
+                            }
+                            else{
+                                $this->setvalue("LastPosition", 100);
+                                $this->SetRolloUp();
+                            }
+                            break;
+                        case '50':
+                            if($this->GetValue("LastPosition") == "0"){
+                                $this->setvalue("LastPosition", 100);
+                                $this->SetRolloDown();
+                            }
+                            else{
+                                $this->setvalue("LastPosition", 100);
+                                $this->SetRolloUp();
+                            }  
+                            break;
+                        case '75':
+                            if($this->GetValue("LastPosition") == "0"){
+                                $this->setvalue("LastPosition", 100);
+                                $this->SetRolloDown();
+                            }
+                            else{
+                                $this->setvalue("LastPosition", 100);
+                                $this->SetRolloUp();
+                            } 
+                            break;      
+                        case '100':
+                            // 'fahre Rollo hoch wenn letzte Position = 100'
                             $this->setvalue("LastPosition", 100);
-                            $this->SetRolloUp();
-                        }
-
-
+                            $this->SetRolloUp();             
+                            break;  
+                        default:
+                         
+                            break;
                     }
-                    elseif($Value == 0){
-                        // 'fahre Rollo auf'
-                        //Positiom auf 100 (zu) setzen damit Rolladen auf jeden Fall hoch fährt
-                        //Alexa value liefert value 0 für auffahren
-                        $this->setvalue("LastPosition", 100);
-    
-                        // Wert apassen 
-                       
-                        $this->SetRolloUp();
-                    }
-                    elseif($Value == 100){
-                        // 'fahre Rollo runter'
-                        //Positiom auf 0 (auf) setzen damit Rolladen auf jeden Fall runter fährt
-                        $this->setvalue("LastPosition", 0);
-                       
-                        $this->SetRolloDown();
-                    }
+ 
                 }
 
                 $this->SendDebug( "Alexa Value Position", $Value, 0); 
