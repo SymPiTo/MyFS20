@@ -215,12 +215,12 @@ class MyRolloShutter extends IPSModule
                             // 'fahre Rollo hoch wenn letzte Position = 100'
                             $this->setvalue("LastPosition", 0);
                             
-                            $this->SetRolloUp();
+                            $this->SetRolloDown();
                         }
                         elseif($this->GetValue("LastPosition") == 100){
                             // 'fahre Rollo hoch wenn letzte Position = 0'
                             $this->setvalue("LastPosition", 100);
-                            $this->SetRolloDown();
+                            $this->SetRolloUp();
                         }
 
 
