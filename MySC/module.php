@@ -211,10 +211,19 @@ class MyRolloShutter extends IPSModule
                 }
                 else{
                     if($Value == 25){
-                        // 'fahre Rollo hoch'
-                        $this->setvalue("FSSC_Position", 100);
-                        $Value = 0;
-                        $this->SetRolloUp();
+                        if($this->GetValue("LastPosition") == 0){
+                            // 'fahre Rollo hoch wenn letzte Position = 100'
+                            $this->setvalue("LastPosition", 0);
+                            
+                            $this->SetRolloUp();
+                        }
+                        elseif($this->GetValue("LastPosition") == 100){
+                            // 'fahre Rollo hoch wenn letzte Position = 0'
+                            $this->setvalue("LastPosition", 100);
+                            $this->SetRolloDown();
+                        }
+
+
                     }
                     elseif($Value == 0){
                         // 'fahre Rollo auf'
