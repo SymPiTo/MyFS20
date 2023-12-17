@@ -1,6 +1,6 @@
 <?php
 
- //require_once(__DIR__ . "/../libs/NetworkTraits3.php");
+ require_once(__DIR__ . "/../libs/MyHelper.php");
 
 /**
  * Title: FS20 RSU Shutter Control
@@ -15,7 +15,7 @@
 class MyRolloShutter extends IPSModule
 {
     //externe Klasse einbinden - ueberlagern mit TRAIT.
-    //use MyDebugHelper3;
+    use DebugHelper;
     /* 
     _______________________________________________________________________ 
      Section: Internal Modul Funtions
@@ -60,7 +60,7 @@ class MyRolloShutter extends IPSModule
         //Integer Variable anlegen
         //integer RegisterVariableInteger ( string $Ident, string $Name, string $Profil, integer $Position )
         // Aufruf dieser Variable mit "$this->GetIDForIdent("IDENTNAME")"
-        $variablenID = $this->RegisterVariableInteger("FSSC_Position", "Position", "");
+        $variablenID = $this->RegisterVariableInteger("FSSC_Position", "Position", "~Shutter");
         IPS_SetInfo ($variablenID, "WSS");
         $this->RegisterVariableInteger("LastPosition", "Last Position", "");
         $this->RegisterVariableInteger("FSSC_Timer", "Timer", "");   
@@ -97,7 +97,7 @@ class MyRolloShutter extends IPSModule
         setvalue($variablenID, "stopped");
         
         // Profile den Variablen zuordnen   
-        IPS_SetVariableCustomProfile($this->GetIDForIdent("FSSC_Position"), "Rollo.Position");
+       
         IPS_SetVariableCustomProfile($this->GetIDForIdent("UpDown"), "Rollo.UpDown");
         IPS_SetVariableCustomProfile($this->GetIDForIdent("Mode"), "Rollo.Mode");
         IPS_SetVariableCustomProfile($this->GetIDForIdent("Alexa_Position"), "Rollo.Position");
@@ -707,7 +707,7 @@ class MyRolloShutter extends IPSModule
     public function SetRollo(int $pos) {
        //$this->SendDebug( "SetRollo:Soll-Position",  $pos , 0);
        //wenn manueller Eingriff, dann justieren
-       $lastPos = $this->GetValue("FSSC_Position");
+       $lastPos = $this->GetValue("LastPosition");
        if($pos == $lastPos){//falls lastPos und targetPos gleich ist
             if($pos == 0){
                 $lastPost = 100;
@@ -820,8 +820,8 @@ class MyRolloShutter extends IPSModule
                 // do nothing
                 //$this->SendDebug( "SetRollo", "nix machen:".$pos."-".$lastPos, 0);
             }
-            //$this->SendDebug( "SetRollo", "schreibe neue Position:".$pos, 0);
-            $this->SetValue("FSSC_Position", $pos);
+            $this->SendDebug( "SetRollo", "schreibe neue Position:".$pos, 0);
+            $this->SetValue("LastPosition", $pos);
         }
     }
 
@@ -1237,18 +1237,6 @@ class MyRolloShutter extends IPSModule
         $StepSize = NULL;
         $Digits = NULL;
         $this->createProfile($Name, $Vartype,  $Assoc, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize, $Digits);       
-            
-        $Assoc = NULL;
-        $Name = "~Shutter";
-        $Vartype = 1;
-        $Icon = 'Jalousie';
-        $Prefix = NULL;
-        $Suffix = ' %';
-        $MinValue = 0;
-        $MaxValue = 100;
-        $StepSize = 1;
-        $Digits = 0;
-        $this->createProfile($Name, $Vartype,  $Assoc, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize, $Digits);  
             
                    
     }
