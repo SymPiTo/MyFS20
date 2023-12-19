@@ -199,7 +199,9 @@ class MyRolloShutter extends IPSModule
       Mode             -   Switch für Automatik/Manual
      ------------------------------------------------------------- */
     public function RequestAction($Ident, $Value) {
-        //$this->SendDebug( "IPS_SENDER",$_IPS['SENDER'], 0);  
+        //$this->SendDebug( "IPS_SENDER",$_IPS['SENDER'], 0); 
+        $this->SendDebug( "Aktion",$Ident, 0); 
+        $this->SendDebug( "AktionsWert",$Value ? 'true' : 'false', 0);  
         switch($Ident) {
             case "Alexa_Position":
                 $this->SendDebug( "Alexa Position", $Value, 0); 
@@ -271,14 +273,10 @@ class MyRolloShutter extends IPSModule
                 $this->SetValue("FSSC_Position", $Value);
                 break;
             case "UpDown":
-                if($this->ReadPropertyBoolean("negate")){
-                    $Value=!$value;
-                }
-                SetValue($this->GetIDForIdent($Ident), $Value);
-                if(getvalue($this->GetIDForIdent($Ident))){
+                if($Value){//1 = runterfahren
                     $this->SetRolloDown();  
                 }
-                else{
+                else{//0 = hochfahren
                    $this->SetRolloUp();
                 }
                 break;
@@ -549,7 +547,7 @@ class MyRolloShutter extends IPSModule
         //Laufzeit Rollo von ganz unten nach ganz oben
         $TUOup = $this->ReadPropertyFloat('Time_UO'); 
 
-            //$this->SendDebug( "SetRolloUp", "Fahre Rolladen hoch", 0); 
+            $this->SendDebug( "SetRolloUp", "Fahre Rolladen hoch", 0); 
             // status setzen
             setvalue("Status", "moving up");
 
