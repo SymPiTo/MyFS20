@@ -65,8 +65,7 @@ class MyRolloShutter extends IPSModule
         $this->RegisterVariableInteger("LastPosition", "Last Position", "");
         $this->RegisterVariableInteger("FSSC_Timer", "Timer", "");   
         IPS_SetHidden($this->GetIDForIdent("FSSC_Timer"), true); //Objekt verstecken
-        $variablenID = $this->RegisterVariableInteger("Alexa_Position", "Alexa Position", "");
-        IPS_SetHidden($variablenID, true); //Objekt verstecken
+        
 
         //Boolean Variable anlegen
         //integer RegisterVariableBoolean ( string $Ident, string $Name, string $Profil, integer $Position )
@@ -549,10 +548,10 @@ class MyRolloShutter extends IPSModule
 
             $this->SendDebug( "SetRolloUp", "Fahre Rolladen hoch", 0); 
             // status setzen
-            setvalue("Status", "moving up");
+            $this->setvalue("Status", "moving up");
 
             // Letzte Position speichern
-            setvalue("LastPosition", getvalue("FSSC_Position"));
+            $this->setvalue("LastPosition", $this->getvalue("FSSC_Position"));
             //Running Timer starten
             IPS_SetEventActive($this->GetIDForIdent("Running".$this->InstanceID), true);  
             //Aktor für TUOup Sekunden einschalten
@@ -563,11 +562,11 @@ class MyRolloShutter extends IPSModule
                 FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), true, $TUOup); 
             }    
             // status setzen
-            setvalue("Status", "open");
+            $this->setvalue("Status", "open");
             //Position Oben schreiben
-            Setvalue("UpDown",false);
+            $this->Setvalue("UpDown",false);
             
-            SetValue("FSSC_Timer",time());
+            $this->SetValue("FSSC_Timer",time());
             //ruft nach x Sekunden die EndPos Funktion auf um einen definierten Zustand zu haben
             $this->SetTimerInterval("LaufzeitTimer", $TUOup*1000 + 5000);
             
@@ -602,24 +601,24 @@ class MyRolloShutter extends IPSModule
             else {
                 $this->SendDebug( "SetRolloDown", "Fahre Rolladen runter", 0); 
                 // status setzen
-                setvalue("Status", "moving down");
+                $this->setvalue("Status", "moving down");
                 
-                $this->SendDebug("SetRolloDown", "TDown Zeit:".$Tdown, 0);
+                $this->SendDebug("SetRolloDown", "TDown Zeit:".$TOUdown, 0);
                 //Letzte Start Position speichern
-                setvalue("LastPosition", getvalue("FSSC_Position"));
+                $this->setvalue("LastPosition", $this->getvalue("FSSC_Position"));
                  //Running Timer starten
                 IPS_SetEventActive($this->GetIDForIdent("Running".$this->InstanceID), true); 
                 //Schaltet das Gerät mit der ID InstanzID auf Wert Status für Dauer Sekunden.
                 if($this->ReadPropertyBoolean("negate")){
-                    FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), false, $TOUdown); 
-                }
-                else{
                     FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), true, $TOUdown); 
                 }
+                else{
+                    FS20_SwitchDuration($this->ReadPropertyInteger("FS20RSU_ID"), false, $TOUdown); 
+                }
                 //Rollo komplett unten
-                setvalue("Status", "closed");
+                $this->setvalue("Status", "closed");
                 //Fahrtrichtung-Position eintragen
-                Setvalue("UpDown",true); 
+                $this->Setvalue("UpDown",true); 
                 //Start Zeit wann Rolladen gestartet wurde eintragen
                 SetValue($this->GetIDForIdent("FSSC_Timer"),time());
                 // Setzt den Intervall des Timers "LaufzeitTimer" auf x Sekunden
@@ -802,24 +801,24 @@ class MyRolloShutter extends IPSModule
         none
     //////////////////////////////////////////////////////////////////////////////*/
     public function running(){
-        $currentPos = getvalue("FSSC_Position");
+        $currentPos = $this->getvalue("FSSC_Position");
         //get direction
-        if(getvalue("Status") === "moving up"){
+        if($this->getvalue("Status") === "moving up"){
             //alle 1 Sekunden 4% von akt. Position abziehen bis 0%
             $currentPos = $currentPos - 4;
             if($currentPos>-1) {
-                setvalue("FSSC_Position", $currentPos);
+                $this->setvalue("FSSC_Position", $currentPos);
             }else{
-                setvalue("FSSC_Position", 0);
+                $this->setvalue("FSSC_Position", 0);
             }
         }
-        elseif (getvalue("Status") === "moving down") {
+        elseif ($this->getvalue("Status") === "moving down") {
             //alle 1 Sekunden 2% auf akt. Position addieren bis 100%
             $currentPos = $currentPos + 4;
             if($currentPos<100) {
-                setvalue("FSSC_Position", $currentPos);
+                $this->setvalue("FSSC_Position", $currentPos);
             }else{
-                setvalue("FSSC_Position", 100);
+                $this->setvalue("FSSC_Position", 100);
             }  
         }
     }         
@@ -853,13 +852,13 @@ class MyRolloShutter extends IPSModule
         $this->SetTimerInterval("LaufzeitTimer", 0);       
         $direct = getvalue($this->GetIDForIdent("UpDown"));  
         if($direct){//End Position zu erreicht
-                SetValue("FSSC_Position", 100);         
+            $this->SetValue("FSSC_Position", 100);         
         }
         else{ // EndPosition Zu erreicht
-                SetValue("FSSC_Position", 0);
+            $this->SetValue("FSSC_Position", 0);
         } 
         
-        setvalue("LastPosition", getvalue("FSSC_Position"));
+        $this->setvalue("LastPosition", $this->getvalue("FSSC_Position"));
         $this->SendDebug( "EndPos", "schreibe Position in Letze Positiont: ".getvalue($this->GetIDForIdent("FSSC_Position"))." - ".getvalue($this->GetIDForIdent("LastPosition")), 0); 
     }
     
