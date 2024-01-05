@@ -550,8 +550,13 @@ class MyRolloShutter extends IPSModule
             // status setzen
             $this->setvalue("Status", "moving up");
 
+            // Position zurücksetzen auf voll zu
+            $this->SetValue("FSSC_Position", 100);
+
             // Letzte Position speichern
             $this->setvalue("LastPosition", $this->getvalue("FSSC_Position"));
+            
+
             //Running Timer starten
             IPS_SetEventActive($this->GetIDForIdent("Running".$this->InstanceID), true);  
             //Aktor für TUOup Sekunden einschalten
@@ -604,6 +609,10 @@ class MyRolloShutter extends IPSModule
                 $this->setvalue("Status", "moving down");
                 
                 $this->SendDebug("SetRolloDown", "TDown Zeit:".$TOUdown, 0);
+                
+                // Position zurücksetzen auf voll auf
+                $this->SetValue("FSSC_Position", 0);
+
                 //Letzte Start Position speichern
                 $this->setvalue("LastPosition", $this->getvalue("FSSC_Position"));
                  //Running Timer starten
